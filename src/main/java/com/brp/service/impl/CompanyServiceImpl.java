@@ -44,7 +44,7 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public CompanyEntity getCompanyById(Long id) {
-		CompanyEntity company = companyMapper.getCompanyById(id);
+		CompanyEntity company = companyMapper.getCompanyById(id.intValue());
 		
 		return company;
 	}

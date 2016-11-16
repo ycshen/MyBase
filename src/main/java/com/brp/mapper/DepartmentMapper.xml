@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.DepartmentEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+   		company_id,company_name,department_name,status
+  </sql>
+  <insert id="insertDepartment" parameterType="com.brp.entity.DepartmentEntity" >
+    insert Department
+   		(create_user,update_user,create_time, update_time,
+   		company_id,company_name,department_name,status) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+  </insert>
+  <select id="getDepartmentList" resultMap="BaseResultMap" parameterType="com.brp.util.query.DepartmentQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from department
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		    <if test="companyName != null and companyName != ''" >
+		       and company_name =  #{companyName}
+		      </if>
+		      <if test="departmentName != '' and departmentName != null" >
+		       and department_name = #{departmentName}
+		      </if>
+		     
+		 </trim>
+		 
+         order by create_time desc
+    </select>
+	<update id="updateDepartment" parameterType="com.brp.entity.DepartmentEntity">
+		update department set 
+		<if test="createUser != null">
+			create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			update_user=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+    <select id="getDepartmentById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from department
+         where id = #{id}
+    </select>
+</mapper>

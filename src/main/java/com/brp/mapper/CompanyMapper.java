@@ -20,6 +20,6 @@ public interface CompanyMapper {
 	void insertCompany(CompanyEntity company);
 	List<CompanyEntity> getCompanyList(CompanyQuery companyQuery);
 	void updateCompany(CompanyEntity company);
-	CompanyEntity getCompanyById(Long id);
+	CompanyEntity getCompanyById(Integer id);
 }
 

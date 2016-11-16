@@ -50,18 +50,23 @@
 				data-toggle="tooltip" data-placement="auto right"
 				href="<c:url value="/inner/company/list"/>" title="公司信息"><span
 					class="glyphicon glyphicon-scale" aria-hidden="true"></span>公司信息</a></li>
-			
+			<li <c:if test="${param.nav=='list_department'}"> class="current"</c:if>><a
+				data-toggle="tooltip"
+				href="<c:url value="/inner/department/list"/>"
+				data-placement="auto right" title="部门信息"><span
+					class="glyphicon glyphicon-tower" aria-hidden="true"></span>部门信息</a></li>
+			<li <c:if test="${param.nav=='list_user'}"> class="current"</c:if>><a
+				data-toggle="tooltip"
+				href="<c:url value="/inner/usert/list"/>"
+				data-placement="auto right" title="员工信息"><span
+					class="glyphicon glyphicon-tower" aria-hidden="true"></span>员工信息</a></li>
 			<li <c:if test="${param.nav=='list_config'}"> class="current"</c:if>><a
 				data-toggle="tooltip"
 				href="<c:url value="/inner/config/list"/>"
 				data-placement="auto right" title="code"><span
 					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>基础配置</a></li>
 			
-			<li <c:if test="${param.nav=='bill_district'}"> class="current"</c:if>><a
-				data-toggle="tooltip"
-				href="<c:url value="/bill/district"/>"
-				data-placement="auto right" title="区号维护"><span
-					class="glyphicon glyphicon-tower" aria-hidden="true"></span>区号维护</a></li>
+			
 			
 			<li <c:if test="${param.nav=='bill_init'}"> class="current"</c:if>><a
 				data-toggle="tooltip"

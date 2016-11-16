@@ -148,12 +148,7 @@
 		 
 	</update>
     
-     <select id="getApproveById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-         select 
-         <include refid="Base_Column_List" />
-         from bill_approve
-         where 1=1 and id=#{id}
-    </select>
+     
     <select id="getUnconfirmedApprove" resultType="java.lang.Integer" >
          select count(id) from bill_approve where status=100 and approve_role_level = #{roleLevel,jdbcType=VARCHAR} 
          <if test="departmentId != '' and departmentId != null">
@@ -161,4 +156,11 @@
          </if>
          
     </select> -->
+    
+    <select id="getCompanyById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from company
+         where 1=1 and id=#{id}
+    </select>
 </mapper>
