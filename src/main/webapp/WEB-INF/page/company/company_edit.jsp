@@ -49,7 +49,7 @@
 				</td>
 				<td style="border:0px;">
 					<input name="companyTelephone" id="txtCompanyTelphone"
-							value="${company.companyTelephone}" maxlength="20"
+							value="${company.companyTelephone}" maxlength="13"
 							class="form-control" type="text" placeholder="请输入联系方式"
 							style="width: 300px;">
 				</td>

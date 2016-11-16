@@ -60,7 +60,7 @@
 									<td style="border:0px">
 										<div class="form-group">
 											<label for="hidDistrict">企业名称
-											<input type="text" placeholder="企业名称" class="form-control" id="txtCompanyName" value="${page.companyName }"/>
+											<input type="text" placeholder="企业名称" id="txtCompanyName" class="form-control" value="${companyQuery.companyName }"/>
 										</div>
 									</td>
 									<td style="border:0px">
@@ -77,9 +77,6 @@
 							
 						</div>
 					</div>
-					<div id="main_navbar" class="page-header">
-					
-				</div>
 					<div class="panel-heading">企业信息列表</div>
 
 					<div class="table-responsive">
@@ -137,7 +134,7 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?conpanyName=${companyQuery.conpanyName }&level=${companyQuery.level}&page=" />
+									value="?conpanyName=${companyQuery.companyName }&level=${companyQuery.level}&page=" />
 								<jsp:param name="count" value="${companyQuery.count }" />
 								<jsp:param name="page" value="${companyQuery.page }" />
 								<jsp:param name="size" value="${companyQuery.size }" />
