@@ -51,11 +51,11 @@
 				href="<c:url value="/inner/company/list"/>" title="公司信息"><span
 					class="glyphicon glyphicon-scale" aria-hidden="true"></span>公司信息</a></li>
 			
-			<li <c:if test="${param.nav=='bill_type'}"> class="current"</c:if>><a
+			<li <c:if test="${param.nav=='list_config'}"> class="current"</c:if>><a
 				data-toggle="tooltip"
-				href="<c:url value="/bill/type/list"/>"
-				data-placement="auto right" title="面单类型"><span
-					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>面单类型</a></li>
+				href="<c:url value="/inner/config/list"/>"
+				data-placement="auto right" title="code"><span
+					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>基础配置</a></li>
 			
 			<li <c:if test="${param.nav=='bill_district'}"> class="current"</c:if>><a
 				data-toggle="tooltip"

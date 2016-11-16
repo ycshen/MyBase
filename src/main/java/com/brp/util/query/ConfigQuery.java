@@ -12,6 +12,19 @@ import com.brp.model.pageutil.Page;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class ConfigQuery extends Page<ConfigEntity>{
-	
+	private String key;
+	private String code;
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 }
 

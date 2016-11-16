@@ -43,7 +43,7 @@ public class ConfigServiceImpl implements ConfigService{
 	}
 
 	@Override
-	public ConfigEntity getConfigById(Long id) {
+	public ConfigEntity getConfigById(Integer id) {
 		ConfigEntity Config = configMapper.getConfigById(id);
 		
 		return Config;

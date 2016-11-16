@@ -17,7 +17,7 @@ public interface ConfigService {
 	void insertConfig(ConfigEntity config);
 	ConfigQuery getConfigList(ConfigQuery configQuery);
 	void updateConfig(ConfigEntity config);
-	ConfigEntity getConfigById(Long id);
+	ConfigEntity getConfigById(Integer id);
 	List<ConfigEntity> getConfigListByCode(String code);
 }
 

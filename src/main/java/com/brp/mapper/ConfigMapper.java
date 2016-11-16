@@ -20,7 +20,7 @@ public interface ConfigMapper {
 	void insertConfig(ConfigEntity config);
 	List<ConfigEntity> getConfigList(ConfigQuery ConfigQuery);
 	void updateConfig(ConfigEntity Config);
-	ConfigEntity getConfigById(Long id);
+	ConfigEntity getConfigById(Integer id);
 	List<ConfigEntity> getConfigListByCode(String code);
 }
 

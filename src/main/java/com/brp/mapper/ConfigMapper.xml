@@ -21,7 +21,7 @@
   <insert id="insertConfig" parameterType="com.brp.entity.ConfigEntity" >
     insert config
    		(create_user,update_user,create_time, update_time,
-   		 key,value,remark,code) 
+   		 `key`,`value`,remark,`code`) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{key,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR})
@@ -32,18 +32,12 @@
          from config
          where 1=1
          <trim prefix=" " suffix="" suffixOverrides="" >
-		     <!--  <if test="bigAreaId != null and bigAreaId != ''" >
-		       and big_area_id =  #{bigAreaId}
+		     <if test="code != null and code != ''" >
+		       and `code` =  #{code}
 		      </if>
-		      <if test="billBussinessType != '' and billBussinessType != null" >
-		       and bill_bussiness_type = #{billBussinessType}
+		      <if test="key != '' and key != null" >
+		       and `key` = #{key}
 		      </if>
-		      <if test="status != '' and status != null" >
-		       and status = #{status}
-		      </if>
-		      <if test="approveStartTime != '' and approveEndTime != '' and approveStartTime != null and approveEndTime != null" >
-		       and approve_time between #{approveStartTime} and #{approveEndTime}  
-		      </if> -->
 		 </trim>
 		 
          order by create_time desc
@@ -57,4 +51,46 @@
          order by `value` asc
     </select>
 	
+	<select id="getConfigById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from config
+         where id = #{id}
+    </select>
+    
+    
+    
+   <update id="updateConfig" parameterType="com.brp.entity.ConfigEntity">
+		update config set 
+		<if test="createUser != null">
+			create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			update_user=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		
+		<if test="key != null">
+      	`key`=#{key,jdbcType=VARCHAR},
+		</if>
+		<if test="value != null">
+      	`value`=#{value,jdbcType=VARCHAR},
+		</if>
+		<if test="code != null">
+      	`code`=#{code,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null">
+      	 remark=#{remark,jdbcType=VARCHAR},
+		</if>
+		
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
 </mapper>
