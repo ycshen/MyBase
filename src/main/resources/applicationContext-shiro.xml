@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<bean id="contextFactory" class="org.apache.shiro.realm.ldap.JndiLdapContextFactory">
+		<property name="url"
+			value="ldap://10.230.5.51:389/OU=Employees_Accounts,DC=RFDOA,DC=CN" />
+	</bean>
+
+
+	<bean id="openldapRealm"
+		class="org.apache.shiro.realm.activedirectory.ActiveDirectoryRealm">
+		<property name="ldapContextFactory" ref="contextFactory" />
+	</bean>
+	<bean id="jdbcRealm" class="com.brp.realm.JdbcRealm" />
+
+	<bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+		<property name="authenticationStrategy">
+			<bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy" />
+		</property>
+	</bean>
+
+
+	<!-- 定义 Shiro 主要业务对象 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="authenticator" ref="authenticator" />
+		<!-- <property name="realm" ref="openldapRealm" /> -->
+		<property name="realms">
+			<list>
+				<ref bean="openldapRealm" />
+				<ref bean="jdbcRealm" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 用于处理非AD用户不能访问除/domain以外的资源 -->
+	<bean id="domainFilter" class="com.brp.realm.DomainFilter" />
+
+	<!-- 安全认证过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"></property>
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/" />
+		<property name="unauthorizedUrl" value="/302" />
+		<property name="filterChainDefinitions">
+			<value>
+				/login = anon
+				/img/** = anon
+				/css/** = anon
+				/sea-modules/** = anon
+				/domain/** = authc
+				/** = domainFilter
+			</value>
+		</property>
+	</bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>

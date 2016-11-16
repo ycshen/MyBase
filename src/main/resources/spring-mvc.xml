@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/mvc  
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+	<import resource="classpath:properties-config.xml" />
+
+	<context:component-scan base-package="com.brp" />
+	<!-- <mvc:default-servlet-handler /> -->
+	<mvc:annotation-driven/>
+	<mvc:resources location="/img/" mapping="/img/**"/> 
+	<mvc:resources location="/css/" mapping="/css/**"/> 
+	<mvc:resources location="/sea-modules/" mapping="/sea-modules/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<!-- 静态文件访问 -->
+	<!-- <mvc:resources mapping="/resource/**" location="/resource/" /> -->
+
+	<bean id="resourceHttpRequestHandler"
+		class="org.springframework.web.servlet.resource.ResourceHttpRequestHandler">
+		<property name="locations" value="/resource/"></property>
+	</bean>
+
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/resources/**">resourceHttpRequestHandler</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/page/" p:suffix=".jsp" />
+
+
+
+	<!-- 拦截器 -->
+
+	<!--<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean id="loginInterceptor" class="com.brp.interceptors.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>-->
+
+
+</beans>

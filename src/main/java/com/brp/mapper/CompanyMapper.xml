@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.CompanyEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_telephone" property="companyTelephone" jdbcType="VARCHAR" />
+    <result column="company_ceo" property="companyCeo" jdbcType="VARCHAR" />
+    <result column="company_site" property="companySite" jdbcType="VARCHAR" />
+    <result column="company_address" property="companyAddress" jdbcType="VARCHAR" />
+    
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+   		company_name,company_telephone,company_ceo,company_site,company_address,
+   		level
+  </sql>
+  <insert id="insertCompany" parameterType="com.brp.entity.CompanyEntity" >
+    insert company
+   		(create_user,update_user,create_time, update_time,
+   		company_name,company_telephone,company_ceo,company_site,company_address,
+   		level) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{companyName,jdbcType=VARCHAR},#{companyTelephone,jdbcType=VARCHAR},#{companyCeo,jdbcType=VARCHAR},#{companySite,jdbcType=VARCHAR},#{companyAddress,jdbcType=VARCHAR},
+    	#{level,jdbcType=INTEGER})
+  </insert>
+  <select id="getCompanyList" resultMap="BaseResultMap" parameterType="com.brp.util.query.CompanyQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from company
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <!--  <if test="bigAreaId != null and bigAreaId != ''" >
+		       and big_area_id =  #{bigAreaId}
+		      </if>
+		      <if test="billBussinessType != '' and billBussinessType != null" >
+		       and bill_bussiness_type = #{billBussinessType}
+		      </if>
+		      <if test="status != '' and status != null" >
+		       and status = #{status}
+		      </if>
+		      <if test="approveStartTime != '' and approveEndTime != '' and approveStartTime != null and approveEndTime != null" >
+		       and approve_time between #{approveStartTime} and #{approveEndTime}  
+		      </if> -->
+		 </trim>
+		 
+         order by create_time desc
+    </select>
+	<!-- <update id="updateBillApprove" parameterType="com.brp.entity.BillApproveEntity">
+		update bill_approve set 
+		<if test="createUser != null">
+			create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			update_user=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="approveNum != null">
+      	approve_num=#{approveNum,jdbcType=VARCHAR},
+		</if>
+		<if test="approveTime != null">
+      	approve_time=#{approveTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="approveDepartment != null">
+      	approve_department=#{approveDepartment,jdbcType=VARCHAR},
+		</if>
+		<if test="approveDepartmentId != null">
+      	 approve_department_id=#{approveDepartmentId,jdbcType=VARCHAR},
+		</if>
+		<if test="provinceName != null">
+      	province_name=#{provinceName,jdbcType=VARCHAR},
+		</if>
+		<if test="provinceId != null">
+      	province_id=#{provinceId,jdbcType=VARCHAR},
+		</if>
+		<if test="cityName != null">
+      	city_name=#{cityName,jdbcType=VARCHAR},
+		</if>
+		<if test="cityId != null">
+      	city_id=#{cityId,jdbcType=VARCHAR},
+		</if>
+		<if test="bigAreaId != null">
+	     big_area_id=#{bigAreaId,jdbcType=VARCHAR},
+		</if>
+		<if test="bigAreaName != null">
+	     big_area_name=#{bigAreaName,jdbcType=VARCHAR},
+		</if>
+		<if test="billType != null">
+	     bill_type=#{billType,jdbcType=VARCHAR},
+		</if>
+		<if test="billTypeName != null">
+	     bill_type_name=#{billTypeName,jdbcType=VARCHAR},
+		</if>
+		<if test="billBussinessType != null">
+      	bill_bussiness_type=#{billBussinessType,jdbcType=VARCHAR},
+		</if>
+		
+		<if test="billBussinessTypeName != null">
+      	bill_bussiness_type_name=#{billBussinessTypeName,jdbcType=VARCHAR},
+		</if>
+		<if test="status != null">
+      	status=#{status,jdbcType=INTEGER},
+		</if>
+		<if test="expressCompany != null">
+	    express_company=#{expressCompany,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressNo != null">
+	    express_no=#{expressNo,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null">
+	    remark=#{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="billNum != null">
+	    bill_num=#{billNum,jdbcType=VARCHAR},
+		</if>
+		<if test="createUserId != null">
+	    create_user_id=#{createUserId,jdbcType=VARCHAR},
+		</if>
+		<if test="approveRoleLevel != null">
+	    approve_role_level=#{approveRoleLevel,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUserId != null">
+	    update_user_id=#{updateUserId,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUserDepartmentId != null">
+	    update_user_department_id=#{updateUserDepartmentId,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUserDepartment != null">
+	    update_user_department=#{updateUserDepartment,jdbcType=VARCHAR},
+		</if>
+		<if test="parentDepartmentId != null">
+	    update_user_department=#{parentDepartmentId,jdbcType=VARCHAR},
+		</if>
+		
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+    
+     <select id="getApproveById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from bill_approve
+         where 1=1 and id=#{id}
+    </select>
+    <select id="getUnconfirmedApprove" resultType="java.lang.Integer" >
+         select count(id) from bill_approve where status=100 and approve_role_level = #{roleLevel,jdbcType=VARCHAR} 
+         <if test="departmentId != '' and departmentId != null">
+         	and parent_department_id= #{departmentId,jdbcType=VARCHAR} 
+         </if>
+         
+    </select> -->
+</mapper>

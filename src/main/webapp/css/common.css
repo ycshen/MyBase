@@ -1,0 +1,343 @@
+﻿html, body, h, article, p {
+	padding: 0;
+	margin: 0;
+	font-family: 'Microsoft YaHei';
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+html {
+	font-size1: 100%;
+	height: 100%;
+}
+
+body {
+	font-size1: 1.0em;
+	height: 100%;
+	overflow: hidden;
+	background-color: rgb(248, 246, 242);
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.scrollbar::-webkit-scrollbar {
+	width: 0.375em;
+	height: 0.875em;
+}
+
+.scrollbar::-webkit-scrollbar-track, .scrollbar::-webkit-scrollbar-thumb
+	{
+	border-radius: 62.5em;
+	border: 0.313em solid transparent;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+	box-shadow: 0.063em 0.063em 0.313em gray inset;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+	min-height: 1.25em;
+	background-clip: content-box;
+	box-shadow: 0 0 0 0.313em white inset;
+}
+
+.scrollbar::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+#main {
+	height: 100%;
+	padding: 0;
+}
+
+#nav_panel {
+	width: 12em;
+	background: black;
+	height: 100%;
+	float: left;
+	box-shadow: 0 0 1em black;
+	overflow: hidden;
+	transition: width 0.3s;
+}
+
+#nav_panel_draw {
+	overflow: auto;
+	clear: both;
+	line-height: 2em;
+	height: 2em;
+	float: right;
+}
+
+#nav_panel_draw a {
+	display: block;
+	background: #333;
+	padding: 0 0.6em;
+	clear: none;
+}
+
+#nav_panel_draw a:hover {
+	color: white;
+	background: gray;
+}
+
+#nav_panel_goGroup {
+	vertical-align: center;
+	line-height: 2em;
+	height: 2em;
+	overflow: hidden;
+}
+
+#nav_panel_goGroup a {
+	display: block;
+	float:left;
+	padding:0 0.6em;
+	background: #333;
+}
+
+#nav_panel_goGroup a:hover {
+	background: gray;
+}
+
+#nav_panel_goGroup span.title {
+	color:#999;
+	display: inline-block;
+}
+
+#nav_panel hr {
+	margin: 0 0 0.5em 0;
+}
+
+#nav_logo {
+	color: orange;
+	cursor: pointer;
+	overflow: hidden;
+	line-height: 3em;
+	padding: 0.3em 0 0 0.5em;
+	height: 3.4em
+}
+
+#nav_logo img {
+	width: 3em;
+	float: left;
+}
+
+#nav_logo span {
+	font-size: 1.4em;
+}
+
+#nav_list {
+	height: calc(100% - 8.5em);
+	overflow: auto;
+	overflow-x: hidden;
+	clear: both;;
+}
+
+#nav_list li {
+	text-align: left;
+	line-height: 3em;
+	height: 3em;
+	overflow: hidden;
+	border-left: 0.2em solid;
+	margin: 0.2em 0;
+}
+
+#nav_list li.current {
+	border-left: 0.2em orange solid;
+}
+
+#nav_list li a {
+	color: gray;
+	display: block;
+	cursor: pointer;
+	height: 3em;
+	overflow: hidden;
+}
+
+#nav_list li a:hover {
+	color: white;
+	background: #24272d;
+}
+
+#nav_list li.current a {
+	color: white;
+	background: #24272d;
+}
+
+#nav_list li a span.glyphicon {
+	font-size: 1.8em;
+	vertical-align: middle;
+	margin: 0 0.6em 0 0.55em;
+}
+
+#nav_ext {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+#nav_ext a {
+	text-decoration: none;
+	vertical-align: middle;
+	display: block;
+	height: 3em;
+	line-height: 3em;
+	width: auto;
+}
+
+
+#nav_ext a span {
+	width: 4em;
+}
+
+#nav_panel.nav_panel_mini {
+	width: 4em;
+}
+#nav_panel.nav_panel_mini #nav_panel_draw {
+	float:none;;
+}
+
+#nav_panel.nav_panel_mini #nav_panel_draw a span:before {
+	content: "\e080";
+}
+
+#nav_panel.nav_panel_mini #nav_panel_goGroup span.title {
+	display: none;
+}
+
+#nav_panel.nav_panel_mini #nav_ext a {
+	width: 4em;
+}
+#nav_panel.nav_panel_mini #nav_panel_goGroup a{
+	float:none;
+	background: none;
+}
+
+
+#main_body {
+	height: calc(100% - 4em);
+}
+
+#main_content {
+	height: 100%;
+	overflow: auto;
+}
+
+#main_navbar {
+	margin: 0;
+	padding: 0;
+	border-bottom: solid 0.0625em #eeece8;
+	height: 4em;
+	overflow: hidden;
+	width: 100%;
+	background: #fff;
+	position: relative;
+}
+
+#main_body {
+	overflow: auto;
+}
+
+.main_navbar_title {
+	font-size: 1.25em;
+	padding: 0.4em 0 0 0.8em;
+	float: left;
+}
+
+#syslistcon {
+	display: none;
+}
+
+.syslist span {
+	font-size: 1.5em;
+}
+
+ul.main_navbar_tab {
+	float: right;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	height: 2em;
+	overflow: hidden;
+}
+
+ul.main_navbar_tab li {
+	float: left;
+	margin: 0 1em;
+}
+
+ul.main_navbar_tab li a {
+	color: gray;
+	text-decoration: none;
+	padding: 0.5em;
+	line-height: 1.8em;
+}
+
+ul.main_navbar_tab li a:hover {
+	color: black;
+}
+
+ul.main_navbar_tab li.current {
+	border-bottom: 0.2em orange solid;
+}
+
+ul.main_navbar_tab li.current a {
+	color: black;
+}
+
+.main_navbar_nav {
+	float: right;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+
+.main_navbar_nav>li>a {
+	padding: 5px 10px;
+}
+
+.main_navbar_nav>li.active>a, .main_navbar_nav>li.active>a:focus,
+	.main_navbar_nav>li.active>a:hover {
+	color: #444;
+	font-weight: bold;
+	background-color: #fff;
+	border-bottom: 0.2em orange solid;
+}
+
+#right-panel {
+	height: 100%;
+	border-left: 1px solid gray;
+	width: 680px;
+	float: right;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: white;
+	box-shadow: 0 0 1em black;
+}
+
+#right-panel-top {
+	font-size: 1.2em;
+	padding: 0.5em;
+	height: 3em;
+	overflow: hidden;
+}
+
+#right-panel iframe {
+	height: calc(100% - 3em);
+	width: 100%;
+}
+
+.pagination {
+	margin: 0;
+}
