@@ -1,6 +1,7 @@
 package com.brp.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,8 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
+import com.brp.entity.ConfigEntity;
+import com.brp.entity.Constant;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
+import com.brp.service.ConfigService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.CompanyQuery;
 
@@ -34,12 +38,16 @@ import com.brp.util.query.CompanyQuery;
 public class CompanyController extends BaseController{
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private ConfigService configService;
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listCompany(@ModelAttribute CompanyQuery companyQuery){
 		ModelAndView mav = new ModelAndView("/company/company_list");
 		companyQuery = companyService.getCompanyList(companyQuery);
 		mav.addObject("companyQuery", companyQuery);
+		List<ConfigEntity> configList = configService.getConfigListByCode(Constant.VIPCODE);
+		mav.addObject("configList", configList);
 		
 		return mav;
 	}

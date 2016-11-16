@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.ConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.ConfigEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="key" property="key" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+   	   `key`,`value`,remark,`code`
+  </sql>
+  <insert id="insertConfig" parameterType="com.brp.entity.ConfigEntity" >
+    insert config
+   		(create_user,update_user,create_time, update_time,
+   		 key,value,remark,code) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{key,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR})
+  </insert>
+  <select id="getConfigList" resultMap="BaseResultMap" parameterType="com.brp.util.query.ConfigQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from config
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <!--  <if test="bigAreaId != null and bigAreaId != ''" >
+		       and big_area_id =  #{bigAreaId}
+		      </if>
+		      <if test="billBussinessType != '' and billBussinessType != null" >
+		       and bill_bussiness_type = #{billBussinessType}
+		      </if>
+		      <if test="status != '' and status != null" >
+		       and status = #{status}
+		      </if>
+		      <if test="approveStartTime != '' and approveEndTime != '' and approveStartTime != null and approveEndTime != null" >
+		       and approve_time between #{approveStartTime} and #{approveEndTime}  
+		      </if> -->
+		 </trim>
+		 
+         order by create_time desc
+    </select>
+    
+     <select id="getConfigListByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from config
+         where `code` = #{code}
+         order by `value` asc
+    </select>
+	
+</mapper>

@@ -42,15 +42,15 @@
 								<tr style="border:0px">
 									<td style="border:0px">
 									<div class="form-group">
-										<label for="provinceSelect">申请大区</label> <select
-											class="form-control" id="bigAreaSelect">
-											<option value="">请选择大区/分企业</option>
+										<label for="provinceSelect">企业会员级别</label> <select
+											class="form-control" id="levelSelect">
+											<option value="">请选择会员级别</option>
 											<c:if
-												test="${bigAreaList != null && bigAreaList.size() > 0 }">
-												<c:forEach var="bigArea" items="${bigAreaList}">
+												test="${configList != null && configList.size() > 0 }">
+												<c:forEach var="config" items="${configList}">
 													<option
-														<c:if test="${page.bigAreaId == bigArea.districtid}">  selected="selected" </c:if>
-														value="${bigArea.districtid}">${bigArea.districtname}</option>
+														<c:if test="${companyQuery.level == config.value}">  selected="selected" </c:if>
+														value="${config.value}">${config.key}</option>
 												</c:forEach>
 		
 											</c:if>
@@ -59,75 +59,16 @@
 									</td>
 									<td style="border:0px">
 										<div class="form-group">
-											<label for="hidDistrict">面单业务类型
-										<select
-											class="form-control" id="billBussinessTypeSelect">
-											<option value="">请选择面单业务类型</option>
-											<c:if test="${typeList != null && typeList.size() > 0 }">
-												<c:forEach var="billType" items="${typeList}">
-													<option
-														<c:if test="${page.billBussinessType == billType.billCode}">  selected="selected" </c:if>
-														value="${billType.billCode}">${billType.businessName}</option>
-												</c:forEach>
-											</c:if>
-										</select>
+											<label for="hidDistrict">企业名称
+											<input type="text" placeholder="企业名称" class="form-control" id="txtCompanyName" value="${page.companyName }"/>
 										</div>
 									</td>
 									<td style="border:0px">
-									
-									</td>
-								</tr>
-								<tr style="border:0px">
-									<td style="border:0px">
-										<div class="form-group">
-											<label for="status">申请状态:</label>
-											<c:if test="${page.status == null}">
-												<input class="" type="radio" value="100" name="status" id="test">
-												<label for="test">未确认</label>
-												<input class="" type="radio" value="101" name="status" id="test1">
-												<label for="test1">待处理</label>
-												<input class="" type="radio" value="102" name="status" id="test1">
-												<label for="test1">已处理</label>
-											</c:if>
-											<c:if test="${page.status == '100'}">
-												<input class="" type="radio" value="100" name="status" id="test" checked="checked">
-												<label for="test">未确认</label>
-												<input class="" type="radio" value="101" name="status" id="test1">
-												<label for="test1">待处理</label>
-												<input class="" type="radio" value="102" name="status" id="test1">
-												<label for="test1">已处理</label>
-											</c:if>
-											<c:if test="${page.status == '101'}">
-												<input class="" type="radio" value="100" name="status" id="test">
-												<label for="test">未确认</label>
-												<input class="" type="radio" value="101" name="status" id="test1" checked="checked">
-												<label for="test1">待处理</label>
-												<input class="" type="radio" value="102" name="status" id="test1">
-												<label for="test1">已处理</label>
-											</c:if>
-											<c:if test="${page.status == 102}">
-												<input class="" type="radio" value="100" name="status" id="test">
-												<label for="test">未确认</label>
-												<input class="" type="radio" value="101" name="status" id="test1">
-												<label for="test1">待处理</label>
-												<input class="" type="radio" value="102" name="status" id="test1" checked="checked">
-												<label for="test1">已处理</label>
-											</c:if>
-			
-										</div>
-									</td>
-									<td style="border:0px">
-										<div class="form-group">
-												<input class="" type="text" value="${page.approveStartTime}"  id="start" placeholder="开始时间">-
-												<input class="" type="text" value="${page.approveEndTime}"  id="end" placeholder="结束时间">
-												
-										</div>
-									</td>
-									<td style="border:0px">
-										<button class="btn " onclick="PAGE.queryApprove('${page.page}')">查询</button>
+									<button class="btn " onclick="queryCompany('${companyQuery.page}')">查询</button>
 										<button class="btn " onclick="addCompany()">新增企业信息</button>
 									</td>
 								</tr>
+								
 							</table>
 							
 							
@@ -137,15 +78,7 @@
 						</div>
 					</div>
 					<div id="main_navbar" class="page-header">
-					<div class="panel-heading">
-						当前面单库存数量：<!--  如风达到  50000                        普通快递   2000000                     菜鸟裹裹  3000000                     如风达到  50000                     普通快递 2000000   -->
-						<c:if test="${billManageList != null && billManageList.size() > 0}">
-							<c:forEach items="${billManageList }" var="manage">
-								${manage.businessName} ${manage.billCount}
-							
-							</c:forEach>
-						</c:if>
-					</div>
+					
 				</div>
 					<div class="panel-heading">企业信息列表</div>
 
@@ -204,10 +137,10 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?approveStartTime=${page.approveStartTime }&approveEndTime=${page.approveEndTime}&bigAreaId=${page.bigAreaId}&status=${page.status}&billBussinessType=${page.billBussinessType}&page=" />
-								<jsp:param name="count" value="${page.count }" />
-								<jsp:param name="page" value="${page.page }" />
-								<jsp:param name="size" value="${page.size }" />
+									value="?conpanyName=${companyQuery.conpanyName }&level=${companyQuery.level}&page=" />
+								<jsp:param name="count" value="${companyQuery.count }" />
+								<jsp:param name="page" value="${companyQuery.page }" />
+								<jsp:param name="size" value="${companyQuery.size }" />
 							</jsp:include>
 							
 						</nav>
@@ -221,7 +154,7 @@
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
 <script type="text/javascript" src="${ctx}/js/pages/company/company_list.js"></script>
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(function(){
 		var start = {
 				  elem: '#start',
@@ -252,7 +185,7 @@
 		laydate(end);
 		});
 		
-</script>
+</script> -->
 </body>
 </html>
 

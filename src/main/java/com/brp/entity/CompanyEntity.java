@@ -14,6 +14,8 @@ public class CompanyEntity extends BaseEntity{
 	private String companySite;
 	private String companyAddress;
 	private Integer level;
+	private String parentCompanyId;
+	private String parentCompanyName;
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -50,6 +52,17 @@ public class CompanyEntity extends BaseEntity{
 	public void setLevel(Integer level) {
 		this.level = level;
 	}
-	
+	public String getParentCompanyId() {
+		return parentCompanyId;
+	}
+	public void setParentCompanyId(String parentCompanyId) {
+		this.parentCompanyId = parentCompanyId;
+	}
+	public String getParentCompanyName() {
+		return parentCompanyName;
+	}
+	public void setParentCompanyName(String parentCompanyName) {
+		this.parentCompanyName = parentCompanyName;
+	}
 }
 

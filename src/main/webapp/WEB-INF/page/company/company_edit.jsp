@@ -23,7 +23,7 @@
 			
 			<tr>
 				<td style="border:0px;text-align:right;">
-					<label >企业名称：</label>
+					<label ><span style="color:red;">*</span>企业名称：</label>
 				</td>
 				<td style="border:0px;">
 					<input name="companyName" id="txtCompanyName"
@@ -34,7 +34,7 @@
 			</tr>
 			<tr>
 				<td style="border:0px;text-align:right;">
-					<label >企业地址：</label>
+					<label ><span style="color:red;">*</span>企业地址：</label>
 				</td>
 				<td style="border:0px;">
 					<input name="companyAddress" id="txtCompanyAddress"
@@ -45,7 +45,7 @@
 			</tr>
 			<tr>
 				<td style="border:0px;text-align:right;">
-					<label >企业联系方式：</label>
+					<label ><span style="color:red;">*</span>企业联系方式：</label>
 				</td>
 				<td style="border:0px;">
 					<input name="companyTelephone" id="txtCompanyTelphone"
@@ -56,7 +56,7 @@
 			</tr>
 			<tr>
 				<td style="border:0px;text-align:right;">
-					<label >企业负责人：</label>
+					<label ><span style="color:red;">*</span>企业负责人：</label>
 				</td>
 				<td style="border:0px;">
 					<input name="companyCeo" id="txtCompanyCeo"

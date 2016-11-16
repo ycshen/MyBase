@@ -14,3 +14,28 @@ function addSuccess(){
 	window.location.href = ctx + "/inner/company/list";
 }
 
+function queryCompany(page){
+	var url = ctx + "/inner/company/list?page=" + page;
+	var level = $("#levelSelect").find("option:selected").val();
+	if(isNotBlank(level)){
+		url += "&level=" + level;
+	}
+	
+	
+	
+	var companyName = $("#txtCompanyName").val();
+	if(isNotBlank(companyName)){
+		url += "&companyName=" + companyName;
+	}
+	
+	window.location.href = url;
+}
+function isNotBlank(args){
+	var result = false;
+	if(args != "" && args != null && args != undefined){
+		result = true;
+	}
+	
+	return result;
+}
+

@@ -15,22 +15,24 @@
     <result column="company_address" property="companyAddress" jdbcType="VARCHAR" />
     
     <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="parent_company_id" property="parentCompanyId" jdbcType="INTEGER" />
+    <result column="parent_company_name" property="parentCompanyName" jdbcType="VARCHAR" />
   </resultMap> 
      
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
    		company_name,company_telephone,company_ceo,company_site,company_address,
-   		level
+   		level,parent_company_id,parent_company_name
   </sql>
   <insert id="insertCompany" parameterType="com.brp.entity.CompanyEntity" >
     insert company
    		(create_user,update_user,create_time, update_time,
    		company_name,company_telephone,company_ceo,company_site,company_address,
-   		level) 
+   		level,parent_company_id,parent_company_name) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyName,jdbcType=VARCHAR},#{companyTelephone,jdbcType=VARCHAR},#{companyCeo,jdbcType=VARCHAR},#{companySite,jdbcType=VARCHAR},#{companyAddress,jdbcType=VARCHAR},
-    	#{level,jdbcType=INTEGER})
+    	#{level,jdbcType=INTEGER},#{parentCompanyId,jdbcType=INTEGER},#{parentCompanyName,jdbcType=VARCHAR})
   </insert>
   <select id="getCompanyList" resultMap="BaseResultMap" parameterType="com.brp.util.query.CompanyQuery" >
          select 
@@ -38,18 +40,13 @@
          from company
          where 1=1
          <trim prefix=" " suffix="" suffixOverrides="" >
-		     <!--  <if test="bigAreaId != null and bigAreaId != ''" >
-		       and big_area_id =  #{bigAreaId}
+		     <if test="level != null and level != ''" >
+		       and level =  #{level}
 		      </if>
-		      <if test="billBussinessType != '' and billBussinessType != null" >
-		       and bill_bussiness_type = #{billBussinessType}
+		      <if test="companyName != '' and companyName != null" >
+		       and company_name = #{companyName}
 		      </if>
-		      <if test="status != '' and status != null" >
-		       and status = #{status}
-		      </if>
-		      <if test="approveStartTime != '' and approveEndTime != '' and approveStartTime != null and approveEndTime != null" >
-		       and approve_time between #{approveStartTime} and #{approveEndTime}  
-		      </if> -->
+		     
 		 </trim>
 		 
          order by create_time desc

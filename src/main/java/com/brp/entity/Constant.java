@@ -107,5 +107,9 @@ public final class Constant {
 
 	public static final String MICRO_USRER_SERVER_URL ="http://micro.rfddc.com/open/oauth2/validation?access_token=";
 
+	/**
+	 * 会员等级编码
+	 */
+	public static final String VIPCODE = "VIPLEVEL";
 
 }
