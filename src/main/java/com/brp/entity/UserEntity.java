@@ -13,6 +13,11 @@ public class UserEntity extends BaseEntity{
 	private String telphone;
 	private String password;
 	private String companyName;
+	private String departmentId;
+	private String departmentName;
+	private String mobile;
+	private String status;
+	private String userCode;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -42,6 +47,36 @@ public class UserEntity extends BaseEntity{
 	}
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
+	}
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getUserCode() {
+		return userCode;
+	}
+	public void setUserCode(String userCode) {
+		this.userCode = userCode;
 	}
 	
 }
