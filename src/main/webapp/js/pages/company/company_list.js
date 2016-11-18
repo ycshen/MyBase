@@ -10,6 +10,19 @@ function addCompany(){
 	});
 }
 
+
+		
+function addSubCompany(id){
+	var url = ctx + "/inner/company/addSub?id=" + id;
+	layer.open({
+		type: 2,
+		title: '添加子公司信息',
+		shadeClose: true,
+		shade: 0.8,
+		area: ['550px', '400px'],
+		content: url
+	});
+}
 function addSuccess(){
 	window.location.href = ctx + "/inner/company/list";
 }

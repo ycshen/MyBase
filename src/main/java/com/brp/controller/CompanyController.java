@@ -65,6 +65,19 @@ public class CompanyController extends BaseController{
 		return mav;
 	}
 	
+	@RequestMapping(value = "/addSub", method = RequestMethod.GET)
+	public ModelAndView addSubCompany(String id){
+		ModelAndView mav = new ModelAndView("/company/company_addsub");
+		CompanyEntity company = null;
+		if(StringUtils.isNotBlank(id)){
+			Long companyId = Long.parseLong(id);
+			company = companyService.getCompanyById(companyId);
+		}
+		mav.addObject("company", company);
+		
+		return mav;
+	}
+	
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer saveOrUpdateCompany(@ModelAttribute CompanyEntity company, HttpServletRequest request){
@@ -75,7 +88,7 @@ public class CompanyController extends BaseController{
 			if(id == null){
 				company.setCreateTime(new Date());
 				company.setCreateUser(user.getUserName());
-				company.setLevel(VipLevel.VIP);
+				company.setLevel(VipLevel.VIP);				
 				companyService.insertCompany(company);
 				result = 1;
 			}else{

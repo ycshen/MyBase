@@ -84,9 +84,9 @@
 								<c:forEach items="${departmentQuery.items}" var="department">
 									<tr>
 										<td style="display: none;">${department.id}</td>
-										<td><a href="#" onclick="addSamedepartment('${department.id}')">新增同类</a>&nbsp;&nbsp;
+										<td>
 										<a  href="#" onclick="modifydepartment('${department.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewdepartment('${department.id}')">详细</a></td>
+										<a  href="#" onclick="viewDepartment('${department.id}')">详细</a></td>
 										<td>${department.departmentName }</td>
 										<td>${department.companyName}</td>
 										<td>${department.createUser}</td>
