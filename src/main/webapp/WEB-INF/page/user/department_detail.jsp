@@ -25,12 +25,12 @@
 			</li>
 			<li>
 				<a href="#userInfo" data-toggle="tab">
-					部门员工信息
+					员工信息
 				</a>
 			</li>
 	
 			<li>
-				<a href="#userInfoTree" data-toggle="tab">部门员工树形信息</a>
+				<a href="#userInfoTree" data-toggle="tab">员工树形信息</a>
 			</li>
 		</ul>
 		<div id="myTabContent" class="tab-content">
@@ -58,7 +58,7 @@
 				</table>
 			</div>
 			<div class="tab-pane fade" id="userInfo">
-				<%@include file="./department_user_list.jsp" %>
+				2
 			</div>
 			<div class="tab-pane fade" id="userInfoTree">
 				3

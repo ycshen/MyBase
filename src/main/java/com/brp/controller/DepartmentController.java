@@ -19,8 +19,10 @@ import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
+import com.brp.service.UserService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.DepartmentQuery;
+import com.brp.util.query.UserQuery;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -37,6 +39,8 @@ public class DepartmentController extends BaseController{
 	private DepartmentService departmentService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private UserService userService;
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer saveOrUpdate(@ModelAttribute DepartmentEntity department, HttpServletRequest request){
@@ -95,14 +99,18 @@ public class DepartmentController extends BaseController{
 	
 	
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public ModelAndView viewDepartment(String id, HttpServletRequest request){
+	public ModelAndView viewDepartment(String id, UserQuery userQuery, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/department/department_detail");
 		DepartmentEntity department = null;
 		if(StringUtils.isNotBlank(id)){
 			department = departmentService.getDepartmentById(Integer.parseInt(id));
+			userQuery.setDepartmentId(Integer.parseInt(id));
+			userQuery = userService.getUserList(userQuery);
+			
 		}
 		
 		mav.addObject("department", department);
+		mav.addObject("userQuery", userQuery);
 		
 		return mav;
 	}

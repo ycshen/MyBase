@@ -1,6 +1,7 @@
 package com.brp.controller;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
+import com.brp.service.DepartmentService;
 import com.brp.service.UserService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.UserQuery;
@@ -31,6 +34,8 @@ import com.brp.util.query.UserQuery;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private DepartmentService departmentService;
 	
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
@@ -41,6 +46,8 @@ public class UserController {
 		if(id == null){
 			user.setCreateTime(new Date());
 			user.setCreateUser(loginUser.getUserName());
+			String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+			user.setPassword(initPass);
 			userService.insertUser(user);
 			result = 1;
 		}else{
@@ -66,7 +73,18 @@ public class UserController {
 		return mav;
 	}
 	
-	
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView addUser(String id, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/user/user_add");
+		DepartmentEntity department = null;
+		if(StringUtils.isNotBlank(id)){
+			department = departmentService.getDepartmentById(Integer.parseInt(id));
+		}
+		
+		mav.addObject("department", department);
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public ModelAndView viewUser(String id, HttpServletRequest request){

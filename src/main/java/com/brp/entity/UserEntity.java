@@ -9,14 +9,15 @@ package com.brp.entity;
  */
 public class UserEntity extends BaseEntity{
 	private Long companyId;
+	private String companyName;
+	private Integer departmentId;
+	private String departmentName;
+	private Integer status;
+	
 	private String userName;
 	private String telphone;
 	private String password;
-	private String companyName;
-	private String departmentId;
-	private String departmentName;
 	private String mobile;
-	private String status;
 	private String userCode;
 	public Long getCompanyId() {
 		return companyId;
@@ -48,10 +49,10 @@ public class UserEntity extends BaseEntity{
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
 	}
-	public String getDepartmentId() {
+	public Integer getDepartmentId() {
 		return departmentId;
 	}
-	public void setDepartmentId(String departmentId) {
+	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
 	public String getDepartmentName() {
@@ -66,10 +67,10 @@ public class UserEntity extends BaseEntity{
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public String getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 	public String getUserCode() {

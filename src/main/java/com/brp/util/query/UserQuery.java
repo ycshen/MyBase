@@ -13,6 +13,14 @@ import com.brp.model.pageutil.Page;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class UserQuery extends Page<UserEntity>{
-	
+	private Integer departmentId;
+
+	public Integer getDepartmentId() {
+		return departmentId;
+	}
+
+	public void setDepartmentId(Integer departmentId) {
+		this.departmentId = departmentId;
+	}
 }
 

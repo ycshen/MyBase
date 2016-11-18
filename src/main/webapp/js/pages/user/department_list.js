@@ -76,14 +76,6 @@ function isNotBlank(args){
 }
 
 function addUser(id){
-	var url = ctx + "/inner/user/add?id=" + id;
-	layer.open({
-		type: 2,
-		title: '新增员工信息',
-		shadeClose: true,
-		shade: 0.8,
-		area: ['550px', '400px'],
-		content: url
-	});
+	
 }
 
