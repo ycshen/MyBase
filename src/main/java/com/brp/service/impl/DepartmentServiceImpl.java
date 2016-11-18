@@ -23,30 +23,40 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Autowired
 	private DepartmentMapper departmentMapper;
 	@Override
-	public void insertDepartment(DepartmentEntity Department) {
-		departmentMapper.insertDepartment(Department);
+	public void insertDepartment(DepartmentEntity department) {
+		departmentMapper.insertDepartment(department);
 	}
 	
 	@Override
-	public DepartmentQuery getDepartmentList(DepartmentQuery DepartmentQuery) {
-		List<DepartmentEntity> list = departmentMapper.getDepartmentList(DepartmentQuery);
+	public DepartmentQuery getDepartmentList(DepartmentQuery departmentQuery) {
+		List<DepartmentEntity> list = departmentMapper.getDepartmentList(departmentQuery);
 		if(list != null && list.size() > 0){
-			DepartmentQuery.setItems(list);
+			departmentQuery.setItems(list);
 		}
 		
-		return DepartmentQuery;
+		return departmentQuery;
 	}
 
 	@Override
-	public void updateDepartment(DepartmentEntity Department) {
-		departmentMapper.updateDepartment(Department);
+	public void updateDepartment(DepartmentEntity department) {
+		departmentMapper.updateDepartment(department);
 	}
 
 	@Override
 	public DepartmentEntity getDepartmentById(Integer id) {
-		DepartmentEntity Department = departmentMapper.getDepartmentById(id);
+		DepartmentEntity department = departmentMapper.getDepartmentById(id);
 		
-		return Department;
+		return department;
+	}
+
+	@Override
+	public boolean isExistDepartment(String departmentName, String companyId) {
+		DepartmentEntity department = departmentMapper.getDepartmentByNameAndcompanyId(departmentName, companyId);
+		if(department != null){
+			return true;
+		}
+		
+		return false;
 	}
 }
 

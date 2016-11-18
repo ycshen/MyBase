@@ -65,41 +65,15 @@
 				href="<c:url value="/inner/config/list"/>"
 				data-placement="auto right" title="code"><span
 					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>基础配置</a></li>
+			<li <c:if test="${param.nav=='list_menu'}"> class="current"</c:if>><a
+				data-toggle="tooltip"
+				href="<c:url value="/inner/menu/list"/>"
+				data-placement="auto right" title="code"><span
+					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>菜单管理</a></li>
 			
 			
 			
-			<li <c:if test="${param.nav=='bill_init'}"> class="current"</c:if>><a
-				data-toggle="tooltip"
-				href="<c:url value="/billinit/list"/>"
-				data-placement="auto right" title="单号初始化"><span
-					class="glyphicon glyphicon-plane" aria-hidden="true"></span>单号初始化</a></li>
-			<li <c:if test="${param.nav=='bill_manage'}"> class="current"</c:if>><a
-					data-toggle="tooltip"
-					href="<c:url value="/billManage/list"/>"
-					data-placement="auto right" title="面单管理"><span
-					class="glyphicon glyphicon-plane" aria-hidden="true"></span>面单管理</a></li>
-
-			<li <c:if test="${param.nav=='bill_out'}"> class="current"</c:if>><a
-				data-toggle="tooltip"
-				href="<c:url value="/bill/out"/>"
-				data-placement="auto right" title="面单出库"><span
-					class="glyphicon glyphicon-log-out" aria-hidden="true"></span>面单出库</a></li>
-			<li <c:if test="${param.nav=='bill_approve'}"> class="current"</c:if>><a
-				data-toggle="tooltip"
-				href="<c:url value="/bill/approve"/>"
-				data-placement="auto right" title="面单申请"><span
-					class="glyphicon glyphicon-log-out" aria-hidden="true"></span>面单申请</a></li>
-					
-			<%-- <li <c:if test="${param.nav=='usermgr'}"> class="current"</c:if>><a
-				data-toggle="tooltip"
-				href="<c:url value="/sysmgr/usermgr/list"/>"
-				data-placement="auto right" title="账户管理"><span
-					class="glyphicon glyphicon-th" aria-hidden="true"></span>账户管理</a></li> --%>			
-						
-			<%-- <li <c:if test="${param.nav=='about'}"> class="current"</c:if>><a
-				data-toggle="tooltip" href="<c:url value="/busSystemController/getBusSystemGroupList"/>"
-				data-placement="auto right" title="关于"><span
-					class="glyphicon glyphicon-paste" aria-hidden="true"></span>关于</a></li> --%>
+			
 		</ul>
 	</div>
 

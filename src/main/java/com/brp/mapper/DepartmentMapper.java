@@ -2,6 +2,7 @@ package com.brp.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.DepartmentEntity;
@@ -21,5 +22,6 @@ public interface DepartmentMapper {
 	List<DepartmentEntity> getDepartmentList(DepartmentQuery departmentQuery);
 	void updateDepartment(DepartmentEntity department);
 	DepartmentEntity getDepartmentById(Integer id);
+	DepartmentEntity getDepartmentByNameAndcompanyId(@Param("departmentName")String departmentName,@Param("companyId") String companyId);
 }
 

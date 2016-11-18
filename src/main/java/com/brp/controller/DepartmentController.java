@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.base.ResponseStatus;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
@@ -39,22 +40,29 @@ public class DepartmentController extends BaseController{
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer saveOrUpdate(@ModelAttribute DepartmentEntity department, HttpServletRequest request){
-		Integer result = 0;
-		Long id = department.getId();
-		UserEntity user = UserUtils.getLoginUser(request);
-		if(id == null){
-			department.setCreateTime(new Date());
-			department.setStatus(0);
-			department.setCreateUser(user.getUserName());
-			departmentService.insertDepartment(department);
-			result = 1;
+		Integer result = ResponseStatus.INIT;
+		String departmentName = department.getDepartmentName();
+		Long companyId = department.getCompanyId();
+		boolean isExist = departmentService.isExistDepartment(departmentName, companyId.toString());
+		if(isExist){
+			result = ResponseStatus.EXIST;
 		}else{
-			department.setUpdateTime(new Date());
-			department.setUpdateUser(user.getUserName());
-			departmentService.updateDepartment(department);
-			result = 2;
+			Long id = department.getId();
+			UserEntity user = UserUtils.getLoginUser(request);
+			if(id == null){
+				department.setCreateTime(new Date());
+				department.setStatus(0);
+				department.setCreateUser(user.getUserName());
+				departmentService.insertDepartment(department);
+				result = ResponseStatus.INSERT_SUCCESS;
+			}else{
+				department.setUpdateTime(new Date());
+				department.setUpdateUser(user.getUserName());
+				departmentService.updateDepartment(department);
+				result = ResponseStatus.UPDATE_SUCCESS;
+			}
 		}
-		
+
 		return result;
 	}
 	

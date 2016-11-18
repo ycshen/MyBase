@@ -38,6 +38,8 @@ function editDepartment(){
         		  window.parent.addSuccess();
         		  
       		});
+          }else if(data == 4){
+        	  layer.alert("该部门已经存在！"); 
           }else{
         	  layer.alert("操作失败！"); 
           }
