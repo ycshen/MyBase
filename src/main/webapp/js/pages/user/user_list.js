@@ -11,11 +11,11 @@ function addUser(){
 }
 
 
-function modifyConfig(id){
-	var url = ctx + "/inner/config/edit?id=" + id;
+function modifyUser(id){
+	var url = ctx + "/inner/user/edit?id=" + id;
 	layer.open({
 		type: 2,
-		title: '编辑基础配置信息',
+		title: '编辑员工信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],

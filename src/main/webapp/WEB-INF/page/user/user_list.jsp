@@ -89,7 +89,7 @@
 										<td style="display: none;">${user.id}</td>
 										<td>
 										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewUser('${user.id}')">详细</a></td>
+										<%-- <a  href="#" onclick="viewUser('${user.id}')">详细</a></td> --%>
 										<td>${user.userName }</td>
 										<td>${user.companyName}</td>
 										<td>${user.departmentName}</td>
@@ -109,7 +109,7 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?departmentName=${userQuery.departmentName }&userName=${userQuery.userName}&page=" />
+									value="?telphone=${userQuery.telphone }&userName=${userQuery.userName}&page=" />
 								<jsp:param name="count" value="${userQuery.count }" />
 								<jsp:param name="page" value="${userQuery.page }" />
 								<jsp:param name="size" value="${userQuery.size }" />
