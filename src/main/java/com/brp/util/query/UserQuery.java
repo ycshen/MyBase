@@ -16,6 +16,7 @@ public class UserQuery extends Page<UserEntity>{
 	private Integer departmentId;
 	private String userName;
 	private String departmentName;
+	private String telphone;
 	
 
 	public Integer getDepartmentId() {
@@ -41,6 +42,13 @@ public class UserQuery extends Page<UserEntity>{
 	public void setDepartmentName(String departmentName) {
 		this.departmentName = departmentName;
 	}
-	
+
+	public String getTelphone() {
+		return telphone;
+	}
+
+	public void setTelphone(String telphone) {
+		this.telphone = telphone;
+	}	
 }
 

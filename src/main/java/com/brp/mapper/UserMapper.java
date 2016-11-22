@@ -23,5 +23,6 @@ public interface UserMapper {
 	void updateUser(UserEntity user);
 	UserEntity getUserById(Integer id);
 	UserEntity login(@Param("account")String account, @Param("password")String password);
+	UserEntity getUserByDepartmentIdAndTelphone( @Param("departmentId")String departmentId, @Param("telphone") String telphone);
 }
 

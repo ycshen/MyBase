@@ -47,21 +47,21 @@ function viewDepartment(id){
 }
 
 function addSuccess(){
-	window.location.href = ctx + "/inner/config/list";
+	window.location.href = ctx + "/inner/user/list";
 }
 
-function queryDepartment(page){
-	var url = ctx + "/inner/department/list?page=" + page;
-	var departmentName = $("#txtdepartmentName").val();
-	if(isNotBlank(departmentName)){
-		url += "&departmentName=" + departmentName;
+function queryUser(page){
+	var url = ctx + "/inner/user/list?page=" + page;
+	var userName = $("#txtUserName").val();
+	if(isNotBlank(userName)){
+		url += "&userName=" + userName;
 	}
 	
 	
 	
-	var companyName = $("#txtcompanyName").val();
-	if(isNotBlank(companyName)){
-		url += "&companyName=" + companyName;
+	var telphone = $("#txtTelphone").val();
+	if(isNotBlank(telphone)){
+		url += "&telphone=" + telphone;
 	}
 	
 	window.location.href = url;

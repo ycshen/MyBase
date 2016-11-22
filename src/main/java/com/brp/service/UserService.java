@@ -21,5 +21,6 @@ public interface UserService {
 	void updateUser(UserEntity user);
 	UserEntity getUserById(Integer id);
 	UserEntity login(String account, String password);
+	boolean isExistTelphone(String departmentId, String telphone);
 }
 

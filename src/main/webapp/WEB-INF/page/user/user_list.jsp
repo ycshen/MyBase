@@ -43,21 +43,21 @@
 									<td style="border:0px">
 									<div class="form-group">
 										<label for="hidDistrict">员工姓名
-										<input type="text" placeholder="请输入员工名称"  id="txtuserName" class="form-control" value="${userQuery.userName }"/>
+										<input type="text" placeholder="请输入员工名称"  id="txtUserName" class="form-control" value="${userQuery.userName }"/>
 									</div>
 									</td>
 									<td style="border:0px">
 										<div class="form-group">
 											<label for="hidDistrict">手机号码
-											<input type="text" id="txtcompanyName" placeholder="请输入所属公司" class="form-control" value="${userQuery.userName}"/>
+											<input type="text" id="txtTelphone" placeholder="请输入员工手机号码" class="form-control" value="${userQuery.telphone}"/>
 										</div>
 									</td>
+									
 									<td style="border:0px">
 									<button class="btn " onclick="queryUser('${userQuery.page}')">查询</button>
 									<button class="btn " onclick="addUser()">新增</button>
 									</td>
 								</tr>
-								
 							</table>
 							
 							
@@ -93,9 +93,10 @@
 										<td>${user.userName }</td>
 										<td>${user.companyName}</td>
 										<td>${user.departmentName}</td>
+										<td>${user.telphone}</td>
 										<td>${user.createUser}</td>
 										<td>
-										<f:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+											<f:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
 										</td>
 										<td>${user.updateUser}</td>
 										<td<f:formatDate value="${user.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>

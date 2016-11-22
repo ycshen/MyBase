@@ -47,7 +47,12 @@
 		   <if test="departmentId != null and departmentId != ''" >
 		       and department_id =  #{departmentId}
 		      </if>
-		     
+		     <if test="userName != null and userName != ''" >
+		       and user_name =  #{userName}
+		      </if>
+		      <if test="telphone != null and telphone != ''" >
+		       and telphone =  #{telphone}
+		      </if>
 		 </trim>
 		 
          order by create_time desc
@@ -83,6 +88,13 @@
          from user
          where `password` = #{password} and (telphone=#{account}  or user_name =#{account} or user_code=#{account})
     </select>
+    <select id="getUserByDepartmentIdAndTelphone" resultMap="BaseResultMap">
+         select 
+         <include refid="Base_Column_List" />
+         from user
+         where  telphone=#{telphone} and department_id = #{departmentId} limit 1
+    </select>
+    
    
     
 </mapper>

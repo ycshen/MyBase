@@ -111,5 +111,13 @@ public final class Constant {
 	 * 会员等级编码
 	 */
 	public static final String VIPCODE = "VIPLEVEL";
-
+	
+	/**
+	 * 存在
+	 */
+	public static final Integer EXIST = 1;
+	/**
+	 * 不存在
+	 */
+	public static final Integer NO_EXIST = 0;
 }

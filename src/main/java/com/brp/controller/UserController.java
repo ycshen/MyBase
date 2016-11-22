@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.entity.Constant;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.DepartmentService;
@@ -113,6 +114,18 @@ public class UserController {
 		mav.addObject("userQuery", userQuery);
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/isExistTelphone", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer isExistTelphone(String departmentId, String telphone, HttpServletRequest request){
+		Integer result = Constant.EXIST;
+		if(StringUtils.isNotBlank(telphone) && StringUtils.isNotBlank(departmentId)){
+			boolean isExist = userService.isExistTelphone(departmentId, telphone);
+			result = isExist ? Constant.EXIST : Constant.NO_EXIST;
+		}
+		
+		return result;
 	}
 }
 

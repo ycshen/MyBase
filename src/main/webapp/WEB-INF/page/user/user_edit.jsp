@@ -66,7 +66,7 @@
 					<label ><span style="color:red;">*</span>联系电话：</label>
 				</td>
 				<td style="border:0px;">
-					<input name="telphone" id="txttelphone"
+					<input name="telphone" id="txtTelphone"
 							 maxlength="20"
 							class="form-control" type="text" placeholder="请输入联系电话"
 							style="width: 300px;">

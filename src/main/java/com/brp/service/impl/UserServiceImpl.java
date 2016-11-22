@@ -51,6 +51,16 @@ public class UserServiceImpl implements UserService{
 	public UserEntity login(String account, String password) {
 		return userMapper.login(account, password);
 	}
+
+	@Override
+	public boolean isExistTelphone(String departmentId, String telphone) {
+		UserEntity user = userMapper.getUserByDepartmentIdAndTelphone(departmentId, telphone);
+		if(user != null){
+			return true;
+		}
+		
+		return false;
+	}
 	
 }
 
