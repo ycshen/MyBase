@@ -6,7 +6,7 @@
 <head>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <meta charset="UTF-8">
-<title>部门信息管理</title>
+<title>员工信息管理</title>
 <link href="${ctx}/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/common.css" rel="stylesheet">
 <script type="text/javascript">
@@ -18,7 +18,7 @@
 	<div id="main" class="container-fluid">
 
 		<jsp:include page="../share/nav_main.jsp">
-			<jsp:param name="nav" value="list_department" />
+			<jsp:param name="nav" value="list_user" />
 		</jsp:include>
 
 		<div id="main_content">
@@ -26,14 +26,14 @@
 			<div id="main_navbar" class="page-header">
 				<div class="main_navbar_title">
 					<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
-					部门信息管理
+					员工信息管理
 				</div>
 			</div>
 
 			<div id="main_body" style="padding: 0.6em;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						部门查询<span class="pull-right"> </span>
+						员工查询<span class="pull-right"> </span>
 					</div>
 					<div class="panel-body">
 						<div class="form-inline">
@@ -42,18 +42,19 @@
 								<tr style="border:0px">
 									<td style="border:0px">
 									<div class="form-group">
-										<label for="hidDistrict">部门名称
-										<input type="text" placeholder="请输入部门名称"  id="txtdepartmentName" class="form-control" value="${departmentQuery.departmentName }"/>
+										<label for="hidDistrict">员工姓名
+										<input type="text" placeholder="请输入员工名称"  id="txtuserName" class="form-control" value="${userQuery.userName }"/>
 									</div>
 									</td>
 									<td style="border:0px">
 										<div class="form-group">
-											<label for="hidDistrict">所属公司
-											<input type="text" id="txtcompanyName" placeholder="请输入所属公司" class="form-control" value="${departmentQuery.companyName}"/>
+											<label for="hidDistrict">手机号码
+											<input type="text" id="txtcompanyName" placeholder="请输入所属公司" class="form-control" value="${userQuery.userName}"/>
 										</div>
 									</td>
 									<td style="border:0px">
-									<button class="btn " onclick="queryDepartment('${departmentQuery.page}')">查询</button>
+									<button class="btn " onclick="queryUser('${userQuery.page}')">查询</button>
+									<button class="btn " onclick="addUser()">新增</button>
 									</td>
 								</tr>
 								
@@ -65,15 +66,17 @@
 							
 						</div>
 					</div>
-					<div class="panel-heading">部门信息列表</div>
+					<div class="panel-heading">员工信息列表</div>
 
 					<div class="table-responsive">
 						<table id="syslist" class="table table-bordered table-hover">
 							<thead>
 								<tr>
 									<th>操作</th>
-									<th>部门名称</th>
+									<th>员工姓名</th>
 									<th>所属公司</th>
+									<th>所属部门</th>
+									<th>电话号码</th>
 									<th>创建人</th>
 									<th>创建时间</th>
 									<th>更新人</th>
@@ -81,21 +84,21 @@
 								</tr>
 							</thead>
 							<tbody >
-								<c:forEach items="${departmentQuery.items}" var="department">
+								<c:forEach items="${userQuery.items}" var="user">
 									<tr>
-										<td style="display: none;">${department.id}</td>
+										<td style="display: none;">${user.id}</td>
 										<td>
-										<a href="#" onclick="addUser('${department.id}')">添加员工</a>&nbsp;&nbsp;
-										<a  href="#" onclick="modifydepartment('${department.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewDepartment('${department.id}')">详细</a></td>
-										<td>${department.departmentName }</td>
-										<td>${department.companyName}</td>
-										<td>${department.createUser}</td>
+										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>&nbsp;&nbsp;
+										<a  href="#" onclick="viewUser('${user.id}')">详细</a></td>
+										<td>${user.userName }</td>
+										<td>${user.companyName}</td>
+										<td>${user.departmentName}</td>
+										<td>${user.createUser}</td>
 										<td>
-										<f:formatDate value="${department.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+										<f:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
 										</td>
-										<td>${department.updateUser}</td>
-										<td<f:formatDate value="${department.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										<td>${user.updateUser}</td>
+										<td<f:formatDate value="${user.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -105,10 +108,10 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?companyName=${departmentQuery.companyName }&departmentName=${departmentQuery.departmentName}&page=" />
-								<jsp:param name="count" value="${departmentQuery.count }" />
-								<jsp:param name="page" value="${departmentQuery.page }" />
-								<jsp:param name="size" value="${departmentQuery.size }" />
+									value="?departmentName=${userQuery.departmentName }&userName=${userQuery.userName}&page=" />
+								<jsp:param name="count" value="${userQuery.count }" />
+								<jsp:param name="page" value="${userQuery.page }" />
+								<jsp:param name="size" value="${userQuery.size }" />
 							</jsp:include>
 							
 						</nav>
@@ -121,7 +124,7 @@
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
-<script type="text/javascript" src="${ctx}/js/pages/department/department_list.js"></script>
+<script type="text/javascript" src="${ctx}/js/pages/user/user_list.js"></script>
 <!-- <script type="text/javascript">
 	$(function(){
 		var start = {

@@ -1,8 +1,8 @@
-function addConfig(){
-	var url = ctx + "/inner/config/edit";
+function addUser(){
+	var url = ctx + "/inner/user/add";
 	layer.open({
 		type: 2,
-		title: '添加基础配置信息',
+		title: '添加员工信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],
@@ -75,7 +75,4 @@ function isNotBlank(args){
 	return result;
 }
 
-function addUser(id){
-	
-}
 

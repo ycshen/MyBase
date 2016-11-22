@@ -58,5 +58,10 @@ public class DepartmentServiceImpl implements DepartmentService{
 		
 		return false;
 	}
+
+	@Override
+	public List<DepartmentEntity> getListByCompanyId(String companyId) {
+		return departmentMapper.getListByCompanyId(companyId);
+	}
 }
 

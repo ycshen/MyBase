@@ -14,6 +14,9 @@ import com.brp.model.pageutil.Page;
  */
 public class UserQuery extends Page<UserEntity>{
 	private Integer departmentId;
+	private String userName;
+	private String departmentName;
+	
 
 	public Integer getDepartmentId() {
 		return departmentId;
@@ -22,5 +25,22 @@ public class UserQuery extends Page<UserEntity>{
 	public void setDepartmentId(Integer departmentId) {
 		this.departmentId = departmentId;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getDepartmentName() {
+		return departmentName;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	
 }
 

@@ -57,7 +57,7 @@
 					class="glyphicon glyphicon-tower" aria-hidden="true"></span>部门信息</a></li>
 			<li <c:if test="${param.nav=='list_user'}"> class="current"</c:if>><a
 				data-toggle="tooltip"
-				href="<c:url value="/inner/usert/list"/>"
+				href="<c:url value="/inner/user/list"/>"
 				data-placement="auto right" title="员工信息"><span
 					class="glyphicon glyphicon-tower" aria-hidden="true"></span>员工信息</a></li>
 			<li <c:if test="${param.nav=='list_config'}"> class="current"</c:if>><a

@@ -1,5 +1,7 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.DepartmentEntity;
 import com.brp.util.query.DepartmentQuery;
 
@@ -17,5 +19,6 @@ public interface DepartmentService {
 	void updateDepartment(DepartmentEntity department);
 	DepartmentEntity getDepartmentById(Integer id);
 	boolean isExistDepartment(String departmentName, String companyId);
+	List<DepartmentEntity> getListByCompanyId(String companyId);
 }
 

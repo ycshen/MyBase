@@ -1,6 +1,7 @@
 package com.brp.controller;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,13 +76,19 @@ public class UserController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public ModelAndView addUser(String id, HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("/user/user_add");
+		ModelAndView mav = new ModelAndView();
 		DepartmentEntity department = null;
 		if(StringUtils.isNotBlank(id)){
+			mav.setViewName("/user/user_add");
 			department = departmentService.getDepartmentById(Integer.parseInt(id));
+			mav.addObject("department", department);
+		}else{
+			mav.setViewName("/user/user_edit");
+			UserEntity loginUser = UserUtils.getLoginUser(request);
+			Long companyId = loginUser.getCompanyId();
+			List<DepartmentEntity> departmentList = departmentService.getListByCompanyId(companyId.toString());
+			mav.addObject("departmentList", departmentList);
 		}
-		
-		mav.addObject("department", department);
 		
 		return mav;
 	}

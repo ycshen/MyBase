@@ -18,6 +18,9 @@
 	   id,create_user,update_user,create_time,update_time,
    		company_id,company_name,department_name,status
   </sql>
+   <sql id="base_column" >
+	   id,company_id,company_name,department_name
+  </sql>
   <insert id="insertDepartment" parameterType="com.brp.entity.DepartmentEntity" >
     insert Department
    		(create_user,update_user,create_time, update_time,
@@ -42,6 +45,13 @@
 		 </trim>
 		 
          order by create_time desc
+    </select>
+    
+    <select id="getListByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="base_column" />
+         from department
+         where company_id=#{companyId} and status=0
     </select>
 	<update id="updateDepartment" parameterType="com.brp.entity.DepartmentEntity">
 		update department set 

@@ -37,33 +37,13 @@ public class UserUtils {
 			loginUser.setUserName("申鱼川");
 			loginUser.setId(1l);
 			loginUser.setUpdateUser("申鱼川");
+			loginUser.setCompanyId(15l);
+			loginUser.setCompanyName("嘉年华");
+			request.getSession().setAttribute("loginUser", loginUser);
 		}
 		
 		return loginUser;
 	}
 	
-	/**
-	 * 获取BRP用户登录信息
-	 * @param request
-	 * @return
-	 */
-	public static BRPUserInfo getBRPUser(HttpServletRequest request){
-		BRPUserInfo user = (BRPUserInfo) request.getSession().getAttribute("brpUserInfo");
-		if(CommonUtils.getLocalEnv() && user == null){
-			//本地随便取一个
-			String token = LoggedCookie.checkTokenCookie(request);
-			if(StringUtils.isBlank(token) && CommonUtils.getLocalEnv()){
-				token = PMSApiUtils.getLocalToken();
-			}
-			String result = PMSApiUtils.getBrpUserInfo(USER_ID, token);
-            Gson gson = new Gson();
-            user = gson.fromJson(result, BRPUserInfo.class);
-            
-		}else if(user != null && Constant.ZREO.equals(user.getRolelevel())){
-        	user = null;
-        }
-		
-		return user;
-	}
 }
 

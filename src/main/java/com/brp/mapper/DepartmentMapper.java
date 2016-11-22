@@ -23,5 +23,6 @@ public interface DepartmentMapper {
 	void updateDepartment(DepartmentEntity department);
 	DepartmentEntity getDepartmentById(Integer id);
 	DepartmentEntity getDepartmentByNameAndcompanyId(@Param("departmentName")String departmentName,@Param("companyId") String companyId);
+	List<DepartmentEntity> getListByCompanyId(String companyId);
 }
 

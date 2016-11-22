@@ -77,7 +77,12 @@
          from user
          where id = #{id}
     </select>
-    
+    <select id="login" resultMap="BaseResultMap">
+         select 
+         <include refid="Base_Column_List" />
+         from user
+         where `password` = #{password} and (telphone=#{account}  or user_name =#{account} or user_code=#{account})
+    </select>
    
     
 </mapper>

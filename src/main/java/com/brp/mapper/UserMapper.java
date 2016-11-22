@@ -2,6 +2,7 @@ package com.brp.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.UserEntity;
@@ -21,6 +22,6 @@ public interface UserMapper {
 	List<UserEntity> getUserList(UserQuery userQuery);
 	void updateUser(UserEntity user);
 	UserEntity getUserById(Integer id);
-	UserEntity login(String account, String password);
+	UserEntity login(@Param("account")String account, @Param("password")String password);
 }
 

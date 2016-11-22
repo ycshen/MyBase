@@ -35,11 +35,5 @@ public class BaseController {
 		return user;
 	}
 	
-	public BRPUserInfo getBRPUserInfo(HttpServletRequest request){
-		BRPUserInfo user = UserUtils.getBRPUser(request);
-		
-		return user;
-	}
-	
 }
 

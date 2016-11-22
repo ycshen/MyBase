@@ -3,30 +3,16 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <title>用户登陆</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<jsp:include page="./share/sea-require.jsp">
-	<jsp:param name="module" value="pages/login/main" />
-</jsp:include>
-<link href="<c:url value="sea-modules/pages/login/style.css"/>" rel="stylesheet">
+
+<link href="${ctx}/js/pages/login/style.css" rel="stylesheet">
 </head>
 <body>
-
-	<!--[if lt IE 9]>
-    <div style="background:yellow;text-align:center;padding:10px;">
-        您正在使用 Internet Explorer 低版本的过时浏览器访问本页面。
-        <br />为更好的浏览本系统，建议您将浏览器升级到
-        <a href="http://windows.microsoft.com/en-US/internet-explorer/downloads/ie/" target="_blank">IE9+</a>
-        或以下浏览器：<a href="http://www.google.cn/chrome" target="_blank"> Chrome</a>
-        / <a href="http://www.firefox.com.cn/download/" target="_blank">Firefox</a>
-        / <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> / <a href="http://www.Opera.com/">Opera</a>
-        <br />如继续使用本浏览器进行访问，如给您带来生理上的不适，作者概不负责！
-    </div>
-    <![endif]-->
-
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -44,7 +30,9 @@
 			<hr />
 			<label for="inputAccount" class="sr-only">用户名</label> <input
 				type="text" id="inputAccount" name="account" class="form-control"
-				placeholder="用户名" value="${account}" required autofocus> <label
+				placeholder="用户名" value="${account}" required autofocus>
+				<br/>
+				 <label
 				for="inputPassword" class="sr-only">密码</label> <input
 				type="password" id="inputPassword" name="password"
 				class="form-control" placeholder="密码" required>
