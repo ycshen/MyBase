@@ -76,3 +76,25 @@ function isNotBlank(args){
 }
 
 
+function leaveUser(userId){
+	layer.confirm("确定把该员工置为离职状态？", function(){
+		var url = ctx + "/inner/user/delete?id=" + userId;
+		$.ajax({
+			type: 'get',
+			url: url,
+			success: function(data){
+				if(data == 2){					
+					layer.alert('操作成功', function(){
+						$("#userStatus" + userId).html("<span style=\"color:red;\">离职</span>")
+						layer.closeAll();
+					});
+				}else{
+					layer.alert("操作失败");
+				}
+			}
+		});
+	})
+	
+}
+
+

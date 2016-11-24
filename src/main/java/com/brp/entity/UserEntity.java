@@ -80,5 +80,6 @@ public class UserEntity extends BaseEntity{
 		this.userCode = userCode;
 	}
 	
+	
 }
 

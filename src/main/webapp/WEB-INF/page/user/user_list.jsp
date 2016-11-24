@@ -73,8 +73,8 @@
 							<thead>
 								<tr>
 									<th>操作</th>
-									<th>编号</th>
 									<th>员工姓名</th>
+									<th>员工状态</th>
 									<th>所属公司</th>
 									<th>所属部门</th>
 									<th>电话号码</th>
@@ -89,10 +89,22 @@
 									<tr>
 										<td style="display: none;">${user.id}</td>
 										<td>
-										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>&nbsp;&nbsp;
-										<%-- <a  href="#" onclick="viewUser('${user.id}')">详细</a></td> --%>
-										<td>${user.id }</td>
+										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>
+										
 										<td>${user.userName }</td>
+										<td id="userStatus${user.id}">
+											<c:choose>
+												<c:when test="${user.status == 100 }"><span style="color:red;">离职</span>
+												
+												</c:when>
+												<c:when test="${user.status == 102 }"><span style="color:red;">禁用</span>
+												<a  href="#" onclick="leaveUser('${user.id}')">确认离职</a>
+												</c:when>
+												<c:otherwise>在职
+												<a  href="#" onclick="leaveUser('${user.id}')">确认离职</a>
+												</c:otherwise>
+											</c:choose>
+										</td>
 										<td>${user.companyName}</td>
 										<td>${user.departmentName}</td>
 										<td>${user.telphone}</td>

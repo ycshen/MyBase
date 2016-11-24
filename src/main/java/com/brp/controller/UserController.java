@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.base.ResponseStatus;
+import com.brp.base.UserStatus;
 import com.brp.entity.Constant;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
@@ -50,6 +52,7 @@ public class UserController {
 			user.setCreateUser(loginUser.getUserName());
 			String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
 			user.setPassword(initPass);
+			user.setStatus(UserStatus.NORMAL_INT);
 			userService.insertUser(user);
 			result = 1;
 		}else{
@@ -126,6 +129,21 @@ public class UserController {
 		}
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer deleteUser(String id, HttpServletRequest request){
+		UserEntity loginUser = UserUtils.getLoginUser(request);
+		if(StringUtils.isNotBlank(id)){
+			UserEntity user = userService.getUserById(Integer.parseInt(id));
+			user.setUpdateTime(new Date());
+			user.setUpdateUser(loginUser.getUserName());
+			user.setStatus(UserStatus.LEAVE_INT);
+			userService.updateUser(user);
+		}
+			
+		return ResponseStatus.UPDATE_SUCCESS;
 	}
 }
 

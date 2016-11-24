@@ -71,8 +71,18 @@
 		<if test="updateTime != null">
 		update_time=#{updateTime,jdbcType=TIMESTAMP},
 		</if>
+		<if test="status != null">
+		status=#{status,jdbcType=INTEGER},
+		</if>
 		id=#{id}
 		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	<update id="deleteUserById" parameterType="java.lang.String">
+		update user set 
+		status=100
+		where id=#{id} limit 1;
 		 
 		 
 	</update>
