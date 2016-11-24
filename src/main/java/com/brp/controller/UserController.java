@@ -131,6 +131,21 @@ public class UserController {
 		return result;
 	}
 	
+	@RequestMapping(value = "/leave", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer leave(String id, HttpServletRequest request){
+		UserEntity loginUser = UserUtils.getLoginUser(request);
+		if(StringUtils.isNotBlank(id)){
+			UserEntity user = userService.getUserById(Integer.parseInt(id));
+			user.setUpdateTime(new Date());
+			user.setUpdateUser(loginUser.getUserName());
+			user.setStatus(UserStatus.LEAVE_INT);
+			userService.updateUser(user);
+		}
+			
+		return ResponseStatus.UPDATE_SUCCESS;
+	}
+	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@ResponseBody
 	public Integer deleteUser(String id, HttpServletRequest request){
@@ -139,7 +154,7 @@ public class UserController {
 			UserEntity user = userService.getUserById(Integer.parseInt(id));
 			user.setUpdateTime(new Date());
 			user.setUpdateUser(loginUser.getUserName());
-			user.setStatus(UserStatus.LEAVE_INT);
+			user.setStatus(UserStatus.FORBIDDEN_INT);
 			userService.updateUser(user);
 		}
 			

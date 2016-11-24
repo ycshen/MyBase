@@ -91,14 +91,14 @@
 										<td>
 										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>
 										
+										<a  href="#" onclick="deleteUser('${user.id}')">删除</a>
 										<td>${user.userName }</td>
 										<td id="userStatus${user.id}">
 											<c:choose>
 												<c:when test="${user.status == 100 }"><span style="color:red;">离职</span>
 												
 												</c:when>
-												<c:when test="${user.status == 102 }"><span style="color:red;">禁用</span>
-												<a  href="#" onclick="leaveUser('${user.id}')">确认离职</a>
+												<c:when test="${user.status == 102 }"><span style="color:green;">禁用</span>
 												</c:when>
 												<c:otherwise>在职
 												<a  href="#" onclick="leaveUser('${user.id}')">确认离职</a>
@@ -113,7 +113,9 @@
 											<f:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
 										</td>
 										<td>${user.updateUser}</td>
-										<td<f:formatDate value="${user.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										<td>
+										<f:formatDate value="${user.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" />
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>

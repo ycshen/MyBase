@@ -78,7 +78,7 @@ function isNotBlank(args){
 
 function leaveUser(userId){
 	layer.confirm("确定把该员工置为离职状态？", function(){
-		var url = ctx + "/inner/user/delete?id=" + userId;
+		var url = ctx + "/inner/user/leave?id=" + userId;
 		$.ajax({
 			type: 'get',
 			url: url,
@@ -86,6 +86,27 @@ function leaveUser(userId){
 				if(data == 2){					
 					layer.alert('操作成功', function(){
 						$("#userStatus" + userId).html("<span style=\"color:red;\">离职</span>")
+						layer.closeAll();
+					});
+				}else{
+					layer.alert("操作失败");
+				}
+			}
+		});
+	})
+	
+}
+
+function deleteUser(userId){
+	layer.confirm("确定删除该员工吗？", function(){
+		var url = ctx + "/inner/user/delete?id=" + userId;
+		$.ajax({
+			type: 'get',
+			url: url,
+			success: function(data){
+				if(data == 2){					
+					layer.alert('操作成功', function(){
+						$("#userStatus" + userId).html("<span style=\"color:green;\">禁用</span>")
 						layer.closeAll();
 					});
 				}else{
