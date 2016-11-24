@@ -19,7 +19,7 @@ import com.brp.util.query.UserQuery;
 @Repository
 public interface UserMapper {
 	void insertUser(UserEntity user);
-	List<UserEntity> getUserList(UserQuery userQuery);
+	List<UserEntity> getUserPage(UserQuery userQuery);
 	void updateUser(UserEntity user);
 	UserEntity getUserById(Integer id);
 	UserEntity login(@Param("account")String account, @Param("password")String password);

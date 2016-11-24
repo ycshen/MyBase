@@ -29,7 +29,7 @@ public class ConfigServiceImpl implements ConfigService{
 	
 	@Override
 	public ConfigQuery getConfigList(ConfigQuery configQuery) {
-		List<ConfigEntity> list = configMapper.getConfigList(configQuery);
+		List<ConfigEntity> list = configMapper.getConfigPage(configQuery);
 		if(list != null && list.size() > 0){
 			configQuery.setItems(list);
 		}

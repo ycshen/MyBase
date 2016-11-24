@@ -17,7 +17,7 @@ import com.brp.service.CompanyService;
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-@Controller("/out")
+@Controller
 public class CompanyApi {
 	/*@Autowired
 	private CompanyService companyService;

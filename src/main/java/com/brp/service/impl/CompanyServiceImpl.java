@@ -29,7 +29,7 @@ public class CompanyServiceImpl implements CompanyService{
 	
 	@Override
 	public CompanyQuery getCompanyList(CompanyQuery companyQuery) {
-		List<CompanyEntity> list = companyMapper.getCompanyList(companyQuery);
+		List<CompanyEntity> list = companyMapper.getCompanyPage(companyQuery);
 		if(list != null && list.size() > 0){
 			companyQuery.setItems(list);
 		}

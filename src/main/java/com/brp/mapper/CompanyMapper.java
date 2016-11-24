@@ -18,7 +18,7 @@ import com.brp.util.query.CompanyQuery;
 @Repository
 public interface CompanyMapper {
 	void insertCompany(CompanyEntity company);
-	List<CompanyEntity> getCompanyList(CompanyQuery companyQuery);
+	List<CompanyEntity> getCompanyPage(CompanyQuery companyQuery);
 	void updateCompany(CompanyEntity company);
 	CompanyEntity getCompanyById(Integer id);
 }

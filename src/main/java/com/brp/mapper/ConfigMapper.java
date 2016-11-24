@@ -18,7 +18,7 @@ import com.brp.util.query.ConfigQuery;
 @Repository
 public interface ConfigMapper {
 	void insertConfig(ConfigEntity config);
-	List<ConfigEntity> getConfigList(ConfigQuery ConfigQuery);
+	List<ConfigEntity> getConfigPage(ConfigQuery ConfigQuery);
 	void updateConfig(ConfigEntity Config);
 	ConfigEntity getConfigById(Integer id);
 	List<ConfigEntity> getConfigListByCode(String code);

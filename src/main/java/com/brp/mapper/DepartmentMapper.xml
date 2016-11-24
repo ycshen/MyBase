@@ -29,7 +29,7 @@
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
   </insert>
-  <select id="getDepartmentList" resultMap="BaseResultMap" parameterType="com.brp.util.query.DepartmentQuery" >
+  <select id="getDepartmentPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.DepartmentQuery" >
          select 
          <include refid="Base_Column_List" />
          from department

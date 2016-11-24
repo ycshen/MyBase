@@ -38,7 +38,7 @@
     	#{userName,jdbcType=VARCHAR},#{telphone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{userCode,jdbcType=VARCHAR}
     	)
   </insert>
-  <select id="getUserList" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" >
+  <select id="getUserPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" >
          select 
          <include refid="Base_Column_List" />
          from user
@@ -55,7 +55,7 @@
 		      </if>
 		 </trim>
 		 
-         order by create_time desc
+         order by create_time desc 
     </select>
 	<update id="updateUser" parameterType="com.brp.entity.UserEntity">
 		update user set 

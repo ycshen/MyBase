@@ -26,7 +26,7 @@
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{key,jdbcType=VARCHAR},#{value,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR})
   </insert>
-  <select id="getConfigList" resultMap="BaseResultMap" parameterType="com.brp.util.query.ConfigQuery" >
+  <select id="getConfigPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.ConfigQuery" >
          select 
          <include refid="Base_Column_List" />
          from config

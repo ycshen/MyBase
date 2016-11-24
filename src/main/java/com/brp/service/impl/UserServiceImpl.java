@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserQuery getUserList(UserQuery userQuery) {
-		List<UserEntity> list = userMapper.getUserList(userQuery);
+		List<UserEntity> list = userMapper.getUserPage(userQuery);
 		userQuery.setItems(list);
 		
 		return userQuery;

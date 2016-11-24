@@ -19,7 +19,7 @@ import com.brp.util.query.DepartmentQuery;
 @Repository
 public interface DepartmentMapper {
 	void insertDepartment(DepartmentEntity department);
-	List<DepartmentEntity> getDepartmentList(DepartmentQuery departmentQuery);
+	List<DepartmentEntity> getDepartmentPage(DepartmentQuery departmentQuery);
 	void updateDepartment(DepartmentEntity department);
 	DepartmentEntity getDepartmentById(Integer id);
 	DepartmentEntity getDepartmentByNameAndcompanyId(@Param("departmentName")String departmentName,@Param("companyId") String companyId);

@@ -73,6 +73,7 @@
 							<thead>
 								<tr>
 									<th>操作</th>
+									<th>编号</th>
 									<th>员工姓名</th>
 									<th>所属公司</th>
 									<th>所属部门</th>
@@ -90,6 +91,7 @@
 										<td>
 										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>&nbsp;&nbsp;
 										<%-- <a  href="#" onclick="viewUser('${user.id}')">详细</a></td> --%>
+										<td>${user.id }</td>
 										<td>${user.userName }</td>
 										<td>${user.companyName}</td>
 										<td>${user.departmentName}</td>

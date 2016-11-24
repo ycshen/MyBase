@@ -29,7 +29,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 	
 	@Override
 	public DepartmentQuery getDepartmentList(DepartmentQuery departmentQuery) {
-		List<DepartmentEntity> list = departmentMapper.getDepartmentList(departmentQuery);
+		List<DepartmentEntity> list = departmentMapper.getDepartmentPage(departmentQuery);
 		if(list != null && list.size() > 0){
 			departmentQuery.setItems(list);
 		}

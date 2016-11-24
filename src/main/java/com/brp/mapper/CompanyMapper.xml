@@ -34,7 +34,7 @@
     	#{companyName,jdbcType=VARCHAR},#{companyTelephone,jdbcType=VARCHAR},#{companyCeo,jdbcType=VARCHAR},#{companySite,jdbcType=VARCHAR},#{companyAddress,jdbcType=VARCHAR},
     	#{level,jdbcType=INTEGER},#{parentCompanyId,jdbcType=INTEGER},#{parentCompanyName,jdbcType=VARCHAR})
   </insert>
-  <select id="getCompanyList" resultMap="BaseResultMap" parameterType="com.brp.util.query.CompanyQuery" >
+  <select id="getCompanyPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.CompanyQuery" >
          select 
          <include refid="Base_Column_List" />
          from company

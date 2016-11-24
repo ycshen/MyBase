@@ -35,6 +35,7 @@
 <%=totalCount%>-<%=currPage%>-<%=pageSize%>=<%=totalPage%>
  -->
 <ul class="pagination">
+	<li><a href="#" style="cursor:not-allowed;">总计<%= totalCount%>条</a></li>
 	<li <%=isFirstPage ? "class='disabled'" : ""%>><a
 		href="<%=isFirstPage ? "#" : (url + 1)%>" aria-label="First"><span
 			aria-hidden="true">&laquo;</span></a></li>
@@ -58,4 +59,5 @@
 		href="<%=isLastPage ? "#" : (url + totalPage)%>" aria-label="Last">
 			<span aria-hidden="true">&raquo;</span>
 	</a></li>
+	<li><a href="#" style="cursor:not-allowed;">共<%= totalPage%>页</a></li>
 </ul>
