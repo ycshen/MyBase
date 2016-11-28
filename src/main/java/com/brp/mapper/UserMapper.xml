@@ -74,6 +74,20 @@
 		<if test="status != null">
 		status=#{status,jdbcType=INTEGER},
 		</if>
+		<if test="departmentName != null">
+		department_name=#{departmentName,jdbcType=INTEGER},
+		</if>
+		<if test="departmentId != null">
+		department_id=#{departmentId,jdbcType=INTEGER},
+		</if>
+		<if test="userName != null">
+		user_name=#{userName,jdbcType=INTEGER},
+		</if>
+		<if test="telphone != null">
+		telphone=#{telphone,jdbcType=INTEGER},
+		</if>
+		
+		
 		id=#{id}
 		 where id=#{id} limit 1;
 		 
@@ -102,7 +116,7 @@
          select 
          <include refid="Base_Column_List" />
          from user
-         where  telphone=#{telphone} and department_id = #{departmentId} limit 1
+         where  telphone=#{telphone} and department_id = #{departmentId} and status != 102 limit 1
     </select>
     
    

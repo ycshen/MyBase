@@ -18,14 +18,15 @@
 	<div class="container">
 		<table class="table">
 	<form method="post" id="userForm">
-			<input type="hidden" value="${loginUser.companyId}" name="companyId"/>
+		<input type="hidden" value="${user.id}" name="id"/>
+			<input type="hidden" value="${user.companyId}" name="companyId"/>
 			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>公司名称：</label>
 				</td>
 				<td style="border:0px;">
 					<input name="companyName" id="txtcompanyName"
-							value="${loginUser.companyName}" maxlength="20"
+							value="${user.companyName}" maxlength="20"
 							class="form-control" type="text"
 							style="width: 300px;" readonly="readonly">
 				</td>
@@ -36,15 +37,22 @@
 				</td>
 				<td style="border:0px;">
 					<input name="departmentName" id="txtdepartmentName"
-							value="${department.departmentName}" maxlength="20"
+							value="${user.departmentName}" maxlength="20"
 							class="form-control" type="hidden" 
 							style="width: 300px;" > 
 					<select class="form-control" style="width: 300px;" name="departmentId">
 						<option value="">请选择部门信息</option>
 						<c:if test="${departmentList != null && departmentList.size() > 0 }">
 							<c:forEach items="${departmentList }" var="department">
+								<c:choose>
+									<c:when test="${department.id == user.departmentId}">
+										<option value="${department.id}" selected="selected">${department.departmentName}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${department.id}">${department.departmentName}</option>
+									</c:otherwise>
+								</c:choose>
 								
-								<option value="${department.id}">${department.departmentName}</option>
 							</c:forEach>
 						</c:if>
 					</select>
@@ -58,7 +66,7 @@
 					<input name="userName" id="txtuserName"
 							 maxlength="20"
 							class="form-control" type="text" placeholder="请输入用户名"
-							style="width: 300px;">
+							style="width: 300px;" value="${user.userName}">
 				</td>
 			</tr>
 			<tr>
@@ -69,7 +77,7 @@
 					<input name="telphone" id="txtTelphone"
 							 maxlength="20"
 							class="form-control" type="text" placeholder="请输入联系电话"
-							style="width: 300px;">
+							style="width: 300px;" value="${user.telphone}">
 				</td>
 			</tr>
 			

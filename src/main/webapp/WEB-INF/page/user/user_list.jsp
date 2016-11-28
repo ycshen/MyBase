@@ -55,7 +55,7 @@
 									
 									<td style="border:0px">
 									<button class="btn " onclick="queryUser('${userQuery.page}')">查询</button>
-									<button class="btn " onclick="addUser()">新增</button>
+								<!-- 	<button class="btn " onclick="addUser()">新增</button> -->
 									</td>
 								</tr>
 							</table>
@@ -89,9 +89,15 @@
 									<tr>
 										<td style="display: none;">${user.id}</td>
 										<td>
-										<a  href="#" onclick="modifyUser('${user.id}')">修改</a>
 										
-										<a  href="#" onclick="deleteUser('${user.id}')">删除</a>
+										<c:if test="${user.status == 101}">
+											<a  href="#" onclick="modifyUser('${user.id}')">修改</a>
+										
+										</c:if>
+										<c:if test="${user.status != 102}">
+											<a  href="#" onclick="deleteUser('${user.id}')">删除</a>
+										</c:if>
+										
 										<td>${user.userName }</td>
 										<td id="userStatus${user.id}">
 											<c:choose>

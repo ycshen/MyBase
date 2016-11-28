@@ -69,11 +69,15 @@ public class UserController {
 	public ModelAndView editUser(String id, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/user/user_edit");
 		UserEntity user = null;
+		List<DepartmentEntity> departmentList = null;
 		if(StringUtils.isNotBlank(id)){
 			user = userService.getUserById(Integer.parseInt(id));
+			Long companyId = user.getCompanyId();
+			departmentList = departmentService.getListByCompanyId(companyId.toString());
 		}
 		
 		mav.addObject("user", user);
+		mav.addObject("departmentList", departmentList);
 		
 		return mav;
 	}
