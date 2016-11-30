@@ -41,13 +41,13 @@ function viewDepartment(id){
 		title: '查看部门详细信息',
 		shadeClose: true,
 		shade: 0.8,
-		area: ['800px', '600px'],
+		area: ['1000px', '600px'],
 		content: url
 	});
 }
 
 function addSuccess(){
-	window.location.href = ctx + "/inner/config/list";
+	window.location.href = ctx + "/inner/department/list";
 }
 
 function queryDepartment(page){

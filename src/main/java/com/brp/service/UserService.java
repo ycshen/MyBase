@@ -23,5 +23,6 @@ public interface UserService {
 	UserEntity login(String account, String password);
 	boolean isExistTelphone(String departmentId, String telphone);
 	void deleteUserById(String id);
+	List<UserEntity> getUserPage(UserQuery userQuery);
 }
 

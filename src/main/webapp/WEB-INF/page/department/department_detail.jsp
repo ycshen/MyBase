@@ -9,7 +9,10 @@
 <title>部门详细信息</title>
 
 <link href="${ctx}/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${ctx}/js/pagination/pagination.css" rel="stylesheet">
 <link href="${ctx}/css/common.css" rel="stylesheet">
+<script type="text/javascript" src="${ctx}/js/jquery.js"></script>
+<script type="text/javascript" src="${ctx}/js/pagination/jquery.pagination.js"></script>
 <script type="text/javascript">
 	var ctx = "${pageContext.request.contextPath}";
 </script>
@@ -27,10 +30,6 @@
 				<a href="#userInfo" data-toggle="tab">
 					部门员工信息
 				</a>
-			</li>
-	
-			<li>
-				<a href="#userInfoTree" data-toggle="tab">部门员工树形信息</a>
 			</li>
 		</ul>
 		<div id="myTabContent" class="tab-content">
@@ -58,15 +57,11 @@
 				</table>
 			</div>
 			<div class="tab-pane fade" id="userInfo">
-				<%@include file="./department_user_list.jsp" %>
-			</div>
-			<div class="tab-pane fade" id="userInfoTree">
-				3
+				<%@include file="department_user_list.jsp" %>
 			</div>
 			
 		</div>
 </div>
-<script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>

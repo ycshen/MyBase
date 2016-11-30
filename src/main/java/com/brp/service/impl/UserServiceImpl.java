@@ -66,6 +66,13 @@ public class UserServiceImpl implements UserService{
 	public void deleteUserById(String id) {
 		userMapper.deleteUserById(id);
 	}
+
+	@Override
+	public List<UserEntity> getUserPage(UserQuery userQuery) {
+		List<UserEntity> list = userMapper.getUserPage(userQuery);
+		
+		return list;
+	}
 	
 }
 

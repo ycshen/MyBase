@@ -24,6 +24,7 @@ import com.brp.service.DepartmentService;
 import com.brp.service.UserService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.UserQuery;
+import com.google.gson.Gson;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -121,6 +122,18 @@ public class UserController {
 		mav.addObject("userQuery", userQuery);
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/getUserListByDepartmentId", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String getUserListByDepartmentId(@ModelAttribute UserQuery userQuery, HttpServletRequest request){
+		String result = StringUtils.EMPTY;
+		List<UserEntity> list = userService.getUserPage(userQuery);
+		if(list != null && list.size() > 0){
+			result = new Gson().toJson(list);
+		}
+		
+		return result;
 	}
 	
 	@RequestMapping(value = "/isExistTelphone", method = RequestMethod.GET)
