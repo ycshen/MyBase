@@ -1,12 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <script type="text/javascript">
 	$(function(){
-		/* var tableHead = getHead();
-		
-		$("#s_currentPage").html($("#page").val());
-		$("#s_count").html($("#count").val());
-		$("#s_pageCount").html($("#pageCount").val());
-		getJsonData(departmentId, 1); */
+
 		var count = $("#count").val();
 		$(".pagination").pagination(count, {
 		    num_edge_entries: 5,

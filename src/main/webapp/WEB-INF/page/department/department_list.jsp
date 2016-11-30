@@ -86,7 +86,7 @@
 										<td style="display: none;">${department.id}</td>
 										<td>
 										<a href="#" onclick="addUser('${department.id}')">添加员工</a>&nbsp;&nbsp;
-										<a  href="#" onclick="modifydepartment('${department.id}')">修改</a>&nbsp;&nbsp;
+										<a  href="#" onclick="modifyDepartment('${department.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="viewDepartment('${department.id}')">详细</a></td>
 										<td>${department.departmentName }</td>
 										<td>${department.companyName}</td>
@@ -95,7 +95,7 @@
 										<f:formatDate value="${department.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
 										</td>
 										<td>${department.updateUser}</td>
-										<td<f:formatDate value="${department.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+										<td><f:formatDate value="${department.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 									</tr>
 								</c:forEach>
 							</tbody>

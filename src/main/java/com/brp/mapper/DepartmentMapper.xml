@@ -67,6 +67,9 @@
 		<if test="updateTime != null">
 		update_time=#{updateTime,jdbcType=TIMESTAMP},
 		</if>
+		<if test="departmentName != null">
+		department_name=#{departmentName,jdbcType=VARCHAR},
+		</if>
 		id=#{id}
 		 where id=#{id} limit 1;
 		 

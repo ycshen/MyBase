@@ -39,7 +39,7 @@
 				</td>
 				<td style="border:0px;">
 					<input name="departmentName" id="txtdepartmentName"
-							value="${department.departmentName}" maxlength="20"
+							value="${department.departmentName}" maxlength="10"
 							class="form-control" type="text" placeholder="请输入部门名称"
 							style="width: 300px;">
 				</td>

@@ -11,33 +11,15 @@ function isBlank(args){
 	
 	return result;
 }
-function editConfig(){
-	var txtkey = $("#txtkey").val();
-	if(isBlank(txtkey)){
-		layer.alert("键不能为空");
+function editDepartment(){
+	var txtdepartmentName = $("#txtdepartmentName").val();
+	if(isBlank(txtdepartmentName)){
+		layer.alert("部门名称为空");
 		return;
 	}
 	
-	var txtvalue = $("#txtvalue").val();
-	if(isBlank(txtvalue)){
-		layer.alert("值不能为空");
-		return;
-	}
-	
-	var txtcode = $("#txtcode").val();
-	if(isBlank(txtcode)){
-		layer.alert("键值编码不能为空");
-		return;
-	}
-	
-	var txtremark = $("#txtremark").val();
-	if(isBlank(txtremark)){
-		layer.alert("备注不能为空");
-		return;
-	}
-	
-	var url = ctx + "/inner/config/saveOrUpdate";
-	var data = $('#configForm').serialize();
+	var url = ctx + "/inner/department/saveOrUpdate";
+	var data = $('#departmentForm').serialize();
 	$.ajax({
         cache: true,
         type: "POST",

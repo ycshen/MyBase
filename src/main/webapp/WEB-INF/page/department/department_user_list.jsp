@@ -54,8 +54,7 @@
 						<nav class="text-center">
 							<%@include file="department_user_list_page.jsp" %>
 							<input type="hidden" value="${userQuery.count}" id="count"/>
-							<input type="hidden" value="${userQuery.page}" id="page"/>
-							<input type="hidden" value="${userQuery.pageCount}" id="pageCount"/>
+							
 							<input type="hidden" value="${userQuery.departmentId}" id="txtDepartmentId"/>
 						</nav>
 					</div>
