@@ -103,5 +103,18 @@ public class ConfigController extends BaseController{
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@ResponseBody
+	public void delete(String id, HttpServletRequest request){
+		UserEntity user = UserUtils.getLoginUser(request);
+		if(StringUtils.isNotBlank(id)){
+			ConfigEntity config = configService.getConfigById(Integer.parseInt(id));
+			config.setUpdateTime(new Date());
+			config.setUpdateUser(user.getUserName());
+			config.setIsDelete(1);
+			configService.updateConfig(config);
+		}
+	}
 }
 

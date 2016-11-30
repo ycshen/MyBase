@@ -12,11 +12,12 @@
     <result column="value" property="value" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
   </resultMap> 
      
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
-   	   `key`,`value`,remark,`code`
+   	   `key`,`value`,remark,`code`,is_delete
   </sql>
   <insert id="insertConfig" parameterType="com.brp.entity.ConfigEntity" >
     insert config
@@ -39,7 +40,7 @@
 		       and `key` = #{key}
 		      </if>
 		 </trim>
-		 
+		 and is_delete = 0
          order by create_time desc
     </select>
     
@@ -47,7 +48,7 @@
          select 
          <include refid="Base_Column_List" />
          from config
-         where `code` = #{code}
+         where `code` = #{code} and is_delete = 0
          order by `value` asc
     </select>
 	
@@ -55,11 +56,19 @@
          select 
          <include refid="Base_Column_List" />
          from config
-         where id = #{id}
+         where id = #{id} and is_delete = 0
     </select>
     
     
-    
+    <update id="deleteConfigById" parameterType="java.lang.String">
+		update config set 
+		
+		is_delete = 1
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	
    <update id="updateConfig" parameterType="com.brp.entity.ConfigEntity">
 		update config set 
 		<if test="createUser != null">
@@ -86,6 +95,9 @@
 		</if>
 		<if test="remark != null">
       	 remark=#{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="isDelete != null">
+      	 is_delete=#{isDelete,jdbcType=VARCHAR},
 		</if>
 		
 		id=#{id}

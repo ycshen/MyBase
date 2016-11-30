@@ -19,5 +19,6 @@ public interface ConfigService {
 	void updateConfig(ConfigEntity config);
 	ConfigEntity getConfigById(Integer id);
 	List<ConfigEntity> getConfigListByCode(String code);
+	void deleteConfigById(String id);
 }
 

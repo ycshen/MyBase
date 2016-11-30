@@ -12,6 +12,7 @@ public class ConfigEntity extends BaseEntity{
 	private String value;
 	private String remark;
 	private String code;
+	private Integer isDelete;
 	public String getKey() {
 		return key;
 	}
@@ -35,6 +36,12 @@ public class ConfigEntity extends BaseEntity{
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
 	}
 }
 

@@ -22,5 +22,6 @@ public interface ConfigMapper {
 	void updateConfig(ConfigEntity Config);
 	ConfigEntity getConfigById(Integer id);
 	List<ConfigEntity> getConfigListByCode(String code);
+	void deleteConfigById(String id);
 }
 

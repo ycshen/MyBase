@@ -87,7 +87,8 @@
 										<td style="display: none;">${config.id}</td>
 										<td><a href="#" onclick="addSameConfig('${config.id}')">新增同类</a>&nbsp;&nbsp;
 										<a  href="#" onclick="modifyConfig('${config.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewConfig('${config.id}')">详细</a></td>
+										<a  href="#" onclick="viewConfig('${config.id}')">详细</a>&nbsp;&nbsp;
+										<a  href="#" onclick="deleteConfig('${config.id}')">删除</a></td>
 										<td>${config.key }</td>
 										<td>${config.value}</td>
 										<td>${config.code}</td>

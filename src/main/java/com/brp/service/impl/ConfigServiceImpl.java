@@ -55,5 +55,10 @@ public class ConfigServiceImpl implements ConfigService{
 		
 		return list;
 	}
+
+	@Override
+	public void deleteConfigById(String id) {
+		configMapper.deleteConfigById(id);
+	}
 }
 

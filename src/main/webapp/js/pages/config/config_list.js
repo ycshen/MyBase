@@ -46,6 +46,22 @@ function viewConfig(id){
 	});
 }
 
+function deleteConfig(id){
+	layer.confirm("确定删除该配置信息？", function(){
+		var url = ctx + "/inner/config/delete?id=" + id;
+		$.ajax({
+	        type: "get",
+	        url: url,
+	        success: function() {
+	        	layer.alert('删除成功', function(index){
+	      		  window.location.reload();
+	    		});
+	        }
+	    });
+	})
+	
+}
+
 function addSuccess(){
 	window.location.href = ctx + "/inner/config/list";
 }
