@@ -96,7 +96,20 @@ public class DepartmentController extends BaseController{
 		return mav;
 	}
 	
-	
+	@RequestMapping(value = "/addSub", method = RequestMethod.GET)
+	public ModelAndView addSubDepartment(String id, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/department/department_add");
+		if(StringUtils.isNotBlank(id)){
+			DepartmentEntity department = departmentService.getDepartmentById(Integer.parseInt(id));
+			CompanyEntity company = companyService.getCompanyById(department.getCompanyId());
+			mav.addObject("company", company);
+			mav.addObject("parentDepartment", department);
+		}
+		
+		
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public ModelAndView viewDepartment(String id, UserQuery userQuery, HttpServletRequest request){

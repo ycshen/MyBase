@@ -87,7 +87,8 @@
 										<td>
 										<a href="#" onclick="addUser('${department.id}')">添加员工</a>&nbsp;&nbsp;
 										<a  href="#" onclick="modifyDepartment('${department.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewDepartment('${department.id}')">详细</a></td>
+										<a  href="#" onclick="viewDepartment('${department.id}')">详细</a>&nbsp;&nbsp;
+										<a  href="#" onclick="addSubDepartment('${department.id}')">添加下级部门</a></td>
 										<td>${department.departmentName }</td>
 										<td>${department.companyName}</td>
 										<td>${department.createUser}</td>

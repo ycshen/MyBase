@@ -42,7 +42,8 @@
 								<tr style="border:0px">
 									<td style="border:0px">
 									<div class="form-group">
-										<label for="provinceSelect">企业会员级别</label> <select
+										<label for="provinceSelect">企业会员级别</label> 
+										<select
 											class="form-control" id="levelSelect">
 											<option value="">请选择会员级别</option>
 											<c:if

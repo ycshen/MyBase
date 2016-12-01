@@ -19,6 +19,7 @@
 		<table class="table">
 	<form method="post" id="departmentForm">
 			<input type="hidden" value="${company.id}" name="companyId"/>
+			<input type="hidden" value="${parentDepartment.id}" name="parentDepartmentId"/>
 			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>公司名称：</label>
@@ -30,6 +31,20 @@
 							style="width: 300px;" readonly="readonly">
 				</td>
 			</tr>
+			<c:if test="${parentDepartment.id != null}">
+				<tr>
+				<td style="border:0px;text-align:right;">
+					<label ><span style="color:red;">*</span>上级部门：</label>
+				</td>
+				<td style="border:0px;">
+					<input id="txtParentDepartmentName"
+							value="${parentDepartment.departmentName}" maxlength="20"
+							class="form-control" type="text"
+							style="width: 300px;" readonly="readonly">
+				</td>
+			</tr>
+			</c:if>
+			
 			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>部门名称：</label>

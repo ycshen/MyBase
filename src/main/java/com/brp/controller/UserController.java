@@ -89,8 +89,14 @@ public class UserController {
 		DepartmentEntity department = null;
 		if(StringUtils.isNotBlank(id)){
 			mav.setViewName("/user/user_add");
-			department = departmentService.getDepartmentById(Integer.parseInt(id));
+			List<DepartmentEntity> departmentList = departmentService.getDepartmentByParentId(id);
 			mav.addObject("department", department);
+			if(departmentList != null && departmentList.size() > 0){
+				mav.addObject("departmentList", departmentList);
+			}else{
+				department = departmentService.getDepartmentById(Integer.parseInt(id));
+				mav.addObject("department", department);
+			}
 		}else{
 			mav.setViewName("/user/user_edit");
 			UserEntity loginUser = UserUtils.getLoginUser(request);

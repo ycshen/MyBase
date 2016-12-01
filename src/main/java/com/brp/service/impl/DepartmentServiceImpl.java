@@ -63,5 +63,12 @@ public class DepartmentServiceImpl implements DepartmentService{
 	public List<DepartmentEntity> getListByCompanyId(String companyId) {
 		return departmentMapper.getListByCompanyId(companyId);
 	}
+
+	@Override
+	public List<DepartmentEntity> getDepartmentByParentId(
+			String parentDepartmentId) {
+		// TODO Auto-generated method stub
+		return departmentMapper.getDepartmentByParentId(parentDepartmentId);
+	}
 }
 

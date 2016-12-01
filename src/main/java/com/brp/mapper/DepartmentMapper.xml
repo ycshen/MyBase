@@ -12,6 +12,7 @@
     <result column="company_name" property="companyName" jdbcType="VARCHAR" />
     <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="parent_department_id" property="parentDepartmentId" jdbcType="INTEGER" />
   </resultMap> 
      
   <sql id="Base_Column_List" >
@@ -24,10 +25,12 @@
   <insert id="insertDepartment" parameterType="com.brp.entity.DepartmentEntity" >
     insert Department
    		(create_user,update_user,create_time, update_time,
-   		company_id,company_name,department_name,status) 
+   		company_id,company_name,department_name,status,
+   		parent_department_id) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
-    	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR})
+    	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},
+    	#{parentDepartmentId,jdbcType=INTEGER})
   </insert>
   <select id="getDepartmentPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.DepartmentQuery" >
          select 
@@ -88,5 +91,10 @@
          from department
          where company_id = #{companyId} and department_name = #{departmentName} and status = 0
     </select>
-    
+    <select id="getDepartmentByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from department
+         where parent_department_id = #{parentDepartmentId} and status=0
+    </select>
 </mapper>

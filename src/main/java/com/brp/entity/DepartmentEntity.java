@@ -12,6 +12,7 @@ public class DepartmentEntity extends BaseEntity{
 	private String companyName;
 	private String departmentName;
 	private Integer status;
+	private Long parentDepartmentId;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -36,5 +37,12 @@ public class DepartmentEntity extends BaseEntity{
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+	public Long getParentDepartmentId() {
+		return parentDepartmentId;
+	}
+	public void setParentDepartmentId(Long parentDepartmentId) {
+		this.parentDepartmentId = parentDepartmentId;
+	}
+	
 }
 

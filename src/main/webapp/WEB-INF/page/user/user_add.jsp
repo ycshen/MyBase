@@ -18,17 +18,42 @@
 	<div class="container">
 		<table class="table">
 	<form method="post" id="userForm">
-			<input type="hidden" value="${department.companyId}" name="companyId"/>
+			<c:choose>
+				<c:when test="${departmentList != null && departmentList.size() > 0}">
+					<input type="hidden" value="${departmentList.get(0).companyId}" name="companyId"/>
+					<input type="hidden" value="${departmentList.get(0).id}" name="departmentId"/>
+					
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" value="${department.companyId}" name="companyId"/>
 			<input type="hidden" value="${department.id}" name="departmentId"/>
+				</c:otherwise>
+			</c:choose>
+			
 			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>公司名称：</label>
 				</td>
+				
+				
 				<td style="border:0px;">
-					<input name="companyName" id="txtcompanyName"
+				
+					<c:choose>
+						<c:when test="${departmentList != null && departmentList.size() > 0}">
+						<input name="companyName" id="txtcompanyName"
+							value="${departmentList.get(0).companyName}" maxlength="20"
+							class="form-control" type="text"
+							style="width: 300px;" readonly="readonly">
+							
+						</c:when>
+						<c:otherwise>
+							<input name="companyName" id="txtcompanyName"
 							value="${department.companyName}" maxlength="20"
 							class="form-control" type="text"
 							style="width: 300px;" readonly="readonly">
+						</c:otherwise>
+					</c:choose>
+					
 				</td>
 			</tr>
 			<tr>
@@ -36,10 +61,27 @@
 					<label ><span style="color:red;">*</span>部门名称：</label>
 				</td>
 				<td style="border:0px;">
-					<input name="departmentName" id="txtdepartmentName"
+					<c:choose>
+						<c:when test="${departmentList != null && departmentList.size() > 0}">
+						<select class="form-control" id="levelSelect" name="departmentName" style="width: 300px;">
+							<option value="">请选择部门</option>
+							<c:forEach items="${departmentList}" var="department">
+									<option  value="${department.id}">${department.departmentName}</option>
+								</c:forEach>
+
+							
+						</select>
+						
+							
+						</c:when>
+						<c:otherwise>
+							<input name="departmentName" id="txtdepartmentName"
 							value="${department.departmentName}" maxlength="20"
 							class="form-control" type="text" placeholder="请输入部门名称"
 							style="width: 300px;" readonly="readonly">
+						</c:otherwise>
+					</c:choose>
+					
 				</td>
 			</tr>
 			<tr>
@@ -59,7 +101,7 @@
 				</td>
 				<td style="border:0px;">
 					<input name="telphone" id="txttelphone"
-							 maxlength="20"
+							 maxlength="11"
 							class="form-control" type="text" placeholder="请输入联系电话"
 							style="width: 300px;">
 				</td>
