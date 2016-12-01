@@ -21,7 +21,7 @@
 			<c:choose>
 				<c:when test="${departmentList != null && departmentList.size() > 0}">
 					<input type="hidden" value="${departmentList.get(0).companyId}" name="companyId"/>
-					<input type="hidden" value="${departmentList.get(0).id}" name="departmentId"/>
+					<input type="hidden" value="${departmentList.get(0).departmentName}" name="departmentName" id="hidDepartmentName"/>
 					
 				</c:when>
 				<c:otherwise>
@@ -63,7 +63,7 @@
 				<td style="border:0px;">
 					<c:choose>
 						<c:when test="${departmentList != null && departmentList.size() > 0}">
-						<select class="form-control" id="levelSelect" name="departmentName" style="width: 300px;">
+						<select class="form-control" id="departmentIdSelect" name="departmentId" style="width: 300px;">
 							<option value="">请选择部门</option>
 							<c:forEach items="${departmentList}" var="department">
 									<option  value="${department.id}">${department.departmentName}</option>

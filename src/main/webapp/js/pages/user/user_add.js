@@ -18,6 +18,14 @@ function editUser(){
 		return;
 	}*/
 	
+	var departmentId = $("#departmentIdSelect").find("option:selected").val();
+	if(isBlank(departmentId)){
+		layer.alert("请选择部门");
+		return;
+	}else{
+		var departmentName = $("#departmentIdSelect").find("option:selected").text();
+		$("#hidDepartmentName").val(departmentName);
+	}
 	
 	var url = ctx + "/inner/user/saveOrUpdate";
 	var data = $('#userForm').serialize();
