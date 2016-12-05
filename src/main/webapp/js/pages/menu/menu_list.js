@@ -73,6 +73,11 @@ function queryMenu(page){
 		url += "&menuName=" + menuName;
 	}
 	
+	var menuTypeName = $("#menuTypeSelect").find("option:selected").text();
+	if(menuTypeName != "请选择菜单类型"){
+		var menuType = $("#menuTypeSelect").find("option:selected").val();
+		url += "&menuType=" + menuType;
+	}
 	
 	
 	var menuUrl = $("#txtmenuUrl").val();

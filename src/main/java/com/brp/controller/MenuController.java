@@ -100,6 +100,8 @@ public class MenuController extends BaseController{
 		ModelAndView mav = new ModelAndView("/menu/menu_list");
 		menuQuery = menuService.getMenuList(menuQuery);
 		mav.addObject("menuQuery", menuQuery);
+		List<ConfigEntity> configList = configService.getConfigListByCode(Config.MENU);
+		mav.addObject("configList", configList);
 		
 		return mav;
 	}

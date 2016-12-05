@@ -53,11 +53,34 @@
 										</div>
 									</td>
 									<td style="border:0px">
+										<div class="form-group">
+											<label for="hidDistrict">菜单类型
+											<select class="form-control" id="menuTypeSelect" style="width: 200px;" name="menuType">
+												<option value="">请选择菜单类型</option>
+												<c:if test="${configList != null && configList.size() > 0 }">
+													<c:forEach var="config" items="${configList}">
+														<option value="${config.value}"  <c:if test="${menuQuery.menuType == config.value}">selected="selected"</c:if>>${config.key}</option>
+													</c:forEach>
+					
+												</c:if>
+											</select>
+										</div>
+									</td>
+								</tr>
+								<tr>
+								<td style="border:0px">
+									<div class="form-group">
+										
+									</div>
+									</td>
+									<td style="border:0px">
+										
+									</td>
+									<td style="border:0px">
 									<button class="btn " onclick="queryMenu('${menuQuery.page}')">查询</button>
 										<button class="btn " onclick="addMenu()">新增</button>
 									</td>
 								</tr>
-								
 							</table>
 							
 							
@@ -85,7 +108,7 @@
 								<c:forEach items="${menuQuery.items}" var="menu">
 									<tr>
 										<td style="display: none;">${menu.id}</td>
-										<td><a href="#" onclick="addSameConfig('${menu.id}')">新增同类</a>&nbsp;&nbsp;
+										<td>
 										<a  href="#" onclick="modifyConfig('${menu.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="viewConfig('${menu.id}')">详细</a>&nbsp;&nbsp;
 										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a></td>
@@ -104,7 +127,7 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?menuName=${menuQuery.menuName }&menuUrl=${menuQuery.menuUrl}&page=" />
+									value="?menuName=${menuQuery.menuName }&menuUrl=${menuQuery.menuUrl}&menuType=${menuQuery.menuType}&page=" />
 								<jsp:param name="count" value="${menuQuery.count }" />
 								<jsp:param name="page" value="${menuQuery.page }" />
 								<jsp:param name="size" value="${menuQuery.size }" />
