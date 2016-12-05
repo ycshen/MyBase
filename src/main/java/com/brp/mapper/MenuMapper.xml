@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.MenuEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="INTEGER" />
+    <result column="menu_type_name" property="menuTypeName" jdbcType="VARCHAR" />
+    <result column="menu_type_tag" property="menuTypeTag" jdbcType="VARCHAR" />
+    <result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+    
+    <result column="parent_menu_id" property="parentMenuId" jdbcType="VARCHAR" />
+    <result column="beyond_of_system" property="beyondOfSystem" jdbcType="VARCHAR" />
+    <result column="beyond_of_system_id" property="beyondOfSystemId" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+	   menu_name,menu_type,menu_type_name,menu_type_tag,menu_url,
+	   parent_menu_id,beyond_of_system,beyond_of_system_id,is_delete
+  </sql>
+  <insert id="insertMenu" parameterType="com.brp.entity.MenuEntity" >
+    insert menu
+   		(create_user,update_user,create_time, update_time,
+   		menu_name,menu_type,menu_type_name,menu_type_tag,menu_url,
+	   parent_menu_id,beyond_of_system,beyond_of_system_id,is_delete) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{menuName,jdbcType=VARCHAR},#{menuType,jdbcType=INTEGER},#{menuTypeName,jdbcType=VARCHAR},#{menuTypeTag,jdbcType=VARCHAR},#{menuUrl,jdbcType=VARCHAR},
+    	#{parentMenuId,jdbcType=VARCHAR},#{beyondOfSystem,jdbcType=VARCHAR},#{beyondOfSystemId,jdbcType=VARCHAR},#{isDelete,jdbcType=VARCHAR})
+  </insert>
+  <select id="getMenuPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.MenuQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from menu
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="menuName != null and menuName != ''" >
+		       and menu_name =  #{menuName}
+		      </if>
+		      <if test="menuType != '' and menuType != null" >
+		       and menu_type = #{menuType}
+		      </if>
+		      <if test="beyondOfSystemId != '' and beyondOfSystemId != null" >
+		       and beyond_of_system_id = #{beyondOfSystemId}
+		      </if>
+		 </trim>
+		 and is_delete = 0
+         order by create_time desc
+    </select>
+    
+     
+	
+	<select id="getMenuById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from menu
+         where id = #{id} and is_delete = 0
+    </select>
+    
+    
+    <update id="deleteMenuById" parameterType="java.lang.String">
+		update menu set 
+		
+		is_delete = 1
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	
+   <update id="updateMenu" parameterType="com.brp.entity.MenuEntity">
+		update Menu set 
+		<if test="createUser != null">
+			create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			update_user=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		
+		<if test="menuName != null">
+      	menu_name=#{menuName,jdbcType=VARCHAR},
+		</if>
+		<!-- <if test="value != null">
+      	`value`=#{value,jdbcType=VARCHAR},
+		</if>
+		<if test="code != null">
+      	`code`=#{code,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null">
+      	 remark=#{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="isDelete != null">
+      	 is_delete=#{isDelete,jdbcType=VARCHAR},
+		</if> -->
+		
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+</mapper>
