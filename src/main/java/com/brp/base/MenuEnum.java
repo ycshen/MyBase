@@ -11,7 +11,7 @@ public enum MenuEnum {
 	SYSTEM(0, "系统", "system"), 
 	BUTTON(1, "按钮", "button"), 
 	A(2, "<a>标签", "<a></a>"),
-	URL(3, "链接", "url"),
+	URL(3, "菜单", "url"),
 	ONCLICK(4, "单击", "onclick"),
 	DBCLICK(5, "双击", "dbclick");
 	private Integer menuType; 
@@ -31,6 +31,25 @@ public enum MenuEnum {
 	}
 	public String getMenuTypeTag() {
 		return menuTypeTag;
+	}
+	
+	public static String getMenuTypeName(Integer menuType) {
+		for (MenuEnum menu : MenuEnum.values()) {
+			if(menuType == menu.getMenuType()){
+				return menu.getMenuTypeName();
+			}
+		}
+		return null;
+	}
+	
+	public static String getMenuTypeTag(Integer menuType) {
+		for (MenuEnum menu : MenuEnum.values()) {
+			if(menuType == menu.getMenuType()){
+				return menu.getMenuTypeTag();
+			}
+		}
+
+		return null;
 	}
 	
 	

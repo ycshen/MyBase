@@ -100,10 +100,10 @@
 		</if>
 		<if test="remark != null">
       	 remark=#{remark,jdbcType=VARCHAR},
-		</if>
+		</if> -->
 		<if test="isDelete != null">
       	 is_delete=#{isDelete,jdbcType=VARCHAR},
-		</if> -->
+		</if>
 		
 		id=#{id}
 		 where id=#{id} limit 1;

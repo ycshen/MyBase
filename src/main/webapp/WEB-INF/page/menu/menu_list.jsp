@@ -88,7 +88,7 @@
 										<td><a href="#" onclick="addSameConfig('${menu.id}')">新增同类</a>&nbsp;&nbsp;
 										<a  href="#" onclick="modifyConfig('${menu.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="viewConfig('${menu.id}')">详细</a>&nbsp;&nbsp;
-										<a  href="#" onclick="deleteConfig('${menu.id}')">删除</a></td>
+										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a></td>
 										<td>${menu.menuName }</td>
 										<td>${menu.menuTypeName}</td>
 										<td>${menu.menuTypeTag}</td>

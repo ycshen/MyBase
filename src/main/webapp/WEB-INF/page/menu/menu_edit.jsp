@@ -32,18 +32,23 @@
 							style="width: 300px;">
 				</td>
 			</tr>
-			<%-- <tr>
+			 <tr>
 				<td style="border:0px;text-align:right;">
-					<label ><span style="color:red;">*</span>值：</label>
+					<label ><span style="color:red;">*</span>菜单类型：</label>
 				</td>
 				<td style="border:0px;">
-					<input name="value" id="txtvalue"
-							value="${menu.value}" maxlength="20"
-							class="form-control" type="text" placeholder="请输入值"
-							style="width: 300px;">
+					<select class="form-control" id="menuTypeSelect" style="width: 300px;" name="menuType">
+							<option value="">请选择菜单类型</option>
+							<c:if test="${configList != null && configList.size() > 0 }">
+								<c:forEach var="config" items="${configList}">
+									<option value="${config.value}">${config.key}</option>
+								</c:forEach>
+
+							</c:if>
+						</select>
 				</td>
 			</tr>
-			<tr>
+			<%--<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>键值编码：</label>
 				</td>

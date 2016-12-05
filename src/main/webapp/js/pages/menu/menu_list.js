@@ -46,9 +46,9 @@ function viewConfig(id){
 	});
 }
 
-function deleteConfig(id){
-	layer.confirm("确定删除该配置信息？", function(){
-		var url = ctx + "/inner/config/delete?id=" + id;
+function deleteMenu(id){
+	layer.confirm("确定删除该菜单信息？", function(){
+		var url = ctx + "/inner/menu/delete?id=" + id;
 		$.ajax({
 	        type: "get",
 	        url: url,

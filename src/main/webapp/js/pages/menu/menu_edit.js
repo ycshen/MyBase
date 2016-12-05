@@ -18,6 +18,11 @@ function editMenu(){
 		return;
 	}
 	
+	var menuType = $("#menuTypeSelect").find("option:selected").text();
+	if(menuType == "请选择菜单类型"){
+		layer.alert("请选择面单业务类型！");
+		return;
+	}
 	/*var txtvalue = $("#txtvalue").val();
 	if(isBlank(txtvalue)){
 		layer.alert("值不能为空");

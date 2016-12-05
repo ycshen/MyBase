@@ -1,6 +1,7 @@
 package com.brp.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.base.Config;
+import com.brp.base.MenuEnum;
+import com.brp.entity.ConfigEntity;
 import com.brp.entity.MenuEntity;
 import com.brp.entity.UserEntity;
+import com.brp.service.ConfigService;
 import com.brp.service.MenuService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.MenuQuery;
@@ -32,13 +37,20 @@ import com.brp.util.query.MenuQuery;
 public class MenuController extends BaseController{
 	@Autowired
 	private MenuService menuService;
-	
+	@Autowired
+	private ConfigService configService;
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer saveOrUpdate(@ModelAttribute MenuEntity menu, HttpServletRequest request){
 		Integer result = 0;
 		Long id = menu.getId();
 		UserEntity user = UserUtils.getLoginUser(request);
+		Integer menuType = menu.getMenuType();
+		String menuTypeName = MenuEnum.getMenuTypeName(menuType);
+		String menuTypeTag = MenuEnum.getMenuTypeTag(menuType);
+		menu.setMenuTypeName(menuTypeName);
+		menu.setMenuTypeTag(menuTypeTag);
+		
 		if(id == null){
 			menu.setCreateTime(new Date());
 			menu.setCreateUser(user.getUserName());
@@ -63,6 +75,8 @@ public class MenuController extends BaseController{
 			menu = menuService.getMenuById(Integer.parseInt(id));
 		}
 		
+		List<ConfigEntity> configList = configService.getConfigListByCode(Config.MENU);
+		mav.addObject("configList", configList);
 		mav.addObject("menu", menu);
 		
 		return mav;
