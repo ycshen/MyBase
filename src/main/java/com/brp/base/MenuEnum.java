@@ -10,7 +10,7 @@ package com.brp.base;
 public enum MenuEnum {
 	SYSTEM(0, "系统", "system"), 
 	BUTTON(1, "按钮", "button"), 
-	A(2, "<a>标签", "<a></a>"),
+	A(2, "a标签", "href"),
 	URL(3, "菜单", "url"),
 	ONCLICK(4, "单击", "onclick"),
 	DBCLICK(5, "双击", "dbclick");

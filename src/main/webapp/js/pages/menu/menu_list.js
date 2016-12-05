@@ -66,18 +66,18 @@ function addSuccess(){
 	window.location.href = ctx + "/inner/menu/list";
 }
 
-function queryConfig(page){
-	var url = ctx + "/inner/config/list?page=" + page;
-	var key = $("#txtkey").val();
-	if(isNotBlank(key)){
-		url += "&key=" + key;
+function queryMenu(page){
+	var url = ctx + "/inner/menu/list?page=" + page;
+	var menuName = $("#txtmenuName").val();
+	if(isNotBlank(menuName)){
+		url += "&menuName=" + menuName;
 	}
 	
 	
 	
-	var code = $("#txtcode").val();
-	if(isNotBlank(code)){
-		url += "&code=" + code;
+	var menuUrl = $("#txtmenuUrl").val();
+	if(isNotBlank(menuUrl)){
+		url += "&menuUrl=" + menuUrl;
 	}
 	
 	window.location.href = url;

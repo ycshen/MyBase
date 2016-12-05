@@ -42,18 +42,18 @@
 								<tr style="border:0px">
 									<td style="border:0px">
 									<div class="form-group">
-										<label for="hidDistrict">键
-										<input type="text" placeholder="请输入键"  id="txtkey" class="form-control" value="${configQuery.key }"/>
+										<label for="hidDistrict">菜单名称
+										<input type="text" placeholder="请输入菜单名称"  id="txtmenuName" class="form-control" value="${menuQuery.menuName }"/>
 									</div>
 									</td>
 									<td style="border:0px">
 										<div class="form-group">
-											<label for="hidDistrict">键值编码
-											<input type="text" id="txtcode" placeholder="请输入键值编码" class="form-control" value="${configQuery.code}"/>
+											<label for="hidDistrict">菜单url
+											<input type="text" id="txtmenuUrl" placeholder="请输入菜单url" class="form-control" value="${menuQuery.menuUrl}"/>
 										</div>
 									</td>
 									<td style="border:0px">
-									<button class="btn " onclick="queryConfig('${configQuery.page}')">查询</button>
+									<button class="btn " onclick="queryMenu('${menuQuery.page}')">查询</button>
 										<button class="btn " onclick="addMenu()">新增</button>
 									</td>
 								</tr>
@@ -104,10 +104,10 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?key=${configQuery.key }&code=${configQuery.code}&page=" />
-								<jsp:param name="count" value="${configQuery.count }" />
-								<jsp:param name="page" value="${configQuery.page }" />
-								<jsp:param name="size" value="${configQuery.size }" />
+									value="?menuName=${menuQuery.menuName }&menuUrl=${menuQuery.menuUrl}&page=" />
+								<jsp:param name="count" value="${menuQuery.count }" />
+								<jsp:param name="page" value="${menuQuery.page }" />
+								<jsp:param name="size" value="${menuQuery.size }" />
 							</jsp:include>
 							
 						</nav>
