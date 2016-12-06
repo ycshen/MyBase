@@ -72,5 +72,6 @@ public class MenuEntity extends BaseEntity{
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
 	}
+	
 }
 

@@ -35,6 +35,33 @@ function addSub(id, menuType){
 		content: url
 	});
 }
+
+function addMultiSub(id){
+	var divMenuTag = $("#divMenuType");
+	//var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
+	$("#hidMenuId").val(id);
+	layer.open({
+		  title: "请选择子元素类型",
+		  type: 1,
+		  skin: 'layui-layer-rim', //加上边框
+		  area: ['600px', '200px'], //宽高
+		  content: divMenuTag
+	});
+}
+
+function confirmType(){
+	var value = $("input[name='menuType']:checked").val()
+	if(isNotBlank(value)){
+		var id = $("#hidMenuId").val();
+		addSub(id, value);
+	}else{
+		layer.alert("请选择子元素类型");
+	}
+}
+
+function cancleType(){
+	layer.closeAll();
+}
 function viewConfig(id){
 	var url = ctx + "/inner/config/view?id=" + id;
 	layer.open({
