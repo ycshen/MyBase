@@ -9,6 +9,7 @@ import com.brp.entity.MenuEntity;
 import com.brp.mapper.MenuMapper;
 import com.brp.service.MenuService;
 import com.brp.util.query.MenuQuery;
+import com.brp.util.vo.MenuTreeVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -28,7 +29,7 @@ public class MenuServiceImpl implements MenuService{
 	}
 	
 	@Override
-	public MenuQuery getMenuList(MenuQuery menuQuery) {
+	public MenuQuery getMenuPage(MenuQuery menuQuery) {
 		List<MenuEntity> list = menuMapper.getMenuPage(menuQuery);
 		if(list != null && list.size() > 0){
 			menuQuery.setItems(list);
@@ -59,6 +60,12 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public void deleteMenuById(String id) {
 		menuMapper.deleteMenuById(id);
+	}
+
+	@Override
+	public MenuEntity getMenuByNameAndType(String menuName, String menuType) {
+		// TODO Auto-generated method stub
+		return menuMapper.getMenuByNameAndType(menuName, menuType);
 	}
 }
 

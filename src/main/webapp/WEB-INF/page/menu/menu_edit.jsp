@@ -21,9 +21,10 @@
 			
 	<form method="post" id="menuForm">
 			<input type="hidden" value="${menu.id}" name="id"/>
+			<input type="hidden" value="${menu.parentMenuId}" name="parentMenuId"/>
 			<tr>
 				<td style="border:0px;text-align:right;">
-					<label ><span style="color:red;">*</span>菜单名称：</label>
+					<label ><span style="color:red;">*</span>${formName}名称：</label>
 				</td>
 				<td style="border:0px;">
 					<input name="menuName" id="txtmenuName"
@@ -34,14 +35,15 @@
 			</tr>
 			 <tr>
 				<td style="border:0px;text-align:right;">
-					<label ><span style="color:red;">*</span>菜单类型：</label>
+					<label ><span style="color:red;">*</span>${formName}类型：</label>
 				</td>
 				<td style="border:0px;">
-					<select class="form-control" id="menuTypeSelect" style="width: 300px;" name="menuType">
+					<input name="menuType" id="txtmenuName" type="hidden" value="${menu.menuType}"/>
+					<select class="form-control" id="menuTypeSelect" style="width: 300px;" name="menuType" disabled="disabled">
 							<option value="">请选择菜单类型</option>
 							<c:if test="${configList != null && configList.size() > 0 }">
 								<c:forEach var="config" items="${configList}">
-									<option value="${config.value}">${config.key}</option>
+									<option value="${config.value}" <c:if test="${menu.menuType == config.value}">selected="selected"</c:if>>${config.key}</option>
 								</c:forEach>
 
 							</c:if>

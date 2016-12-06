@@ -19,7 +19,7 @@
     <result column="beyond_of_system_id" property="beyondOfSystemId" jdbcType="VARCHAR" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
   </resultMap> 
-     
+  
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
 	   menu_name,menu_type,menu_type_name,menu_type_tag,menu_url,
@@ -50,20 +50,27 @@
 		      <if test="beyondOfSystemId != '' and beyondOfSystemId != null" >
 		       and beyond_of_system_id = #{beyondOfSystemId}
 		      </if>
+		      <if test="parentMenuId != '' and parentMenuId != null" >
+		       and parent_menu_id = #{parentMenuId}
+		      </if>
 		 </trim>
 		 and is_delete = 0
          order by create_time desc
     </select>
     
-     
-	
+    
 	<select id="getMenuById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
          <include refid="Base_Column_List" />
          from menu
          where id = #{id} and is_delete = 0
     </select>
-    
+    <select id="getMenuByNameAndType" resultMap="BaseResultMap" >
+         select 
+         <include refid="Base_Column_List" />
+         from menu
+         where menu_name = #{menuName} and menu_type=#{menuType} and is_delete = 0 limit 1
+    </select>
     
     <update id="deleteMenuById" parameterType="java.lang.String">
 		update menu set 
@@ -75,7 +82,7 @@
 	</update>
 	
    <update id="updateMenu" parameterType="com.brp.entity.MenuEntity">
-		update Menu set 
+		update menu set 
 		<if test="createUser != null">
 			create_user=#{createUser,jdbcType=VARCHAR},
 		</if>
@@ -92,15 +99,9 @@
 		<if test="menuName != null">
       	menu_name=#{menuName,jdbcType=VARCHAR},
 		</if>
-		<!-- <if test="value != null">
-      	`value`=#{value,jdbcType=VARCHAR},
+		<if test="beyondOfSystemId != null">
+      	beyond_of_system_id=#{beyondOfSystemId,jdbcType=VARCHAR},
 		</if>
-		<if test="code != null">
-      	`code`=#{code,jdbcType=VARCHAR},
-		</if>
-		<if test="remark != null">
-      	 remark=#{remark,jdbcType=VARCHAR},
-		</if> -->
 		<if test="isDelete != null">
       	 is_delete=#{isDelete,jdbcType=VARCHAR},
 		</if>

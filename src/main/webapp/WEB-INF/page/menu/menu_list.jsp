@@ -78,7 +78,7 @@
 									</td>
 									<td style="border:0px">
 									<button class="btn " onclick="queryMenu('${menuQuery.page}')">查询</button>
-										<button class="btn " onclick="addMenu()">新增</button>
+										<button class="btn " onclick="addSystem()">新增系统</button>
 									</td>
 								</tr>
 							</table>
@@ -90,6 +90,7 @@
 						</div>
 					</div>
 					<div class="panel-heading">菜单权限信息列表</div>
+					<div class="panel-heading"><a href="${ctx}/inner/menu/tree">树形菜单</a></div>
 
 					<div class="table-responsive">
 						<table id="syslist" class="table table-bordered table-hover">
@@ -109,9 +110,20 @@
 									<tr>
 										<td style="display: none;">${menu.id}</td>
 										<td>
+										
 										<a  href="#" onclick="modifyConfig('${menu.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="viewConfig('${menu.id}')">详细</a>&nbsp;&nbsp;
-										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a></td>
+										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a>
+										
+										<c:choose>
+											<c:when test="${menu.menuType == 0}">
+												<a  href="#" onclick="addSub('${menu.id}', 3)">添加子菜单</a>&nbsp;&nbsp;
+											</c:when>
+											<c:when test="${menu.menuType == 3}">
+												<a  href="#" onclick="addMultiSub('${menu.id}')">添加子菜单</a>&nbsp;&nbsp;
+											</c:when>
+										</c:choose>
+										</td>
 										<td>${menu.menuName }</td>
 										<td>${menu.menuTypeName}</td>
 										<td>${menu.menuTypeTag}</td>

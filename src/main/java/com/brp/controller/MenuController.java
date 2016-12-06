@@ -1,6 +1,7 @@
 package com.brp.controller;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import com.brp.service.ConfigService;
 import com.brp.service.MenuService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.MenuQuery;
+import com.brp.util.vo.MenuTreeVO;
+import com.google.gson.Gson;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -55,7 +58,20 @@ public class MenuController extends BaseController{
 			menu.setCreateTime(new Date());
 			menu.setCreateUser(user.getUserName());
 			menu.setIsDelete(0);
-			menuService.insertMenu(menu);
+			String parentMenuId = menu.getParentMenuId();
+			if(StringUtils.isNotBlank(parentMenuId)){
+				MenuEntity parentMenu = menuService.getMenuById(Integer.parseInt(parentMenuId));
+				menu.setBeyondOfSystem(parentMenu.getBeyondOfSystem());
+				menu.setBeyondOfSystemId(parentMenu.getBeyondOfSystemId());
+				menuService.insertMenu(menu);
+			}else{
+				menu.setBeyondOfSystem(menu.getMenuName());
+				menuService.insertMenu(menu);
+				MenuEntity parentMenu = menuService.getMenuByNameAndType(menu.getMenuName(), menu.getMenuType().toString());
+				menu.setBeyondOfSystemId(parentMenu.getId().toString());
+				menuService.updateMenu(parentMenu);
+			}
+			
 			result = 1;
 		}else{
 			menu.setUpdateTime(new Date());
@@ -68,17 +84,30 @@ public class MenuController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editMenu(String id, HttpServletRequest request){
+	public ModelAndView editMenu(@ModelAttribute MenuEntity menu, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/menu/menu_edit");
-		MenuEntity menu = null;
-		if(StringUtils.isNotBlank(id)){
-			menu = menuService.getMenuById(Integer.parseInt(id));
+		Long id = menu.getId();
+		if(id != null){
+			menu = menuService.getMenuById(id.intValue());
 		}
 		
 		List<ConfigEntity> configList = configService.getConfigListByCode(Config.MENU);
 		mav.addObject("configList", configList);
+		String formName = MenuEnum.getMenuTypeName(menu.getMenuType());
+		mav.addObject("formName", formName);
 		mav.addObject("menu", menu);
+		return mav;
+	}
+	
+	@RequestMapping(value = "/addSubMenu", method = RequestMethod.GET)
+	public ModelAndView addSubMenu(MenuEntity menu, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/menu/menu_edit");
+		List<ConfigEntity> configList = configService.getConfigListByCode(Config.MENU);
+		mav.addObject("configList", configList);
 		
+		String formName = MenuEnum.getMenuTypeName(menu.getMenuType());
+		mav.addObject("formName", formName);
+		mav.addObject("menu", menu);
 		return mav;
 	}
 	
@@ -98,12 +127,75 @@ public class MenuController extends BaseController{
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listMenu(@ModelAttribute MenuQuery menuQuery, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/menu/menu_list");
-		menuQuery = menuService.getMenuList(menuQuery);
+		menuQuery = menuService.getMenuPage(menuQuery);
 		mav.addObject("menuQuery", menuQuery);
 		List<ConfigEntity> configList = configService.getConfigListByCode(Config.MENU);
 		mav.addObject("configList", configList);
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/tree", method = RequestMethod.GET)
+	public ModelAndView tree(@ModelAttribute MenuQuery menuQuery, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/menu/menu_tree");
+		/*menuQuery.setMenuType(MenuEnum.SYSTEM.getMenuType().toString());
+		menuQuery = menuService.getMenuList(menuQuery);
+		mav.addObject("treeData", menuQuery.getItems());*/
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/treeData", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public String treeData(@ModelAttribute MenuQuery menuQuery, HttpServletRequest request){
+		menuQuery.setMenuType(MenuEnum.SYSTEM.getMenuType().toString());
+		menuQuery = menuService.getMenuPage(menuQuery);
+		List<MenuEntity> list = menuQuery.getItems();
+		String tree = StringUtils.EMPTY;
+		List<MenuTreeVO> treeList = null;
+		if(list != null && list.size() > 0){
+			treeList = new LinkedList<MenuTreeVO>();
+			MenuTreeVO treeVO = null;
+			for (MenuEntity menuEntity : list) {
+				treeVO = new MenuTreeVO();
+				treeVO.setText(menuEntity.getMenuName());
+				Integer idInt = menuEntity.getId().intValue();
+				treeVO.setId(idInt);
+				treeVO.setNodeId(idInt);
+				String id = menuEntity.getId().toString();
+				menuQuery = new MenuQuery();
+				menuQuery.setParentMenuId(id);
+				menuQuery = menuService.getMenuPage(menuQuery);
+				List<MenuTreeVO> nodes = this.getNodes(menuQuery.getItems());
+				treeVO.setNodes(nodes);
+				treeList.add(treeVO);
+			}
+			
+			tree = new Gson().toJson(treeList);
+		}
+		
+		return tree;
+	}
+	
+	private List<MenuTreeVO> getNodes(List<MenuEntity> list){
+		List<MenuTreeVO> treeList = null;
+		if(list != null && list.size() > 0){
+			treeList = new LinkedList<MenuTreeVO>();
+			MenuTreeVO treeVO = null;
+			for (MenuEntity menuEntity : list) {
+				treeVO = new MenuTreeVO();
+				treeVO.setText(menuEntity.getMenuName());
+				//treeVO.setId(menuEntity.getId().toString());
+				Integer idInt = menuEntity.getId().intValue();
+				treeVO.setId(idInt);
+				treeVO.setNodeId(idInt);
+				
+				treeList.add(treeVO);
+			}
+			
+		}
+		
+		return treeList;
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)

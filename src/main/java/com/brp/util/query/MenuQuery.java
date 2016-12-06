@@ -15,6 +15,7 @@ public class MenuQuery extends Page<MenuEntity>{
 	private String menuName;
 	private String menuType; 
 	private String menuUrl;
+	private String parentMenuId;
 	private String beyondOfSystemId; //所属系统
 	
 	public String getMenuName() {
@@ -41,6 +42,11 @@ public class MenuQuery extends Page<MenuEntity>{
 	public void setBeyondOfSystemId(String beyondOfSystemId) {
 		this.beyondOfSystemId = beyondOfSystemId;
 	}
-	
+	public String getParentMenuId() {
+		return parentMenuId;
+	}
+	public void setParentMenuId(String parentMenuId) {
+		this.parentMenuId = parentMenuId;
+	}
 }
 

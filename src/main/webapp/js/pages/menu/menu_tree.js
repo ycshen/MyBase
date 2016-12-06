@@ -1,9 +1,8 @@
-function addSystem(){
-	var title = "添加系统信息";
-	var url = ctx + "/inner/menu/edit?menuType=0";
+function addMenu(){
+	var url = ctx + "/inner/menu/edit";
 	layer.open({
 		type: 2,
-		title: title,
+		title: '添加菜单权限信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],
@@ -24,11 +23,11 @@ function modifyConfig(id){
 	});
 }
 
-function addSub(id, menuType){
-	var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
+function addSameConfig(id){
+	var url = ctx + "/inner/config/addSame?id=" + id;
 	layer.open({
 		type: 2,
-		title: '新增菜单信息',
+		title: '新增基础配置信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],
@@ -96,4 +95,30 @@ function isNotBlank(args){
 	
 	return result;
 }
+   
+$(function(){
+	getTree();
+})
+
+function getTree() {
+   $.ajax({
+	   type : 'get',
+	   url : ctx + "/inner/menu/treeData",
+	   success: function(data){
+		   $('#tree').treeview({data: data});
+	   }
+   })
+   
+   
+   $("#btnAddSub").click(function (e) {
+	   var arr = $('#tree').treeview('getSelected');
+	   alert(JSON.stringify(arr));
+        for (var key in arr) {
+            alert(arr[key].id);
+        }
+
+        })
+        
+}
+ 
 
