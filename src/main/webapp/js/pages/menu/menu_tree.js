@@ -146,7 +146,11 @@ function initTree() {
 			   type: "get",
 			   url: url,
 			   success: function(isSystem){
-				   alert(isSystem)
+				   if(isSystem == 1){
+					   addSub(menuId, 3);
+				   }else{
+					   addMultiSub(menuId);
+				   }
 			   }
 			   
 		   });
@@ -157,4 +161,41 @@ function initTree() {
         
 }
  
+function addSub(id, menuType){
+	var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
+	layer.open({
+		type: 2,
+		title: '新增菜单信息',
+		shadeClose: true,
+		shade: 0.8,
+		area: ['550px', '400px'],
+		content: url
+	});
+}
 
+function addMultiSub(id){
+	var divMenuTag = $("#divMenuType");
+	//var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
+	$("#hidMenuId").val(id);
+	layer.open({
+		  title: "请选择子元素类型",
+		  type: 1,
+		  skin: 'layui-layer-rim', //加上边框
+		  area: ['600px', '200px'], //宽高
+		  content: divMenuTag
+	});
+}
+
+function confirmType(){
+	var value = $("input[name='menuType']:checked").val()
+	if(isNotBlank(value)){
+		var id = $("#hidMenuId").val();
+		addSub(id, value);
+	}else{
+		layer.alert("请选择子元素类型");
+	}
+}
+
+function cancleType(){
+	layer.closeAll();
+}

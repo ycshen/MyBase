@@ -46,7 +46,23 @@
 			</div>
 		</div>
 	</div>
-	
+	<div style="display:none;text-align:center;" id="divMenuType">
+	<label for="test">子元素类型：</label>
+	<input class="" type="radio" value="3"  name="menuType" id="test1">
+	<label for="test">菜单</label>
+	<input class="" type="radio" value="1"  name="menuType" id="test1">
+	<label for="test1">按钮</label>
+	<input class="" type="radio" value="2"  name="menuType" id="test1">
+	<label for="test1">A标签</label>
+	<input class="" type="radio" value="4"  name="menuType" id="test1">
+	<label for="test1">单击事件</label>
+	<input class="" type="radio" value="5"  name="menuType" id="test1">
+	<label for="test1">双击事件</label>
+	<br/><br/>
+	<input type="button"  class="btn btn-default" value="确定类型" onclick="confirmType();"/>
+	<input type="button"  class="btn btn-default" value="取消操作" onclick="cancleType();"/>
+	<input type="hidden"  id="hidMenuId"/>
+</div>
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
