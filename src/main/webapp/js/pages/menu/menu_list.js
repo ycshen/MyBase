@@ -62,11 +62,11 @@ function confirmType(){
 function cancleType(){
 	layer.closeAll();
 }
-function viewConfig(id){
-	var url = ctx + "/inner/config/view?id=" + id;
+function viewMenu(id){
+	var url = ctx + "/inner/menu/view?id=" + id;
 	layer.open({
 		type: 2,
-		title: '查看基础配置详细信息',
+		title: '查看菜单详细信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],

@@ -112,7 +112,7 @@
 										<td>
 										
 										<a  href="#" onclick="modifyConfig('${menu.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewConfig('${menu.id}')">详细</a>&nbsp;&nbsp;
+										<a  href="#" onclick="viewMenu('${menu.id}')">详细</a>&nbsp;&nbsp;
 										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a>
 										
 										<c:choose>

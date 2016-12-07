@@ -6,7 +6,7 @@
 <head>
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <meta charset="UTF-8">
-<title>配置详细信息</title>
+<title>菜单详细信息</title>
 
 <link href="${ctx}/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/common.css" rel="stylesheet">
@@ -21,21 +21,21 @@
 			
 			<tr>
 				<td style="border:0px;text-align:right;width: 100px;">
-					<label >键：</label>
+					<label >菜单名称：</label>
 				</td>
 				<td style="border:0px;width: 200px;">
-					${config.key}
+					${menu.menuName}
 				</td>
 			</tr>
 			<tr>
 				<td style="border:0px;text-align:right;width: 100px;">
-					<label >值：</label>
+					<label >所属系统：</label>
 				</td>
 				<td style="border:0px;">
-					${config.value}
+					${menu.beyondOfSystem}
 				</td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td style="border:0px;text-align:right;width: 100px;">
 					<label >键值编码：</label>
 				</td>
@@ -82,7 +82,7 @@
 				<td style="border:0px;">
 					<f:formatDate value="${config.updateTime}" pattern="yyyy-MM-dd HH:mm:ss" />
 				</td>
-			</tr>
+			</tr> --%>
 		</table>
 	</div>
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>

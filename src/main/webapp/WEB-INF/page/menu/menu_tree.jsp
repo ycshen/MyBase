@@ -35,7 +35,9 @@
 					<div class="panel-heading">菜单权限信息列表</div>
 					<div class="panel-heading"><a href="${ctx}/inner/menu/list">列表菜单</a></div>
 					<div class="table-responsive">
-						<input type="button" value="添加子节点" id="btnAddSub"  class="btn btn-default"/>
+					<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="添加子节点" id="btnAddSub"  class="btn btn-default"/>
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="查看详细" id="btnView"  class="btn btn-default"/>
 						<br/><br/>
 						<div id="tree"></div>   
 					</div>

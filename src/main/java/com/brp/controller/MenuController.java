@@ -62,14 +62,19 @@ public class MenuController extends BaseController{
 			if(StringUtils.isNotBlank(parentMenuId)){
 				MenuEntity parentMenu = menuService.getMenuById(Integer.parseInt(parentMenuId));
 				menu.setBeyondOfSystem(parentMenu.getBeyondOfSystem());
-				menu.setBeyondOfSystemId(parentMenu.getBeyondOfSystemId());
+				String beyondOfSystemId = parentMenu.getBeyondOfSystemId();
+				if(StringUtils.isNotBlank(beyondOfSystemId)){
+					menu.setBeyondOfSystemId(beyondOfSystemId);
+				}else{
+					menu.setBeyondOfSystemId(parentMenuId);
+					parentMenu.setBeyondOfSystemId(parentMenuId);
+					menuService.updateMenu(parentMenu);
+				}
+				
 				menuService.insertMenu(menu);
 			}else{
 				menu.setBeyondOfSystem(menu.getMenuName());
 				menuService.insertMenu(menu);
-				MenuEntity parentMenu = menuService.getMenuByNameAndType(menu.getMenuName(), menu.getMenuType().toString());
-				menu.setBeyondOfSystemId(parentMenu.getId().toString());
-				menuService.updateMenu(parentMenu);
 			}
 			
 			result = 1;
@@ -209,6 +214,18 @@ public class MenuController extends BaseController{
 			menu.setIsDelete(1);
 			menuService.updateMenu(menu);
 		}
+	}
+	
+	@RequestMapping(value = "/isSystem", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer isSystem(Integer id, HttpServletRequest request){
+		MenuEntity menu = menuService.getMenuById(id);
+		Integer isSystem = 0;
+		if(menu != null && MenuEnum.SYSTEM.getMenuType() == menu.getMenuType()){
+			isSystem = 1;
+		}
+		
+		return isSystem;
 	}
 }
 

@@ -97,27 +97,63 @@ function isNotBlank(args){
 }
    
 $(function(){
-	getTree();
+	initTree();
 })
 
-function getTree() {
+function initTree() {
    $.ajax({
 	   type : 'get',
 	   url : ctx + "/inner/menu/treeData",
 	   success: function(data){
 		   $('#tree').treeview({data: data});
 	   }
-   })
+   })  
    
+   
+   
+   $("#btnView").click(function (e) {
+	   var arr = $('#tree').treeview('getSelected');
+	   var menuId = "";
+	   for (var key in arr) {
+		   menuId = arr[key].id;
+	   }
+	   
+	   if(isNotBlank(menuId)){
+		   var url = ctx + "/inner/menu/view?id=" + menuId;
+			layer.open({
+				type: 2,
+				title: '查看菜单详细信息',
+				shadeClose: true,
+				shade: 0.8,
+				area: ['550px', '400px'],
+				content: url
+			});
+	   }else{
+		   layer.alert("请选择菜单"); 
+	   }
+   });
    
    $("#btnAddSub").click(function (e) {
 	   var arr = $('#tree').treeview('getSelected');
-	   alert(JSON.stringify(arr));
-        for (var key in arr) {
-            alert(arr[key].id);
-        }
-
-        })
+	   var menuId = "";
+	   for (var key in arr) {
+		   menuId = arr[key].id;
+	   }
+	   
+	   if(isNotBlank(menuId)){
+		   var url = ctx + "/inner/menu/isSystem?id=" + menuId;
+		   $.ajax({
+			   type: "get",
+			   url: url,
+			   success: function(isSystem){
+				   alert(isSystem)
+			   }
+			   
+		   });
+	   }else{
+		   layer.alert("请选择父菜单"); 
+	   }
+   });
         
 }
  
