@@ -35,15 +35,15 @@
 					${menu.beyondOfSystem}
 				</td>
 			</tr>
-			<%-- <tr>
+			<tr>
 				<td style="border:0px;text-align:right;width: 100px;">
-					<label >键值编码：</label>
+					<label >菜单URL：</label>
 				</td>
 				<td style="border:0px;">
-					${config.code}
+					${menu.menuUrl}
 				</td>
 			</tr>
-			<tr>
+			<%-- <tr>
 				<td style="border:0px;text-align:right;width: 100px;">
 					<label >备注：</label>
 				</td>

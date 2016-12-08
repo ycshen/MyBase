@@ -20,8 +20,9 @@
 			
 			
 	<form method="post" id="menuForm">
+			<input type="hidden" value="${isTree}" id="hidIsTree"/>
 			<input type="hidden" value="${menu.id}" name="id"/>
-			<input type="hidden" value="${menu.parentMenuId}" name="parentMenuId"/>
+			<input type="hidden" value="${menu.parentMenuId}" name="parentMenuId" id="hidParentMenuId"/>
 			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>${formName}名称：</label>
@@ -50,19 +51,49 @@
 						</select>
 				</td>
 			</tr>
+			<c:choose>
+				<c:when test="${menu.menuType == 3}">
+					<tr>
+						<td style="border:0px;text-align:right;">
+							<label ><span style="color:red;">*</span>菜单URL：</label>
+						</td>
+						<td style="border:0px;">
+							<input name="menuUrl" id="txtmenuUrl"
+									value="${menu.menuUrl}" maxlength="20" 
+									class="form-control" type="text" placeholder="请输入菜单URL"
+									style="width: 300px;">
+						</td>
+					</tr>
+				</c:when>
+				<c:when test="${menu.menuType == 2}">
+					<tr>
+						<td style="border:0px;text-align:right;">
+							<label ><span style="color:red;">*</span>href：</label>
+						</td>
+						<td style="border:0px;">
+							<input name="menuUrl" id="txtmenuUrl"
+									value="${menu.menuUrl}" maxlength="20" 
+									class="form-control" type="text" placeholder="请输入href"
+									style="width: 300px;">
+						</td>
+					</tr>
+				</c:when>
+				<c:when test="${menu.menuType == 1 || menu.menuType == 4 || menu.menuType == 5}">
+					<tr>
+						<td style="border:0px;text-align:right;">
+							<label ><span style="color:red;">*</span>事件：</label>
+						</td>
+						<td style="border:0px;">
+							<input name="menuUrl" id="txtmenuUrl"
+									value="${menu.menuUrl}" maxlength="20" 
+									class="form-control" type="text" placeholder="请输入事件"
+									style="width: 300px;">
+						</td>
+					</tr>
+				</c:when>
+			</c:choose>
+			
 			<%--<tr>
-				<td style="border:0px;text-align:right;">
-					<label ><span style="color:red;">*</span>键值编码：</label>
-				</td>
-				<td style="border:0px;">
-					<input name="code" id="txtcode"
-							value="${menu.code}" maxlength="13" 
-							class="form-control" type="text" placeholder="请输入键值编码"
-							<c:if test="${menu.code != null && menu.code != ''}">readonly="readonly"</c:if>
-							style="width: 300px;">
-				</td>
-			</tr>
-			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>备注：</label>
 				</td>

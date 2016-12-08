@@ -99,7 +99,7 @@
 			// Initialize / destroy methods
 			init: $.proxy(this.init, this),
 			remove: $.proxy(this.remove, this),
-
+			addNode: $.proxy(this.addNode, this),  
 			// Get methods
 			getNode: $.proxy(this.getNode, this),
 			getParent: $.proxy(this.getParent, this),
@@ -1031,6 +1031,31 @@
 
 		this.render();
 	};
+
+	/** 
+    给节点添加子节点 
+	@param {Object|Number} identifiers - A valid node, node id or array of node identifiers 
+	@param {optional Object} options.node; 
+	*/  
+	Tree.prototype.addNode = function (identifiers, options) {  
+	       
+	 this.forEachIdentifier(identifiers, options, $.proxy(function (node, options) {  
+	     this.setAddNode(node, options);   
+	 }, this));  
+	
+	 this.setInitialStates({ nodes: this.tree }, 0);  
+	 this.render();  
+	}  
+	
+	/** 
+	*  添加子节点 
+	*/  
+	Tree.prototype.setAddNode = function (node, options) {  
+	 if (node.nodes == null) node.nodes = [];  
+	 if (options.node) {  
+	     node.nodes.push(options.node);  
+	       };  
+	};  
 
 	/**
 		Enable all tree nodes

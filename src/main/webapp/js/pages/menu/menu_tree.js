@@ -62,8 +62,10 @@ function deleteMenu(id){
 	
 }
 
-function addSuccess(){
-	window.location.href = ctx + "/inner/menu/list";
+function addSuccess(parentMenuId, menuName){
+	$("#tree").treeview("addNode", [2, { node: { text: menuName, href: "001005" } }]);  
+	layer.closeAll();
+	
 }
 
 function queryMenu(page){
@@ -106,6 +108,8 @@ function initTree() {
 	   url : ctx + "/inner/menu/treeData",
 	   success: function(data){
 		   $('#tree').treeview({data: data});
+		   $("#divLoader").hide();
+		   $('#tree').treeview('collapseAll', { silent: true });
 	   }
    })  
    
@@ -141,7 +145,7 @@ function initTree() {
 	   }
 	   
 	   if(isNotBlank(menuId)){
-		   var url = ctx + "/inner/menu/isSystem?id=" + menuId;
+		  var url = ctx + "/inner/menu/isSystem?id=" + menuId;
 		   $.ajax({
 			   type: "get",
 			   url: url,
@@ -154,6 +158,7 @@ function initTree() {
 			   }
 			   
 		   });
+		   
 	   }else{
 		   layer.alert("请选择父菜单"); 
 	   }
@@ -162,7 +167,7 @@ function initTree() {
 }
  
 function addSub(id, menuType){
-	var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
+	var url = ctx + "/inner/menu/addSubMenu?isTree=1&parentMenuId=" + id + "&menuType=" + menuType;
 	layer.open({
 		type: 2,
 		title: '新增菜单信息',
@@ -178,7 +183,7 @@ function addMultiSub(id){
 	//var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
 	$("#hidMenuId").val(id);
 	layer.open({
-		  title: "请选择子元素类型",
+		  title: "请选择事件类型",
 		  type: 1,
 		  skin: 'layui-layer-rim', //加上边框
 		  area: ['600px', '200px'], //宽高

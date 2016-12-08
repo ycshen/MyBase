@@ -120,7 +120,7 @@
 												<a  href="#" onclick="addSub('${menu.id}', 3)">添加子菜单</a>&nbsp;&nbsp;
 											</c:when>
 											<c:when test="${menu.menuType == 3}">
-												<a  href="#" onclick="addMultiSub('${menu.id}')">添加子菜单</a>&nbsp;&nbsp;
+												<a  href="#" onclick="addMultiSub('${menu.id}')">添加事件</a>&nbsp;&nbsp;
 											</c:when>
 										</c:choose>
 										</td>
@@ -152,9 +152,9 @@
 		</div>
 	</div>
 <div style="display:none;text-align:center;" id="divMenuType">
-	<label for="test">子元素类型：</label>
-	<input class="" type="radio" value="3"  name="menuType" id="test1">
-	<label for="test">菜单</label>
+	<label for="test">事件类型：</label>
+	<!-- <input class="" type="radio" value="3"  name="menuType" id="test1">
+	<label for="test">菜单</label> -->
 	<input class="" type="radio" value="1"  name="menuType" id="test1">
 	<label for="test1">按钮</label>
 	<input class="" type="radio" value="2"  name="menuType" id="test1">

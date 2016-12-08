@@ -105,13 +105,14 @@ public class MenuController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/addSubMenu", method = RequestMethod.GET)
-	public ModelAndView addSubMenu(MenuEntity menu, HttpServletRequest request){
+	public ModelAndView addSubMenu(MenuEntity menu, String isTree, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/menu/menu_edit");
 		List<ConfigEntity> configList = configService.getConfigListByCode(Config.MENU);
 		mav.addObject("configList", configList);
 		
 		String formName = MenuEnum.getMenuTypeName(menu.getMenuType());
 		mav.addObject("formName", formName);
+		mav.addObject("isTree", isTree);
 		mav.addObject("menu", menu);
 		return mav;
 	}
@@ -171,7 +172,7 @@ public class MenuController extends BaseController{
 				menuQuery = new MenuQuery();
 				menuQuery.setParentMenuId(id);
 				menuQuery = menuService.getMenuPage(menuQuery);
-				List<MenuTreeVO> nodes = this.getNodes(menuQuery.getItems());
+				List<MenuTreeVO> nodes = this.getNodes(menuQuery.getItems(), menuQuery);
 				treeVO.setNodes(nodes);
 				treeList.add(treeVO);
 			}
@@ -182,7 +183,7 @@ public class MenuController extends BaseController{
 		return tree;
 	}
 	
-	private List<MenuTreeVO> getNodes(List<MenuEntity> list){
+	private List<MenuTreeVO> getNodes(List<MenuEntity> list, MenuQuery menuQuery){
 		List<MenuTreeVO> treeList = null;
 		if(list != null && list.size() > 0){
 			treeList = new LinkedList<MenuTreeVO>();
@@ -192,8 +193,14 @@ public class MenuController extends BaseController{
 				treeVO.setText(menuEntity.getMenuName());
 				//treeVO.setId(menuEntity.getId().toString());
 				Integer idInt = menuEntity.getId().intValue();
+				String id = menuEntity.getId().toString();
+				menuQuery = new MenuQuery();
+				menuQuery.setParentMenuId(id);
+				menuQuery = menuService.getMenuPage(menuQuery);
+				List<MenuTreeVO> nodes = this.getNodes(menuQuery.getItems(), menuQuery);
 				treeVO.setId(idInt);
 				treeVO.setNodeId(idInt);
+				treeVO.setNodes(nodes);
 				
 				treeList.add(treeVO);
 			}

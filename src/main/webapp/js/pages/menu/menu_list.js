@@ -25,7 +25,7 @@ function modifyConfig(id){
 }
 
 function addSub(id, menuType){
-	var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
+	var url = ctx + "/inner/menu/addSubMenu?isTree=0&parentMenuId=" + id + "&menuType=" + menuType;
 	layer.open({
 		type: 2,
 		title: '新增菜单信息',
@@ -41,7 +41,7 @@ function addMultiSub(id){
 	//var url = ctx + "/inner/menu/addSubMenu?parentMenuId=" + id + "&menuType=" + menuType;
 	$("#hidMenuId").val(id);
 	layer.open({
-		  title: "请选择子元素类型",
+		  title: "请选择事件类型",
 		  type: 1,
 		  skin: 'layui-layer-rim', //加上边框
 		  area: ['600px', '200px'], //宽高

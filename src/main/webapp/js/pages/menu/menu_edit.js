@@ -12,8 +12,8 @@ function isBlank(args){
 	return result;
 }
 function editMenu(){
-	var txtmenuName = $("#txtmenuName").val();
-	if(isBlank(txtmenuName)){
+	var menuName = $("#txtmenuName").val();
+	if(isBlank(menuName)){
 		layer.alert("菜单名称不能为空");
 		return;
 	}
@@ -52,8 +52,13 @@ function editMenu(){
         success: function(data) {
           if(data == 1){
         	  layer.alert('新增成功', function(index){
-        		  window.parent.addSuccess();
-        		  
+        		  var isTree = $("#hidIsTree").val();
+        		  if(isTree == 1){
+        			  var parentMenuId = $("#hidParentMenuId").val(); 
+        			  window.parent.addSuccess(parentMenuId, menuName);
+        		  }else{
+        			  window.parent.addSuccess();
+        		  }
       		});
           }else if(data == 2){
         	  layer.alert('更新成功', function(index){
