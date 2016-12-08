@@ -111,6 +111,13 @@
 		<if test="isDelete != null">
       	 is_delete=#{isDelete,jdbcType=VARCHAR},
 		</if>
+		<if test="menuUrl != null">
+      	 menu_url=#{menuUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="beyondOfSystem != null">
+      	 beyond_of_system=#{beyondOfSystem,jdbcType=VARCHAR},
+		</if>
+		
 		
 		id=#{id}
 		 where id=#{id} limit 1;

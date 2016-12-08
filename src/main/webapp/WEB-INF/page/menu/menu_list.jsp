@@ -111,7 +111,7 @@
 										<td style="display: none;">${menu.id}</td>
 										<td>
 										
-										<a  href="#" onclick="modifyConfig('${menu.id}')">修改</a>&nbsp;&nbsp;
+										<a  href="#" onclick="modifyMenu('${menu.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="viewMenu('${menu.id}')">详细</a>&nbsp;&nbsp;
 										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a>
 										
