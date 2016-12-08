@@ -147,15 +147,17 @@ function initTree() {
 	   }
 	   
 	   if(isNotBlank(menuId)){
-		  var url = ctx + "/inner/menu/isSystem?id=" + menuId;
+		  var url = ctx + "/inner/menu/isSystemOrUrl?id=" + menuId;
 		   $.ajax({
 			   type: "get",
 			   url: url,
 			   success: function(isSystem){
 				   if(isSystem == 1){
 					   addSub(menuId, 3);
-				   }else{
+				   }else if(isSystem == 2){
 					   addMultiSub(menuId);
+				   }else{
+					   layer.alert("请选择菜单或者系统,事件不能拥有子元素!");
 				   }
 			   }
 			   

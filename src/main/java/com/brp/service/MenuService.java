@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.brp.entity.MenuEntity;
 import com.brp.util.query.MenuQuery;
-import com.brp.util.vo.MenuTreeVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -22,5 +21,6 @@ public interface MenuService {
 	List<MenuEntity> getMenuListByCode(String code);
 	void deleteMenuById(String id);
 	MenuEntity getMenuByNameAndType(String menuName, String menuType);
+	MenuEntity getMenuByNameAndSystemId(String menuName, String systemId);
 }
 

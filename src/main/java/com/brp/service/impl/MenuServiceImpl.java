@@ -65,8 +65,12 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public MenuEntity getMenuByNameAndType(String menuName, String menuType) {
-		// TODO Auto-generated method stub
 		return menuMapper.getMenuByNameAndType(menuName, menuType);
+	}
+
+	@Override
+	public MenuEntity getMenuByNameAndSystemId(String menuName, String systemId) {
+		return menuMapper.getMenuByNameAndSystemId(menuName, systemId);
 	}
 }
 

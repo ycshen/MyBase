@@ -71,6 +71,12 @@
          from menu
          where menu_name = #{menuName} and menu_type=#{menuType} and is_delete = 0 limit 1
     </select>
+    <select id="getMenuByNameAndSystemId" resultMap="BaseResultMap" >
+         select 
+         <include refid="Base_Column_List" />
+         from menu
+         where menu_name = #{menuName} and beyond_of_system_id=#{systemId} and is_delete = 0 limit 1
+    </select>
     
     <update id="deleteMenuById" parameterType="java.lang.String">
 		update menu set 

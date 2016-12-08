@@ -234,5 +234,52 @@ public class MenuController extends BaseController{
 		
 		return isSystem;
 	}
+	
+	@RequestMapping(value = "/isSystemOrUrl", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer isSystemOrUrl(Integer id, HttpServletRequest request){
+		MenuEntity menu = menuService.getMenuById(id);
+		Integer isSystemOrUrl = 0;
+		if(menu != null){
+			Integer menuType = menu.getMenuType();
+			if(MenuEnum.SYSTEM.getMenuType() == menuType){
+				isSystemOrUrl = 1;
+			}else if(MenuEnum.URL.getMenuType() == menuType){
+				isSystemOrUrl = 2;
+			}
+		}
+		
+		return isSystemOrUrl;
+	}
+	
+	@RequestMapping(value = "/isExistMenu", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer isExistMenu(Integer parentMenuId, String menuName, HttpServletRequest request){
+		Integer isExist = 0;
+		MenuEntity menu = null;
+		if(parentMenuId != null){
+			menu = menuService.getMenuById(parentMenuId);
+			String systemId = menu.getBeyondOfSystemId();
+			if(StringUtils.isBlank(systemId)){
+				systemId = menu.getId().toString();
+			}
+			
+			MenuEntity oldMenu = menuService.getMenuByNameAndSystemId(menuName, systemId);
+			
+			if(oldMenu != null){
+				Integer menuType = oldMenu.getMenuType();
+				if(MenuEnum.SYSTEM.getMenuType() == menuType || MenuEnum.URL.getMenuType() == menuType){
+					isExist = 1;
+				}
+			}
+		}else{
+			menu = menuService.getMenuByNameAndType(menuName, MenuEnum.SYSTEM.getMenuType().toString());
+			if(menu != null){
+				isExist = 2;
+			}
+		}
+		
+		return isExist;
+	}
 }
 
