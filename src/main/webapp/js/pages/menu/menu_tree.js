@@ -63,7 +63,7 @@ function deleteMenu(id){
 }
 
 function addSuccess(parentMenuId, menuName){
-	$("#tree").treeview("addNode", [2, { node: { text: menuName, href: "001005" } }]);  
+	$("#tree").treeview("addNode", [nodeId, { node: { text: menuName, href: "001005" } }]);  
 	layer.closeAll();
 	
 }
@@ -102,6 +102,7 @@ $(function(){
 	initTree();
 })
 
+var nodeId = "";
 function initTree() {
    $.ajax({
 	   type : 'get',
@@ -142,6 +143,7 @@ function initTree() {
 	   var menuId = "";
 	   for (var key in arr) {
 		   menuId = arr[key].id;
+		   nodeId = arr[key].nodeId;
 	   }
 	   
 	   if(isNotBlank(menuId)){
