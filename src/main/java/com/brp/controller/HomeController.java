@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -18,13 +19,16 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.brp.entity.ResultEnum;
+import com.brp.entity.UserEntity;
 import com.brp.model.ResultModel;
+import com.brp.service.UserService;
 
 
 @Controller
@@ -32,7 +36,8 @@ import com.brp.model.ResultModel;
 public class HomeController {
 
 	private final static Logger LOG = LoggerFactory.getLogger(HomeController.class);
-
+	@Autowired
+	private UserService userService;
 /*	@RequestMapping("/")
 	public String main() {
 		return "main";
@@ -40,30 +45,25 @@ public class HomeController {
 
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-	/*	Subject subject = SecurityUtils.getSubject();
-		if (subject.isAuthenticated() || null != subject.getSession().getAttribute("account")) {
-			return new ModelAndView("redirect:/");
-		}*/
-
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
+		UserEntity loginUser = null;
+		ModelAndView mv = new ModelAndView("login");
 		if (isEmpty(account, password) || !"POST".equalsIgnoreCase(request.getMethod())) {
-			return new ModelAndView("login");
+			return mv;
+		}else{
+			loginUser = userService.login(account, password);
+			if(loginUser != null){
+				HttpSession seesion = request.getSession();
+				seesion.setAttribute("loginUser",loginUser);
+			}else{
+				mv.addObject("msg", "用户名或者密码有误");
+				return mv;
+			}
 		}
-
-		UsernamePasswordToken token = new UsernamePasswordToken(account, password);
-		if ("true".equals(request.getParameter("rememberMe"))) {
-			token.setRememberMe(true);
-		}
-		ResultModel<String> result = new ResultModel<String>();
-		result.setResult(ResultEnum.Failure);
+		
+		mv.setViewName("redirect:inner/company/list");
 		try {
-			/*subject.login(token);
-			Session session = subject.getSession();
-			session.setAttribute("account", account);*/
-			Pattern pattern = Pattern.compile("^([a-zA-Z\\d][a-zA-Z\\d-_]+\\.)+[a-zA-Z\\d-_][^ ]*$");
-			Matcher matcher = pattern.matcher(account);
-
 			// 设置记住密码
 			if ("true".equals(request.getParameter("rememberMe"))) {
 				Cookie accountC = new Cookie("account", URLEncoder.encode(account, "UTF-8"));
@@ -78,32 +78,10 @@ public class HomeController {
 				response.addCookie(accountC);
 				response.addCookie(passwordC);
 			}
-			// 设置记住密码
-
-			if (matcher.matches()) {
-				// 以下设置代码用于解决区分是域账户登录，还是ad账户登录
-				/*session.setAttribute("flag", "false");*/
-				return new ModelAndView("redirect:/domain/list");
-			} else {
-				/*session.setAttribute("flag", "true");*/
-				return new ModelAndView("redirect:/");
-			}
-		} catch (UnknownAccountException uae) {
-			result.setMessage("登陆失败，账号密码错误。");
-		} catch (IncorrectCredentialsException ice) {
-			result.setMessage("登陆失败，账号密码错误。");
-		} catch (LockedAccountException lae) {
-			result.setMessage("登陆失败，账号已被锁定。");
-		} catch (AuthenticationException lae) {
-			result.setMessage("登陆失败，账号密码错误。");
 		} catch (Exception e) {
-			LOG.error("登录出错", e);
-			result.setMessage("登陆失败。");
-		}
-		ModelAndView mv = new ModelAndView();
-		// mv.addObject("account", StringEscapeUtils.escapeHtml4(account));
-		/*mv.addObject("result", result);*/
-		mv.setViewName("login");
+			
+		} 
+		
 		return mv;
 	}
 
@@ -126,9 +104,13 @@ public class HomeController {
 				}
 			}
 		}
-		Subject subject = SecurityUtils.getSubject();
-		subject.getSession().removeAttribute("account");
-		subject.logout();
+
+        HttpSession seesion = request.getSession();
+		UserEntity loginUser = (UserEntity) seesion.getAttribute("loginUser");
+        if(loginUser != null){
+        	seesion.removeAttribute("loginUser");
+        }
+
 		return new ModelAndView("redirect:login");
 	}
 
