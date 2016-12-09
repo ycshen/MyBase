@@ -24,7 +24,7 @@
 <div id="nav_panel" class="text-center <%=nav_panel_state%>">
 	<div id="nav_logo">
 		<img class="img-responsive" alt="" tabindex="0" style="width:3em;height:3em;"
-			src="<c:url value="/img/logo.png"/>"> <span>BRP</span>
+			src="<c:url value="/img/logo.png"/>"> <span>企家婆</span>
 	</div>
 	<div id="nav_panel_draw">
 		<a href="javascript:void(0)"><span

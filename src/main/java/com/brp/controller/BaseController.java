@@ -24,7 +24,7 @@ public class BaseController {
 	public String getToken(HttpServletRequest request){
 		String token = LoggedCookie.checkTokenCookie(request);
 		if(StringUtils.isBlank(token) && CommonUtils.getLocalEnv()){
-			token = PMSApiUtils.getLocalToken();
+			//token = PMSApiUtils.getLocalToken();
 		}
 		
 		return token;

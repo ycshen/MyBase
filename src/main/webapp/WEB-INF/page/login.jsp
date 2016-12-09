@@ -17,7 +17,7 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">面单资源管理</a>
+				<a class="navbar-brand" href="#">企家婆</a>
 			</div>
 		</div>
 	</nav>
