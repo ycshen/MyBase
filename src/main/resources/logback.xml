@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
-	<property name="APP_NAME" value="cloud-aps" />
+<configuration debug="false">
+	<property name="APP_NAME" value="MyBase" />
 	<property name="LOG_HOME" value="logs" />
 	<property name="ENCODER_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%level]-%logger %m%n" />
 	<contextName>${APP_NAME}</contextName>
