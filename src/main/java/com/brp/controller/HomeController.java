@@ -52,7 +52,7 @@ public class HomeController {
 		if (isEmpty(account, password) || !"POST".equalsIgnoreCase(request.getMethod())) {
 			return mv;
 		}else{
-			loginUser = userService.login(account, password);
+			loginUser = userService.loginMybase(account, password);
 			if(loginUser != null){
 				HttpSession seesion = request.getSession();
 				seesion.setAttribute("loginUser",loginUser);

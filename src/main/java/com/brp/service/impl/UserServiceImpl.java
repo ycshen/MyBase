@@ -73,6 +73,12 @@ public class UserServiceImpl implements UserService{
 		
 		return list;
 	}
+
+	@Override
+	public UserEntity loginMybase(String account, String password) {
+		// TODO Auto-generated method stub
+		return userMapper.loginMybase(account, password);
+	}
 	
 }
 

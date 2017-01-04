@@ -54,6 +54,7 @@ public class UserController {
 			String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
 			user.setPassword(initPass);
 			user.setStatus(UserStatus.NORMAL_INT);
+			user.setIsLoginMybase(0);
 			userService.insertUser(user);
 			result = 1;
 		}else{

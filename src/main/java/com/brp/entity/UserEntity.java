@@ -19,6 +19,7 @@ public class UserEntity extends BaseEntity{
 	private String password;
 	private String mobile;
 	private String userCode;
+	private Integer isLoginMybase;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -79,7 +80,11 @@ public class UserEntity extends BaseEntity{
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
 	}
-	
-	
+	public Integer getIsLoginMybase() {
+		return isLoginMybase;
+	}
+	public void setIsLoginMybase(Integer isLoginMybase) {
+		this.isLoginMybase = isLoginMybase;
+	}
 }
 
