@@ -22,6 +22,7 @@ import com.brp.entity.Constant;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.ConfigService;
+import com.brp.util.SHA1Utils;
 import com.brp.util.UserUtils;
 import com.brp.util.query.CompanyQuery;
 
@@ -88,7 +89,8 @@ public class CompanyController extends BaseController{
 			if(id == null){
 				company.setCreateTime(new Date());
 				company.setCreateUser(user.getUserName());
-				company.setLevel(VipLevel.VIP);				
+				company.setLevel(VipLevel.VIP);		
+				company.setSecret(SHA1Utils.getSecret());
 				companyService.insertCompany(company);
 				result = 1;
 			}else{

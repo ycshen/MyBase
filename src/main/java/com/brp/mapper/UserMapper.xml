@@ -116,13 +116,13 @@
          select 
          <include refid="Base_Column_List" />
          from user
-         where `password` = #{password} and is_login_mybase = 1 and (telphone=#{account}  or user_name =#{account} or user_code=#{account})
+         where `password` = #{password} and `status` = 101  and is_login_mybase = 1 and (telphone=#{account}  or user_name =#{account} or user_code=#{account})
     </select>
     <select id="login" resultMap="BaseResultMap">
          select 
          <include refid="Base_Column_List" />
          from user
-         where `password` = #{password} and (telphone=#{account}  or user_name =#{account} or user_code=#{account})
+         where `password` = #{password} and `status` = 101 and (telphone=#{account}  or user_name =#{account} or user_code=#{account})
     </select>
     <select id="getUserByDepartmentIdAndTelphone" resultMap="BaseResultMap">
          select 
