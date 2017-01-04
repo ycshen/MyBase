@@ -71,6 +71,8 @@ public class UserApi {
 					jsonData.setCode(ApiCode.OK);
 					jsonData.setMessage("登录成功");
 					userInfo.setPassword(StringUtils.EMPTY);
+					userInfo.setCreateTime(null);
+					userInfo.setUpdateTime(null);
 					jsonData.setData(userInfo);
 				}else{
 					jsonData.setCode(ApiCode.SUCCESS);

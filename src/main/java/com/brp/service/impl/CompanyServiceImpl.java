@@ -51,7 +51,7 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public String getSecretById(Long id) {
-		return companyMapper.getSecretById(id);
+		return companyMapper.getSecretById(id.intValue());
 	}
 }
 
