@@ -17,7 +17,7 @@
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="parent_company_id" property="parentCompanyId" jdbcType="INTEGER" />
     <result column="parent_company_name" property="parentCompanyName" jdbcType="VARCHAR" />
-    <result column="secret" property="secret" jdbcType="secret" />
+    <result column="secret" property="secret" jdbcType="VARCHAR" />
   </resultMap> 
      
   <sql id="Base_Column_List" >
