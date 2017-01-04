@@ -164,4 +164,11 @@
          from company
          where 1=1 and id=#{id}
     </select>
+    <select id="getSecretById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         secret
+         from company
+         where 1=1 and id=#{id}
+    </select>
+    
 </mapper>

@@ -16,5 +16,6 @@ public interface CompanyService {
 	CompanyQuery getCompanyList(CompanyQuery companyQuery);
 	void updateCompany(CompanyEntity company);
 	CompanyEntity getCompanyById(Long id);
+	String getSecretById(Long id);
 }
 

@@ -51,6 +51,7 @@
 				/login = anon
 				/img/** = anon
 				/css/** = anon
+				/api/** = anon
 				/sea-modules/** = anon
 				/domain/** = authc
 				/** = domainFilter
