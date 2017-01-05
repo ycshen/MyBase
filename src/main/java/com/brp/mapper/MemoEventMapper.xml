@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.MemoEventMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.MemoEventEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="mome_event_name" property="momeEventName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="level_color" property="levelColor" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+	   user_id,mome_event_name,level,level_color,is_delete
+  </sql>
+  <insert id="insertMemoEvent" parameterType="com.brp.entity.MemoEventEntity" >
+    insert memo_event
+   		(create_user,update_user,create_time, update_time,
+   		user_id,mome_event_name,level,level_color,is_delete) 
+    values
+    	(#{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{userId,jdbcType=INTEGER},#{momeEventName,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{levelColor,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER})
+  </insert>
+ 
+</mapper>

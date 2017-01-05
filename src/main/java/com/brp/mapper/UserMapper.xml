@@ -38,7 +38,7 @@
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{departmentId,jdbcType=INTEGER},
-    	#{userName,jdbcType=VARCHAR},#{telphone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},
+    	#{userName,jdbcType=VARCHAR},#{telphone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{userCode,jdbcType=VARCHAR},
 		#{isLoginMybase,jdbcType=INTEGER}
     	)
   </insert>

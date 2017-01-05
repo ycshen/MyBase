@@ -15,11 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.base.Config;
 import com.brp.base.ResponseStatus;
 import com.brp.base.UserStatus;
+import com.brp.entity.ConfigEntity;
 import com.brp.entity.Constant;
 import com.brp.entity.DepartmentEntity;
+import com.brp.entity.MemoEventEntity;
 import com.brp.entity.UserEntity;
+import com.brp.service.ConfigService;
 import com.brp.service.DepartmentService;
 import com.brp.service.UserService;
 import com.brp.util.UserUtils;
@@ -41,6 +45,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private DepartmentService departmentService;
+	@Autowired
+	private ConfigService configService;
 	
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
@@ -56,6 +62,19 @@ public class UserController {
 			user.setStatus(UserStatus.NORMAL_INT);
 			user.setIsLoginMybase(0);
 			userService.insertUser(user);
+			List<ConfigEntity> configList = configService.getConfigListByCode(Config.INIT_MEMOEVENT);
+			if(configList != null && configList.size() > 0){
+				MemoEventEntity memoEvent = null;
+				for (ConfigEntity config : configList) {
+					memoEvent = new MemoEventEntity();
+					memoEvent.setCreateTime(new Date());
+					memoEvent.setIsDelete(0);
+					memoEvent.setCreateUser(user.getUserName());
+					memoEvent.setLevelColor(config.getKey());
+					memoEvent.setMomeEventName(config.getValue());
+					memoEvent.setUserId(user.getId());
+				}
+			}
 			result = 1;
 		}else{
 			user.setUpdateTime(new Date());
