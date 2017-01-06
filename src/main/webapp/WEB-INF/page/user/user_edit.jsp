@@ -18,7 +18,7 @@
 	<div class="container">
 		<table class="table">
 	<form method="post" id="userForm">
-		<input type="hidden" value="${user.id}" name="id"/>
+		<input type="hidden" value="${user.id}" name="id" id="hidId"/>
 			<input type="hidden" value="${user.companyId}" name="companyId"/>
 			<tr>
 				<td style="border:0px;text-align:right;">

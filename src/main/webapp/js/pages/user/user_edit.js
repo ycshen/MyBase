@@ -43,7 +43,8 @@ function editUser(){
 		layer.alert("员工手机号码格式异常");
 		return;
 	}else{
-		var url = ctx + "/inner/user/isExistTelphone?departmentId=" + departmentId + "&telphone=" + telphone;
+		var userId = $("#hidId").val();
+		var url = ctx + "/inner/user/isExistTelphone?departmentId=" + departmentId + "&telphone=" + telphone + "&userId=" + userId;
 		$.ajax({
 	        cache: true,
 	        type: "GET",

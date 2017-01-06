@@ -53,10 +53,13 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean isExistTelphone(String departmentId, String telphone) {
+	public boolean isExistTelphone(String departmentId, String telphone, Long userId) {
 		UserEntity user = userMapper.getUserByDepartmentIdAndTelphone(departmentId, telphone);
 		if(user != null){
-			return true;
+			Long existUserId = user.getId();
+			if(userId != existUserId){
+				return true;
+			}
 		}
 		
 		return false;
