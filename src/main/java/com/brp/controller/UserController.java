@@ -25,6 +25,7 @@ import com.brp.entity.MemoEventEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.ConfigService;
 import com.brp.service.DepartmentService;
+import com.brp.service.MemoEventService;
 import com.brp.service.UserService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.UserQuery;
@@ -47,6 +48,8 @@ public class UserController {
 	private DepartmentService departmentService;
 	@Autowired
 	private ConfigService configService;
+	@Autowired
+	private MemoEventService memoEventService;
 	
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
@@ -73,6 +76,7 @@ public class UserController {
 					memoEvent.setLevelColor(config.getKey());
 					memoEvent.setMomeEventName(config.getValue());
 					memoEvent.setUserId(user.getId());
+					memoEventService.insertMemoEvent(memoEvent);
 				}
 			}
 			result = 1;

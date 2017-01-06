@@ -28,7 +28,7 @@
    		company_id,company_name,department_name,status,department_id,
    		user_name,telphone,password,mobile,user_code,is_login_mybase
   </sql>
-  <insert id="insertUser" parameterType="com.brp.entity.UserEntity" >
+  <insert id="insertUser" parameterType="com.brp.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
     insert user
    		(create_user,update_user,create_time, update_time,
    		company_id,company_name,department_name,status,department_id,

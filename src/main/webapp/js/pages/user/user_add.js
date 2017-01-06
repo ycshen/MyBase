@@ -17,14 +17,28 @@ function editUser(){
 		layer.alert("部门名称不能为空");
 		return;
 	}*/
+	var isHasSub = $("#hidIsHasSub").val();
+	if(isHasSub == 1){
+		var departmentId = $("#departmentIdSelect").find("option:selected").val();
+		if(isBlank(departmentId)){
+			layer.alert("请选择部门");
+			return;
+		}else{
+			var departmentName = $("#departmentIdSelect").find("option:selected").text();
+			$("#hidDepartmentName").val(departmentName);
+		}
+	}
 	
-	var departmentId = $("#departmentIdSelect").find("option:selected").val();
-	if(isBlank(departmentId)){
-		layer.alert("请选择部门");
+	var userName = $("#txtuserName").val();
+	if(isBlank(userName)){
+		layer.alert("请输入用户名");
 		return;
-	}else{
-		var departmentName = $("#departmentIdSelect").find("option:selected").text();
-		$("#hidDepartmentName").val(departmentName);
+	}
+	
+	var telphone = $("#txttelphone").val();
+	if(isBlank(telphone)){
+		layer.alert("请输入电话号码");
+		return;
 	}
 	
 	var url = ctx + "/inner/user/saveOrUpdate";

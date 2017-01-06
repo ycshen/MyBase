@@ -26,7 +26,7 @@
 				</c:when>
 				<c:otherwise>
 					<input type="hidden" value="${department.companyId}" name="companyId"/>
-			<input type="hidden" value="${department.id}" name="departmentId"/>
+					<input type="hidden" value="${department.id}" name="departmentId"/>
 				</c:otherwise>
 			</c:choose>
 			
@@ -72,13 +72,14 @@
 							
 						</select>
 						
-							
+						<input type="hidden" id="hidIsHasSub" value="1"/>	
 						</c:when>
 						<c:otherwise>
 							<input name="departmentName" id="txtdepartmentName"
 							value="${department.departmentName}" maxlength="20"
 							class="form-control" type="text" placeholder="请输入部门名称"
 							style="width: 300px;" readonly="readonly">
+							<input type="hidden" id="hidIsHasSub" value="0"/>
 						</c:otherwise>
 					</c:choose>
 					
