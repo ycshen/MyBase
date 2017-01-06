@@ -1,6 +1,7 @@
 package com.brp.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.entity.MemoEventEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
+import com.brp.service.MemoEventService;
 import com.brp.service.UserService;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
@@ -33,24 +36,22 @@ import com.google.gson.Gson;
 @RequestMapping("/api/memoEvent")
 public class MemoEventApi {
 	@Autowired
-	private UserService userService;
+	private MemoEventService memoEventService;
 	@Autowired
 	private CompanyService companyService;
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/getMemoEventByUserId", method = RequestMethod.POST)
 	@ResponseBody
-	public String login(@RequestBody JSONObject jsonObject){
-		JsonData<UserEntity> jsonData = new JsonData<UserEntity>();
+	public String getMemoEventByUserId(@RequestBody JSONObject jsonObject){
+		JsonData<List<MemoEventEntity>> jsonData = new JsonData<List<MemoEventEntity>>();
 		try{
-			String account = jsonObject.getString("account");
-			String password = jsonObject.getString("password");
+			String userId = jsonObject.getString("userId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("account", account);
-				maps.put("password", password);
+				maps.put("userId", userId);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -58,45 +59,31 @@ public class MemoEventApi {
 					auth = true;
 				}else{
 					jsonData.setCode(ApiCode.AUTH_FAIL);
-					jsonData.setMessage("登录失败");
+					jsonData.setMessage("验证失败");
 				}
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
-				jsonData.setMessage("登录参数异常");
+				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth && StringUtils.isNotBlank(account) && StringUtils.isNotBlank(password)){
-				UserEntity userInfo = userService.login(account, password);
-				if(userInfo != null){
-					jsonData.setCode(ApiCode.OK);
-					jsonData.setMessage("登录成功");
-					userInfo.setPassword(StringUtils.EMPTY);
-					userInfo.setCreateTime(null);
-					userInfo.setUpdateTime(null);
-					jsonData.setData(userInfo);
-				}else{
-					jsonData.setCode(ApiCode.SUCCESS);
-					jsonData.setMessage("登录失败");
-				}
+			if(auth && StringUtils.isNotBlank(userId) && TryParseUtils.tryParse(userId, Integer.class)){
+				List<MemoEventEntity> meList = memoEventService.getMemoEventByUserId(Integer.parseInt(userId));
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(meList);
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
-				jsonData.setMessage("登录参数异常");
+				jsonData.setMessage("参数异常");
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 			jsonData.setCode(ApiCode.EXCEPTION);
-			jsonData.setMessage("登录失败");
+			jsonData.setMessage("操作失败");
 		}
 		
 		String result = new Gson().toJson(jsonData);
 		
 		return result;
-	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	@ResponseBody
-	public String test(){
-		return "test success";
 	}
 }
 

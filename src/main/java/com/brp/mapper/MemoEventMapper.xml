@@ -27,5 +27,13 @@
     	(#{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{userId,jdbcType=INTEGER},#{momeEventName,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{levelColor,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER})
   </insert>
+ <select id="getMemoEventByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from memo_event
+         where 1=1 and user_id=#(userId)
+         order by create_time desc
+    </select>
+ 
  
 </mapper>

@@ -32,6 +32,12 @@ public class MemoEventServiceImpl implements MemoEventService{
 	public void insertMemoEvent(MemoEventEntity memoEvent) {
 		memoEventMapper.insertMemoEvent(memoEvent);
 	}
+
+	@Override
+	public List<MemoEventEntity> getMemoEventByUserId(Integer userId) {
+		
+		return memoEventMapper.getMemoEventByUserId(userId);
+	}
 	
 }
 

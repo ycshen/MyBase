@@ -20,5 +20,6 @@ import com.brp.util.query.MenuQuery;
 @Repository
 public interface MemoEventMapper {
 	void insertMemoEvent(MemoEventEntity memoEvent);
+	List<MemoEventEntity> getMemoEventByUserId(Integer userId);
 }
 

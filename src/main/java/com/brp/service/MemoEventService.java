@@ -1,5 +1,7 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.MemoEventEntity;
 
 /** 
@@ -12,5 +14,6 @@ import com.brp.entity.MemoEventEntity;
  */
 public interface MemoEventService {
 	void insertMemoEvent(MemoEventEntity memoEvent);
+	List<MemoEventEntity> getMemoEventByUserId(Integer userId);
 }
 
