@@ -52,6 +52,15 @@
 		 
          order by create_time desc
     </select>
+    
+    <select id="getSubCompanyPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.CompanyQuery" >
+        select 
+         <include refid="Base_Column_List" />
+         from company
+         where parent_company_id=#{companyId}
+         order by create_time desc
+    </select>
+    select * from company where parent_company_id=18
 	<!-- <update id="updateBillApprove" parameterType="com.brp.entity.BillApproveEntity">
 		update bill_approve set 
 		<if test="createUser != null">

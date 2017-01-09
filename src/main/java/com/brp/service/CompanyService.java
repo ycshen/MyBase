@@ -1,5 +1,7 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.CompanyEntity;
 import com.brp.util.query.CompanyQuery;
 
@@ -17,5 +19,7 @@ public interface CompanyService {
 	void updateCompany(CompanyEntity company);
 	CompanyEntity getCompanyById(Long id);
 	String getSecretById(Long id);
+	CompanyQuery getSubCompanyPage(CompanyQuery companyQuery);
+	
 }
 

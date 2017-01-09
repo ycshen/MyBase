@@ -14,6 +14,7 @@ import com.brp.model.pageutil.Page;
 public class CompanyQuery extends Page<CompanyEntity>{
 	private String level;
 	private String companyName;
+	private String companyId;
 	public String getLevel() {
 		return level;
 	}
@@ -28,6 +29,14 @@ public class CompanyQuery extends Page<CompanyEntity>{
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 }
 

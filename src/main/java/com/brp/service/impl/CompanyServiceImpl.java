@@ -53,5 +53,15 @@ public class CompanyServiceImpl implements CompanyService{
 	public String getSecretById(Long id) {
 		return companyMapper.getSecretById(id.intValue());
 	}
+
+	@Override
+	public CompanyQuery getSubCompanyPage(CompanyQuery companyQuery) {
+		List<CompanyEntity> list = companyMapper.getSubCompanyPage(companyQuery);
+		if(list != null && list.size() > 0){
+			companyQuery.setItems(list);
+		}
+		
+		return companyQuery;
+	}
 }
 

@@ -22,5 +22,6 @@ public interface CompanyMapper {
 	void updateCompany(CompanyEntity company);
 	CompanyEntity getCompanyById(Integer id);
 	String getSecretById(Integer id);
+	List<CompanyEntity> getSubCompanyPage(CompanyQuery companyQuery);
 }
 
