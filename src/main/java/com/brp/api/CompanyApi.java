@@ -1,6 +1,7 @@
 package com.brp.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.entity.CompanyEntity;
 import com.brp.service.CompanyService;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
@@ -36,13 +38,15 @@ public class CompanyApi {
 	@RequestMapping(value = "/getSubCompanyPage", method = RequestMethod.POST)
 	@ResponseBody
 	public String getSubCompanyPage(@RequestBody JSONObject jsonObject){
-		JsonData<CompanyQuery> jsonData = new JsonData<CompanyQuery>();
+		JsonData<List<CompanyEntity>> jsonData = new JsonData<List<CompanyEntity>>();
 		try{
 			String id = jsonObject.getString("id");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			String pageSize = jsonObject.getString("pageSize");
 			String currentPage = jsonObject.getString("currentPage");
+			String companyName = jsonObject.getString("companyName");
+			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
@@ -52,6 +56,7 @@ public class CompanyApi {
 				maps.put("cId", cId);
 				maps.put("pageSize", pageSize);
 				maps.put("currentPage", currentPage);
+				maps.put("companyName", companyName);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
 					auth = true;
@@ -80,7 +85,7 @@ public class CompanyApi {
 				companyQuery = companyService.getSubCompanyPage(companyQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
-				jsonData.setData(companyQuery);
+				jsonData.setData(companyQuery.getItems());
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");
