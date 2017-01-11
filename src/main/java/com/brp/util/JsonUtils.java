@@ -1,4 +1,10 @@
 package com.brp.util;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 /** 
  * <p>Project: MyBase</p> 
  * <p>Title: JsonUtils.java</p> 
@@ -8,5 +14,10 @@ package com.brp.util;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class JsonUtils {
+	public static String json2Str(Object o){
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		
+		return gson.toJson(o);
+	}
 }
 

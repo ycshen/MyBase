@@ -3,8 +3,10 @@ package com.brp.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
- * @Author hexj
+ * @Author shenyuchuan
  * @Date 2016/4/7.
  */
 public class BaseEntity implements Serializable {
@@ -21,6 +23,7 @@ public class BaseEntity implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") 
 	private Date createTime;
 	/**
 	 * 更新人账号
@@ -29,6 +32,7 @@ public class BaseEntity implements Serializable {
 	/**
 	 * 更新时间
 	 */
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") 
 	private Date updateTime;
 
 	public Long getId() {

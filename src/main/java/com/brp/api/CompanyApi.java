@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.brp.entity.CompanyEntity;
 import com.brp.service.CompanyService;
+import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
@@ -71,6 +73,7 @@ public class CompanyApi {
 			
 			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
 				CompanyQuery companyQuery = new CompanyQuery();
+				companyQuery.setCompanyId(id);
 				if(StringUtils.isNotBlank(currentPage)){
 					currentPage = "1";
 				}
@@ -83,6 +86,7 @@ public class CompanyApi {
 				
 				companyQuery.setSize(Integer.parseInt(pageSize));
 				companyQuery = companyService.getSubCompanyPage(companyQuery);
+				System.out.println(new Gson().toJson(companyQuery));
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 				jsonData.setData(companyQuery.getItems());
@@ -96,7 +100,7 @@ public class CompanyApi {
 			jsonData.setMessage("操作失败");
 		}
 		
-		String result = new Gson().toJson(jsonData);
+		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
 	}

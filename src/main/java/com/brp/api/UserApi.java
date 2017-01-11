@@ -15,11 +15,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.UserService;
+import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -88,8 +90,9 @@ public class UserApi {
 			jsonData.setMessage("登录失败");
 		}
 		
-		String result = new Gson().toJson(jsonData);
 		
+		String result = JsonUtils.json2Str(jsonData);
+		System.out.println(result);
 		return result;
 	}
 	
