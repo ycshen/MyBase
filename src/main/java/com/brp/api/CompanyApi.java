@@ -80,7 +80,6 @@ public class CompanyApi {
 					currentPage = "1";
 				}
 				
-				
 				companyQuery.setPage(Integer.parseInt(currentPage));
 				if(StringUtils.isBlank(pageSize)){
 					pageSize = "20";

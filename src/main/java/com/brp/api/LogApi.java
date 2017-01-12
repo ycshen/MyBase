@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,19 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brp.base.VipLevel;
-import com.brp.entity.CompanyEntity;
 import com.brp.entity.LogEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.LogService;
+import com.brp.util.DateUtils;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
-import com.brp.util.query.CompanyQuery;
 import com.brp.util.query.LogQuery;
-import com.google.gson.Gson;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -38,7 +34,7 @@ import com.google.gson.Gson;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 @Controller
-@RequestMapping("/api/company")
+@RequestMapping("/api/log")
 public class LogApi {
 	@Autowired
 	private LogService logService;
@@ -75,6 +71,8 @@ public class LogApi {
 			
 			if(auth){
 				LogEntity log = JSONObject.parseObject(logJson, LogEntity.class);
+				String logId = DateUtils.getDateStr(new Date(), "yyyyMMddHHmmss") + SHA1Utils.getSecret();
+				log.setId(logId);
 				log.setCreateTime(new Date());
 				logService.insertLog(log);
 				jsonData.setCode(ApiCode.OK);
@@ -102,6 +100,8 @@ public class LogApi {
 			String companyId = jsonObject.getString("companyId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
+			String pageSize = jsonObject.getString("pageSize");
+			String currentPage = jsonObject.getString("currentPage");
 			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
@@ -110,6 +110,8 @@ public class LogApi {
 				maps.put("companyId", companyId);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
+				maps.put("pageSize", pageSize);
+				maps.put("currentPage", currentPage);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
 					auth = true;
@@ -124,6 +126,16 @@ public class LogApi {
 			
 			if(auth && StringUtils.isNotBlank(companyId)){
 				LogQuery logQuery = new LogQuery();
+				if(StringUtils.isBlank(currentPage)){
+					currentPage = "1";
+				}
+
+				logQuery.setPage(Integer.parseInt(currentPage));
+				if(StringUtils.isBlank(pageSize)){
+					pageSize = "20";
+				}
+				
+				logQuery.setSize(Integer.parseInt(pageSize));
 				logQuery.setCompanyId(companyId);
 				logQuery = logService.getLogPage(logQuery);
 				jsonData.setCode(ApiCode.OK);
