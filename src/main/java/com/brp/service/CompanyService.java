@@ -20,6 +20,8 @@ public interface CompanyService {
 	CompanyEntity getCompanyById(Long id);
 	String getSecretById(Long id);
 	CompanyQuery getSubCompanyPage(CompanyQuery companyQuery);
+	Integer deleteCompany(Long id);
+	Integer activateCompany(Long id);
 	
 }
 

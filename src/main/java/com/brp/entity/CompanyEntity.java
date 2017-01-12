@@ -17,6 +17,7 @@ public class CompanyEntity extends BaseEntity{
 	private String parentCompanyId;
 	private String parentCompanyName;
 	private String secret;
+	private Integer status;
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -71,5 +72,12 @@ public class CompanyEntity extends BaseEntity{
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
 }
 

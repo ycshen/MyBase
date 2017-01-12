@@ -63,5 +63,17 @@ public class CompanyServiceImpl implements CompanyService{
 		
 		return companyQuery;
 	}
+
+	@Override
+	public Integer deleteCompany(Long id) {
+		companyMapper.deleteCompany(id.intValue());
+		return 1;
+	}
+
+	@Override
+	public Integer activateCompany(Long id) {
+		companyMapper.activateCompany(id.intValue());
+		return 1;
+	}
 }
 

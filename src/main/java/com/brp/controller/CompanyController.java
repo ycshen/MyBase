@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.brp.base.Status;
 import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.ConfigEntity;
@@ -89,7 +90,8 @@ public class CompanyController extends BaseController{
 			if(id == null){
 				company.setCreateTime(new Date());
 				company.setCreateUser(user.getUserName());
-				company.setLevel(VipLevel.VIP);		
+				company.setLevel(VipLevel.VIP);	
+				company.setStatus(Status.NORMAL);
 				company.setSecret(SHA1Utils.getSecret());
 				companyService.insertCompany(company);
 				result = 1;

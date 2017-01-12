@@ -18,22 +18,23 @@
     <result column="parent_company_id" property="parentCompanyId" jdbcType="INTEGER" />
     <result column="parent_company_name" property="parentCompanyName" jdbcType="VARCHAR" />
     <result column="secret" property="secret" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap> 
      
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
    		company_name,company_telephone,company_ceo,company_site,company_address,
-   		level,parent_company_id,parent_company_name
+   		level,parent_company_id,parent_company_name,status
   </sql>
   <insert id="insertCompany" parameterType="com.brp.entity.CompanyEntity" >
     insert company
    		(create_user,update_user,create_time, update_time,
    		company_name,company_telephone,company_ceo,company_site,company_address,
-   		level,parent_company_id,parent_company_name,secret) 
+   		level,parent_company_id,parent_company_name,secret,status) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyName,jdbcType=VARCHAR},#{companyTelephone,jdbcType=VARCHAR},#{companyCeo,jdbcType=VARCHAR},#{companySite,jdbcType=VARCHAR},#{companyAddress,jdbcType=VARCHAR},
-    	#{level,jdbcType=INTEGER},#{parentCompanyId,jdbcType=INTEGER},#{parentCompanyName,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR})
+    	#{level,jdbcType=INTEGER},#{parentCompanyId,jdbcType=INTEGER},#{parentCompanyName,jdbcType=VARCHAR},#{secret,jdbcType=VARCHAR},#{status,jdbcType=INTEGER})
   </insert>
   <select id="getCompanyPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.CompanyQuery" >
          select 
@@ -178,5 +179,12 @@
          from company
          where 1=1 and id=#{id}
     </select>
+    <select id="deleteCompany"  parameterType="java.lang.Integer" >
+        update company set `status` = 1 where id=#{id} limit 1;
+    </select>
+    <select id="activateCompany"  parameterType="java.lang.Integer" >
+        update company set `status` = 0 where id=#{id} limit 1;
+    </select>
+    
     
 </mapper>

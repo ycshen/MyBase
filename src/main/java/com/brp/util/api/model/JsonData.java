@@ -11,6 +11,7 @@ public class JsonData<T> {
 	private Integer code;
 	private String message;
 	private T data;
+	private Integer count;
 	public Integer getCode() {
 		return code;
 	}
@@ -28,6 +29,12 @@ public class JsonData<T> {
 	}
 	public void setData(T data) {
 		this.data = data;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	public void setCount(Integer count) {
+		this.count = count;
 	}
 }
 

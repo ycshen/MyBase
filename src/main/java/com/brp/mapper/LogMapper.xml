@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.LogMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.LogEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="log_msg" property="logMsg" jdbcType="VARCHAR" />
+    <result column="log_type" property="logType" jdbcType="INTEGER" />   
+    
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+	   user_name,company_id,user_id,log_msg,log_type
+  </sql>
+  <insert id="insertLog" parameterType="com.brp.entity.LogEntity" >
+    insert log
+   		(create_user,update_user,create_time, update_time,
+		user_name,company_id,user_id,log_msg,log_type) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{userName,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{logMsg,jdbcType=VARCHAR},#{logType,jdbcType=INTEGER})
+  </insert>
+  <select id="getLogPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.LogQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from log 
+         order by create_time desc
+   </select>
+    
+    
+</mapper>
