@@ -9,7 +9,7 @@ import com.brp.entity.MenuEntity;
 import com.brp.mapper.MenuMapper;
 import com.brp.service.MenuService;
 import com.brp.util.query.MenuQuery;
-import com.brp.util.vo.MenuTreeVO;
+import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
 
 /** 
@@ -71,6 +71,11 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public MenuEntity getMenuByNameAndSystemId(String menuName, String systemId) {
 		return menuMapper.getMenuByNameAndSystemId(menuName, systemId);
+	}
+
+	@Override
+	public List<MenuEntity> getMenuList(MenuQuery menuQuery) {
+		return menuMapper.getMenuList(menuQuery);
 	}
 }
 

@@ -20,6 +20,7 @@ import com.brp.util.query.MenuQuery;
 public interface MenuMapper {
 	void insertMenu(MenuEntity menu);
 	List<MenuEntity> getMenuPage(MenuQuery menuQuery);
+	List<MenuEntity> getMenuList(MenuQuery menuQuery);
 	void updateMenu(MenuEntity menu);
 	MenuEntity getMenuById(Integer id);
 	List<MenuEntity> getMenuListByCode(String code);

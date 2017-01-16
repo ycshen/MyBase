@@ -117,7 +117,7 @@ public class DepartmentController extends BaseController{
 		DepartmentEntity department = null;
 		if(StringUtils.isNotBlank(id)){
 			department = departmentService.getDepartmentById(Integer.parseInt(id));
-			userQuery.setDepartmentId(Integer.parseInt(id));
+			userQuery.setDepartmentId(id);
 			userQuery = userService.getUserList(userQuery);
 			
 		}

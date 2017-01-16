@@ -26,5 +26,6 @@ public interface UserMapper {
 	UserEntity getUserByDepartmentIdAndTelphone( @Param("departmentId")String departmentId, @Param("telphone") String telphone);
 	void deleteUserById(String id);
 	UserEntity loginMybase(@Param("account")String account, @Param("password")String password);
+	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 }
 

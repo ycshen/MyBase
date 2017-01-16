@@ -2,7 +2,6 @@ package com.brp.api;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,18 +18,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
-import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
-import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.CompanyQuery;
-import com.brp.util.query.UserQuery;
-import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
 
 /** 
@@ -42,86 +37,17 @@ import com.google.gson.Gson;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 @Controller
-@RequestMapping("/api/company")
-public class CompanyApi {
+@RequestMapping("/api/department")
+public class DepartmentApi {
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
 	private DepartmentService departmentService;
-	@Autowired
-	private UserService userService;
-	@RequestMapping(value = "/getSubCompanyPage", method = RequestMethod.POST)
-	@ResponseBody
-	public String getSubCompanyPage(@RequestBody JSONObject jsonObject){
-		JsonData<List<CompanyEntity>> jsonData = new JsonData<List<CompanyEntity>>();
-		try{
-			String id = jsonObject.getString("id");
-			String secret = jsonObject.getString("secret");
-			String cId = jsonObject.getString("cId");
-			String pageSize = jsonObject.getString("pageSize");
-			String currentPage = jsonObject.getString("currentPage");
-			String companyName = jsonObject.getString("companyName");
-			
-			boolean auth = false;
-			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
-				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
-				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("id", id);
-				maps.put("secret", mybaseSecret);
-				maps.put("cId", cId);
-				maps.put("pageSize", pageSize);
-				maps.put("currentPage", currentPage);
-				maps.put("companyName", companyName);
-				String md5 = SHA1Utils.SHA1(maps);
-				if(md5.equals(secret)){
-					auth = true;
-				}else{
-					jsonData.setCode(ApiCode.AUTH_FAIL);
-					jsonData.setMessage("验证失败");
-				}
-			}else{
-				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
-				jsonData.setMessage("参数异常");
-			}
-			
-			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
-				CompanyQuery companyQuery = new CompanyQuery();
-				companyQuery.setCompanyId(id);
-				if(StringUtils.isBlank(currentPage)){
-					currentPage = "1";
-				}
-				
-				companyQuery.setPage(Integer.parseInt(currentPage));
-				if(StringUtils.isBlank(pageSize)){
-					pageSize = "20";
-				}
-				
-				companyQuery.setSize(Integer.parseInt(pageSize));
-				companyQuery = companyService.getSubCompanyPage(companyQuery);
-				System.out.println(new Gson().toJson(companyQuery));
-				jsonData.setCode(ApiCode.OK);
-				jsonData.setMessage("操作成功");
-				jsonData.setData(companyQuery.getItems());
-				jsonData.setCount(companyQuery.getCount());
-			}else{
-				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
-				jsonData.setMessage("参数异常");
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			jsonData.setCode(ApiCode.EXCEPTION);
-			jsonData.setMessage("操作失败");
-		}
-		
-		String result = JsonUtils.json2Str(jsonData);
-		
-		return result;
-	}
 	
-	@RequestMapping(value = "/getCompanyById", method = RequestMethod.POST)
+	@RequestMapping(value = "/getDepByCompanyId", method = RequestMethod.POST)
 	@ResponseBody
-	public String getCompanyById(@RequestBody JSONObject jsonObject){
-		JsonData<CompanyEntity> jsonData = new JsonData<CompanyEntity>();
+	public String getDepByCompanyId(@RequestBody JSONObject jsonObject){
+		JsonData<List<DepartmentEntity>> jsonData = new JsonData<List<DepartmentEntity>>();
 		try{
 			String id = jsonObject.getString("id");
 			String secret = jsonObject.getString("secret");
@@ -147,10 +73,10 @@ public class CompanyApi {
 			}
 			
 			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
-				CompanyEntity company = companyService.getCompanyById(Long.parseLong(id));
+				List<DepartmentEntity> departmentList = departmentService.getListByCompanyId(id);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
-				jsonData.setData(company);
+				jsonData.setData(departmentList);
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");
@@ -358,141 +284,6 @@ public class CompanyApi {
 		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
-	}
-	
-	@RequestMapping(value = "/getCompanyStaffTreeById", method = RequestMethod.POST)
-	@ResponseBody
-	public String getCompanyStaffTreeById(@RequestBody JSONObject jsonObject){
-		JsonData<String> jsonData = new JsonData<String>();
-		try{
-			String companyId = jsonObject.getString("companyId");
-			String secret = jsonObject.getString("secret");
-			String cId = jsonObject.getString("cId");
-			
-			boolean auth = false;
-			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
-				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
-				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("companyId", companyId);
-				maps.put("secret", mybaseSecret);
-				maps.put("cId", cId);
-				String md5 = SHA1Utils.SHA1(maps);
-				if(md5.equals(secret)){
-					auth = true;
-				}else{
-					jsonData.setCode(ApiCode.AUTH_FAIL);
-					jsonData.setMessage("验证失败");
-				}
-			}else{
-				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
-				jsonData.setMessage("参数异常");
-			}
-			
-			if(auth && StringUtils.isNotBlank(companyId) && TryParseUtils.tryParse(companyId, Long.class)){
-				List<BTreeVO> companyTree = new LinkedList<BTreeVO>(); 
-				CompanyEntity company = companyService.getCompanyById(Long.parseLong(companyId));
-				if(company != null){	
-					BTreeVO companyNode = this.getTreeNode(company, CompanyEntity.class);
-					List<DepartmentEntity> departmentList = departmentService.getListByCompanyId(companyId);
-					if(departmentList != null && departmentList.size() > 0){
-						List<BTreeVO> deparmentTree = new LinkedList<BTreeVO>(); 
-						BTreeVO deparmentNode = null;
-						for (DepartmentEntity department : departmentList) {
-							deparmentNode = this.getTreeNode(department, DepartmentEntity.class);
-							String departmentId = department.getId().toString();
-							List<DepartmentEntity> subDeptList = departmentService.getDepartmentByParentId(departmentId);
-							List<BTreeVO> subDeparmentTree = new LinkedList<BTreeVO>(); 
-							List<BTreeVO> userTree = new LinkedList<BTreeVO>(); 
-							if(subDeptList != null && subDeptList.size() > 0){
-								BTreeVO subDeparmentNode = null;
-								for (DepartmentEntity subDept : subDeptList) {
-									subDeparmentNode = this.getTreeNode(subDept, DepartmentEntity.class);
-									String deptId = subDept.getId().toString();
-									List<UserEntity> userList = this.getUserListByCompanyIdAndDeptId(deptId, companyId);
-									if(userList != null && userList.size() > 0){
-										for (UserEntity user : userList) {
-											BTreeVO userNode = this.getTreeNode(user, UserEntity.class);
-											userTree.add(userNode);
-										}
-										
-										subDeparmentNode.setNodes(userTree);
-										subDeparmentTree.add(subDeparmentNode);
-									}
-								}
-								
-								deparmentNode.setNodes(subDeparmentTree);
-							}else{
-								List<UserEntity> userList = this.getUserListByCompanyIdAndDeptId(departmentId, companyId);
-								if(userList != null && userList.size() > 0){
-									for (UserEntity user : userList) {
-										BTreeVO userNode = this.getTreeNode(user, UserEntity.class);
-										userTree.add(userNode);
-									}
-								}
-								
-								deparmentNode.setNodes(userTree);
-							}
-							
-							deparmentTree.add(deparmentNode);
-						}
-						
-						companyNode.setNodes(deparmentTree);
-					}
-					
-					companyTree.add(companyNode);
-				}
-				
-				String tree = JsonUtils.json2Str(companyTree);				
-				jsonData.setCode(ApiCode.OK);
-				jsonData.setMessage("操作成功");
-				jsonData.setData(tree);
-			}else{
-				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
-				jsonData.setMessage("参数异常");
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-			jsonData.setCode(ApiCode.EXCEPTION);
-			jsonData.setMessage("操作失败");
-		}
-		
-		String result = JsonUtils.json2Str(jsonData);
-		
-		return result;
-	}
-	
-	private BTreeVO getTreeNode(Object obj, Class clazz){
-		String className = clazz.getName();
-		Integer id = 0;
-		String text = StringUtils.EMPTY;
-		if("com.brp.entity.CompanyEntity".equals(className)){
-			CompanyEntity company = (CompanyEntity)obj;
-			id = company.getId().intValue();
-			text = company.getCompanyName();
-		}else if("com.brp.entity.UserEntity".equals(className)){
-			UserEntity user = (UserEntity)obj;
-			id = user.getId().intValue();
-			text = user.getUserName();
-		}else if("com.brp.entity.DepartmentEntity".equals(className)){
-			DepartmentEntity department = (DepartmentEntity)obj;
-			id = department.getId().intValue();
-			text = department.getDepartmentName();
-		}
-		
-		BTreeVO node = new BTreeVO();
-		node.setId(id);
-		node.setText(text);
-		
-		return node;
-	}
-	
-	private List<UserEntity> getUserListByCompanyIdAndDeptId(String departmentId, String companyId){
-		UserQuery userQuery = new UserQuery();
-		userQuery.setDepartmentId(departmentId);
-		userQuery.setCompanyId(companyId);
-		List<UserEntity> list = userService.getUserListByCompanyIdAndDeptId(userQuery);
-		
-		return list;
 	}
 }
 

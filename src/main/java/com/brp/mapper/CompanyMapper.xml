@@ -61,8 +61,8 @@
          where parent_company_id=#{companyId}
          order by create_time desc
     </select>
-	<!-- <update id="updateBillApprove" parameterType="com.brp.entity.BillApproveEntity">
-		update bill_approve set 
+	<update id="updateCompany" parameterType="com.brp.entity.CompanyEntity">
+		update company set 
 		<if test="createUser != null">
 			create_user=#{createUser,jdbcType=VARCHAR},
 		</if>
@@ -75,97 +75,43 @@
 		<if test="updateTime != null">
 		update_time=#{updateTime,jdbcType=TIMESTAMP},
 		</if>
-		<if test="approveNum != null">
-      	approve_num=#{approveNum,jdbcType=VARCHAR},
+
+		<if test="companyName != null">
+      	company_name=#{companyName,jdbcType=VARCHAR},
 		</if>
-		<if test="approveTime != null">
-      	approve_time=#{approveTime,jdbcType=TIMESTAMP},
+		<if test="companyTelephone != null">
+      	company_telephone=#{companyTelephone,jdbcType=TIMESTAMP},
 		</if>
-		<if test="approveDepartment != null">
-      	approve_department=#{approveDepartment,jdbcType=VARCHAR},
+		<if test="companyCeo != null">
+      	company_ceo=#{companyCeo,jdbcType=VARCHAR},
 		</if>
-		<if test="approveDepartmentId != null">
-      	 approve_department_id=#{approveDepartmentId,jdbcType=VARCHAR},
+		<if test="companySite != null">
+      	 company_site=#{companySite,jdbcType=VARCHAR},
 		</if>
-		<if test="provinceName != null">
-      	province_name=#{provinceName,jdbcType=VARCHAR},
+		<if test="companyAddress != null">
+      	company_address=#{companyAddress,jdbcType=VARCHAR},
 		</if>
-		<if test="provinceId != null">
-      	province_id=#{provinceId,jdbcType=VARCHAR},
+		<if test="level != null">
+      	level=#{level,jdbcType=INTEGER},
 		</if>
-		<if test="cityName != null">
-      	city_name=#{cityName,jdbcType=VARCHAR},
+		<if test="parentCompanyId != null">
+      	parent_company_id=#{parentCompanyId,jdbcType=INTEGER},
 		</if>
-		<if test="cityId != null">
-      	city_id=#{cityId,jdbcType=VARCHAR},
+		<if test="parentCompanyName != null">
+      	parent_company_name=#{parentCompanyName,jdbcType=VARCHAR},
 		</if>
-		<if test="bigAreaId != null">
-	     big_area_id=#{bigAreaId,jdbcType=VARCHAR},
-		</if>
-		<if test="bigAreaName != null">
-	     big_area_name=#{bigAreaName,jdbcType=VARCHAR},
-		</if>
-		<if test="billType != null">
-	     bill_type=#{billType,jdbcType=VARCHAR},
-		</if>
-		<if test="billTypeName != null">
-	     bill_type_name=#{billTypeName,jdbcType=VARCHAR},
-		</if>
-		<if test="billBussinessType != null">
-      	bill_bussiness_type=#{billBussinessType,jdbcType=VARCHAR},
-		</if>
-		
-		<if test="billBussinessTypeName != null">
-      	bill_bussiness_type_name=#{billBussinessTypeName,jdbcType=VARCHAR},
+		<if test="secret != null">
+	     secret=#{secret,jdbcType=VARCHAR},
 		</if>
 		<if test="status != null">
-      	status=#{status,jdbcType=INTEGER},
-		</if>
-		<if test="expressCompany != null">
-	    express_company=#{expressCompany,jdbcType=VARCHAR}, 
-		</if>
-		<if test="expressNo != null">
-	    express_no=#{expressNo,jdbcType=VARCHAR},
-		</if>
-		<if test="remark != null">
-	    remark=#{remark,jdbcType=VARCHAR},
-		</if>
-		<if test="billNum != null">
-	    bill_num=#{billNum,jdbcType=VARCHAR},
-		</if>
-		<if test="createUserId != null">
-	    create_user_id=#{createUserId,jdbcType=VARCHAR},
-		</if>
-		<if test="approveRoleLevel != null">
-	    approve_role_level=#{approveRoleLevel,jdbcType=VARCHAR},
-		</if>
-		<if test="updateUserId != null">
-	    update_user_id=#{updateUserId,jdbcType=VARCHAR},
-		</if>
-		<if test="updateUserDepartmentId != null">
-	    update_user_department_id=#{updateUserDepartmentId,jdbcType=VARCHAR},
-		</if>
-		<if test="updateUserDepartment != null">
-	    update_user_department=#{updateUserDepartment,jdbcType=VARCHAR},
-		</if>
-		<if test="parentDepartmentId != null">
-	    update_user_department=#{parentDepartmentId,jdbcType=VARCHAR},
+	     status=#{status,jdbcType=INTEGER},
 		</if>
 		
 		id=#{id}
 		 where id=#{id} limit 1;
 		 
-		 
 	</update>
     
-     
-    <select id="getUnconfirmedApprove" resultType="java.lang.Integer" >
-         select count(id) from bill_approve where status=100 and approve_role_level = #{roleLevel,jdbcType=VARCHAR} 
-         <if test="departmentId != '' and departmentId != null">
-         	and parent_department_id= #{departmentId,jdbcType=VARCHAR} 
-         </if>
-         
-    </select> -->
     
     <select id="getCompanyById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 

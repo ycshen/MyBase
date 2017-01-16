@@ -82,6 +82,12 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userMapper.loginMybase(account, password);
 	}
+
+	@Override
+	public List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery) {
+		// TODO Auto-generated method stub
+		return userMapper.getUserListByCompanyIdAndDeptId(userQuery);
+	}
 	
 }
 

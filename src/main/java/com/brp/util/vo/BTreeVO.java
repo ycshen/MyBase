@@ -10,22 +10,22 @@ import java.util.List;
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-public class MenuTreeVO {
+public class BTreeVO {
 	private Integer nodeId;
 	private Integer id;
 	private String text;
 	private String parentId;
-    private List<MenuTreeVO> nodes;
+    private List<BTreeVO> nodes;
 	public String getText() {
 		return text;
 	}
 	public void setText(String text) {
 		this.text = text;
 	}
-	public List<MenuTreeVO> getNodes() {
+	public List<BTreeVO> getNodes() {
 		return nodes;
 	}
-	public void setNodes(List<MenuTreeVO> nodes) {
+	public void setNodes(List<BTreeVO> nodes) {
 		this.nodes = nodes;
 	}
 	public Integer getId() {

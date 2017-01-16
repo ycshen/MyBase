@@ -12,7 +12,7 @@ import com.brp.mapper.MenuMapper;
 import com.brp.service.MemoEventService;
 import com.brp.service.MenuService;
 import com.brp.util.query.MenuQuery;
-import com.brp.util.vo.MenuTreeVO;
+import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
 
 /** 

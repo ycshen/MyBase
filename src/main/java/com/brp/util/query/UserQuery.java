@@ -13,17 +13,18 @@ import com.brp.model.pageutil.Page;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class UserQuery extends Page<UserEntity>{
-	private Integer departmentId;
+	private String departmentId;
 	private String userName;
 	private String departmentName;
 	private String telphone;
+	private String companyId;
 	
 
-	public Integer getDepartmentId() {
+	public String getDepartmentId() {
 		return departmentId;
 	}
 
-	public void setDepartmentId(Integer departmentId) {
+	public void setDepartmentId(String departmentId) {
 		this.departmentId = departmentId;
 	}
 
@@ -49,6 +50,14 @@ public class UserQuery extends Page<UserEntity>{
 
 	public void setTelphone(String telphone) {
 		this.telphone = telphone;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}	
 }
 

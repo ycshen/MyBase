@@ -25,5 +25,6 @@ public interface UserService {
 	void deleteUserById(String id);
 	List<UserEntity> getUserPage(UserQuery userQuery);
 	UserEntity loginMybase(String account, String password);
+	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 }
 

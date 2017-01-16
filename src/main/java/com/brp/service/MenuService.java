@@ -22,5 +22,6 @@ public interface MenuService {
 	void deleteMenuById(String id);
 	MenuEntity getMenuByNameAndType(String menuName, String menuType);
 	MenuEntity getMenuByNameAndSystemId(String menuName, String systemId);
+	List<MenuEntity> getMenuList(MenuQuery menuQuery);
 }
 

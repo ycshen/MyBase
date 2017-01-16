@@ -24,7 +24,7 @@ import com.brp.service.ConfigService;
 import com.brp.service.MenuService;
 import com.brp.util.UserUtils;
 import com.brp.util.query.MenuQuery;
-import com.brp.util.vo.MenuTreeVO;
+import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
 
 /** 
@@ -158,12 +158,12 @@ public class MenuController extends BaseController{
 		menuQuery = menuService.getMenuPage(menuQuery);
 		List<MenuEntity> list = menuQuery.getItems();
 		String tree = StringUtils.EMPTY;
-		List<MenuTreeVO> treeList = null;
+		List<BTreeVO> treeList = null;
 		if(list != null && list.size() > 0){
-			treeList = new LinkedList<MenuTreeVO>();
-			MenuTreeVO treeVO = null;
+			treeList = new LinkedList<BTreeVO>();
+			BTreeVO treeVO = null;
 			for (MenuEntity menuEntity : list) {
-				treeVO = new MenuTreeVO();
+				treeVO = new BTreeVO();
 				treeVO.setText(menuEntity.getMenuName());
 				Integer idInt = menuEntity.getId().intValue();
 				treeVO.setId(idInt);
@@ -172,7 +172,7 @@ public class MenuController extends BaseController{
 				menuQuery = new MenuQuery();
 				menuQuery.setParentMenuId(id);
 				menuQuery = menuService.getMenuPage(menuQuery);
-				List<MenuTreeVO> nodes = this.getNodes(menuQuery.getItems(), menuQuery);
+				List<BTreeVO> nodes = this.getNodes(menuQuery.getItems(), menuQuery);
 				treeVO.setNodes(nodes);
 				treeList.add(treeVO);
 			}
@@ -183,13 +183,13 @@ public class MenuController extends BaseController{
 		return tree;
 	}
 	
-	private List<MenuTreeVO> getNodes(List<MenuEntity> list, MenuQuery menuQuery){
-		List<MenuTreeVO> treeList = null;
+	private List<BTreeVO> getNodes(List<MenuEntity> list, MenuQuery menuQuery){
+		List<BTreeVO> treeList = null;
 		if(list != null && list.size() > 0){
-			treeList = new LinkedList<MenuTreeVO>();
-			MenuTreeVO treeVO = null;
+			treeList = new LinkedList<BTreeVO>();
+			BTreeVO treeVO = null;
 			for (MenuEntity menuEntity : list) {
-				treeVO = new MenuTreeVO();
+				treeVO = new BTreeVO();
 				treeVO.setText(menuEntity.getMenuName());
 				//treeVO.setId(menuEntity.getId().toString());
 				Integer idInt = menuEntity.getId().intValue();
@@ -197,7 +197,7 @@ public class MenuController extends BaseController{
 				menuQuery = new MenuQuery();
 				menuQuery.setParentMenuId(id);
 				menuQuery = menuService.getMenuPage(menuQuery);
-				List<MenuTreeVO> nodes = this.getNodes(menuQuery.getItems(), menuQuery);
+				List<BTreeVO> nodes = this.getNodes(menuQuery.getItems(), menuQuery);
 				treeVO.setId(idInt);
 				treeVO.setNodeId(idInt);
 				treeVO.setNodes(nodes);
