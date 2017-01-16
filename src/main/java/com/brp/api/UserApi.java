@@ -143,7 +143,7 @@ public class UserApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth && StringUtils.isNotBlank(companyId) && TryParseUtils.tryParse(companyId, Integer.class)){
+			if(auth){
 				UserQuery userQuery = new UserQuery();
 				userQuery.setCompanyId(companyId);
 				if(StringUtils.isNotBlank(departmentId)){
