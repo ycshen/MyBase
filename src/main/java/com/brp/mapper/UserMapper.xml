@@ -60,6 +60,9 @@
 		      <if test="telphone != null and telphone != ''" >
 		       and telphone =  #{telphone}
 		      </if>
+		      <if test="status != null and status != ''" >
+		       and `status` =  #{status}
+		      </if>
 		 </trim>
 		 
          order by create_time desc 

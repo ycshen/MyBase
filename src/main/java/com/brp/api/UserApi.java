@@ -118,6 +118,7 @@ public class UserApi {
 			String cId = jsonObject.getString("cId");
 			String pageSize = jsonObject.getString("pageSize");
 			String currentPage = jsonObject.getString("currentPage");
+			String status = jsonObject.getString("status");
 			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
@@ -125,6 +126,7 @@ public class UserApi {
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("companyId", companyId);
 				maps.put("departmentId", departmentId);
+				maps.put("status", status);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				maps.put("pageSize", pageSize);
@@ -158,6 +160,7 @@ public class UserApi {
 				}
 				
 				userQuery.setSize(Integer.parseInt(pageSize));
+				userQuery.setStatus(Integer.parseInt(status));
 				userQuery = userService.getUserList(userQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");

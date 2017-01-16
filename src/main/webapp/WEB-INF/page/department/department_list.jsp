@@ -73,6 +73,7 @@
 								<tr>
 									<th>操作</th>
 									<th>部门名称</th>
+									<th>上级部门</th>
 									<th>所属公司</th>
 									<th>创建人</th>
 									<th>创建时间</th>
@@ -90,6 +91,7 @@
 										<a  href="#" onclick="viewDepartment('${department.id}')">详细</a>&nbsp;&nbsp;
 										<a  href="#" onclick="addSubDepartment('${department.id}')">添加下级部门</a></td>
 										<td>${department.departmentName }</td>
+										<td></td>
 										<td>${department.companyName}</td>
 										<td>${department.createUser}</td>
 										<td>

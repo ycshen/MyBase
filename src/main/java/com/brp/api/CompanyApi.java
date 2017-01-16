@@ -398,42 +398,28 @@ public class CompanyApi {
 						List<BTreeVO> deparmentTree = new LinkedList<BTreeVO>(); 
 						BTreeVO deparmentNode = null;
 						for (DepartmentEntity department : departmentList) {
-							deparmentNode = this.getTreeNode(department, DepartmentEntity.class);
-							String departmentId = department.getId().toString();
-							List<DepartmentEntity> subDeptList = departmentService.getDepartmentByParentId(departmentId);
-							List<BTreeVO> subDeparmentTree = new LinkedList<BTreeVO>(); 
-							List<BTreeVO> userTree = new LinkedList<BTreeVO>(); 
-							if(subDeptList != null && subDeptList.size() > 0){
-								BTreeVO subDeparmentNode = null;
-								for (DepartmentEntity subDept : subDeptList) {
-									subDeparmentNode = this.getTreeNode(subDept, DepartmentEntity.class);
-									String deptId = subDept.getId().toString();
-									List<UserEntity> userList = this.getUserListByCompanyIdAndDeptId(deptId, companyId);
-									if(userList != null && userList.size() > 0){
-										for (UserEntity user : userList) {
-											BTreeVO userNode = this.getTreeNode(user, UserEntity.class);
-											userTree.add(userNode);
+							Long parentId = department.getParentDepartmentId();
+							if(parentId == null){
+								deparmentNode = this.getTreeNode(department, DepartmentEntity.class);
+								//说明是一级节点，去查找子节点
+								String departmentId = department.getId().toString();
+								List<BTreeVO> subDeparmentTree = new LinkedList<BTreeVO>();
+								for (DepartmentEntity anotherDepartment : departmentList) {
+									Long anotherParentId = anotherDepartment.getParentDepartmentId();
+									if(anotherParentId != null){
+										if(departmentId.equals(anotherParentId.toString())){
+											BTreeVO subDeparmentNode = this.getTreeNode(anotherDepartment, DepartmentEntity.class);
+											subDeparmentTree.add(subDeparmentNode);
 										}
-										
-										subDeparmentNode.setNodes(userTree);
-										subDeparmentTree.add(subDeparmentNode);
 									}
 								}
 								
-								deparmentNode.setNodes(subDeparmentTree);
-							}else{
-								List<UserEntity> userList = this.getUserListByCompanyIdAndDeptId(departmentId, companyId);
-								if(userList != null && userList.size() > 0){
-									for (UserEntity user : userList) {
-										BTreeVO userNode = this.getTreeNode(user, UserEntity.class);
-										userTree.add(userNode);
-									}
+								if(subDeparmentTree.size() > 0){
+									deparmentNode.setNodes(subDeparmentTree);
 								}
 								
-								deparmentNode.setNodes(userTree);
+								deparmentTree.add(deparmentNode);
 							}
-							
-							deparmentTree.add(deparmentNode);
 						}
 						
 						companyNode.setNodes(deparmentTree);
