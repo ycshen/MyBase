@@ -108,20 +108,18 @@ function InitOper(){
 		alert("a")
 	})
 }
-
+var zTreeObj;
+// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+var setting = {};
+// zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
 var nodeId = "";
 function initTree() {
    $.ajax({
 	   type : 'get',
 	   url : ctx + "/inner/menu/treeData",
-	   success: function(data){
-		   $('#tree').treeview({
-			   data: data,
-			   selectedBackColor: "#4b646f",
-			   onNodeSelected: function(event, data) {
-				   
-			   }
-		   });
+	   success: function(zNodes){
+		   
+		   zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		   $("#divLoader").hide();
 	   }
    })  

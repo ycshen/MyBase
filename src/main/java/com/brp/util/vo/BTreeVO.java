@@ -11,40 +11,33 @@ import java.util.List;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class BTreeVO {
-	private Integer nodeId;
 	private Integer id;
-	private String text;
-	private String parentId;
-    private List<BTreeVO> nodes;
-	public String getText() {
-		return text;
-	}
-	public void setText(String text) {
-		this.text = text;
-	}
-	public List<BTreeVO> getNodes() {
-		return nodes;
-	}
-	public void setNodes(List<BTreeVO> nodes) {
-		this.nodes = nodes;
-	}
+	private String name;
+	private String pid;
+    private List<BTreeVO> children;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getParentId() {
-		return parentId;
+	public String getName() {
+		return name;
 	}
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public Integer getNodeId() {
-		return nodeId;
+	public String getPid() {
+		return pid;
 	}
-	public void setNodeId(Integer nodeId) {
-		this.nodeId = nodeId;
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
+	public List<BTreeVO> getChildren() {
+		return children;
+	}
+	public void setChildren(List<BTreeVO> children) {
+		this.children = children;
 	}
 	
 }

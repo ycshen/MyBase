@@ -360,7 +360,7 @@ public class CompanyApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/getCompanyStaffTreeById", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/getCompanyStaffTreeById", method = RequestMethod.POST)
 	@ResponseBody
 	public String getCompanyStaffTreeById(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
@@ -470,7 +470,7 @@ public class CompanyApi {
 		node.setText(text);
 		
 		return node;
-	}
+	}*/
 	
 	private List<UserEntity> getUserListByCompanyIdAndDeptId(String departmentId, String companyId){
 		UserQuery userQuery = new UserQuery();
