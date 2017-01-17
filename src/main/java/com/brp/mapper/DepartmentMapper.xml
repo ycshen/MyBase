@@ -54,7 +54,7 @@
          select 
          <include refid="base_column" />
          from department
-         where company_id=#{companyId} and status=0
+         where company_id=#{companyId} and status=0 and parent_department_id is null
     </select>
 	<update id="updateDepartment" parameterType="com.brp.entity.DepartmentEntity">
 		update department set 

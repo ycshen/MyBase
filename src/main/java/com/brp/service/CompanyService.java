@@ -22,6 +22,7 @@ public interface CompanyService {
 	CompanyQuery getSubCompanyPage(CompanyQuery companyQuery);
 	Integer deleteCompany(Long id);
 	Integer activateCompany(Long id);
+	List<CompanyEntity> getSubCompanyListByPId(Integer pId);
 	
 }
 

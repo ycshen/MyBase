@@ -61,6 +61,14 @@
          where parent_company_id=#{companyId}
          order by create_time desc
     </select>
+    <select id="getSubCompanyListByPId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+        select 
+         <include refid="Base_Column_List" />
+         from company
+         where parent_company_id=#{pId}
+         order by create_time desc
+    </select>
+    
 	<update id="updateCompany" parameterType="com.brp.entity.CompanyEntity">
 		update company set 
 		<if test="createUser != null">

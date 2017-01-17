@@ -75,5 +75,11 @@ public class CompanyServiceImpl implements CompanyService{
 		companyMapper.activateCompany(id.intValue());
 		return 1;
 	}
+
+	@Override
+	public List<CompanyEntity> getSubCompanyListByPId(Integer pId) {
+		// TODO Auto-generated method stub
+		return companyMapper.getSubCompanyListByPId(pId);
+	}
 }
 

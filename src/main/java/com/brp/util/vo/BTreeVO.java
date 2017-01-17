@@ -14,6 +14,7 @@ public class BTreeVO {
 	private Integer id;
 	private String name;
 	private String pid;
+	private Integer nodeType; //1 公司 2.部门 3.用户 4. 菜单
     private List<BTreeVO> children;
     private String icon;
 	public Integer getId() {
@@ -46,6 +47,13 @@ public class BTreeVO {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
+	public Integer getNodeType() {
+		return nodeType;
+	}
+	public void setNodeType(Integer nodeType) {
+		this.nodeType = nodeType;
+	}
+	
 	
 }
 

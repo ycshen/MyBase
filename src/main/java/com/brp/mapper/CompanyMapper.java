@@ -23,6 +23,7 @@ public interface CompanyMapper {
 	CompanyEntity getCompanyById(Integer id);
 	String getSecretById(Integer id);
 	List<CompanyEntity> getSubCompanyPage(CompanyQuery companyQuery);
+	List<CompanyEntity> getSubCompanyListByPId(Integer pId);
 	void deleteCompany(Integer id);
 	void activateCompany(Integer id);
 }

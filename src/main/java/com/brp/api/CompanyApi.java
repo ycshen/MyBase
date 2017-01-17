@@ -360,7 +360,7 @@ public class CompanyApi {
 		return result;
 	}
 	
-	/*@RequestMapping(value = "/getCompanyStaffTreeById", method = RequestMethod.POST)
+	@RequestMapping(value = "/getCompanyStaffTreeById", method = RequestMethod.POST)
 	@ResponseBody
 	public String getCompanyStaffTreeById(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
@@ -392,40 +392,30 @@ public class CompanyApi {
 				List<BTreeVO> companyTree = new LinkedList<BTreeVO>(); 
 				CompanyEntity company = companyService.getCompanyById(Long.parseLong(companyId));
 				if(company != null){	
-					BTreeVO companyNode = this.getTreeNode(company, CompanyEntity.class);
-					List<DepartmentEntity> departmentList = departmentService.getListByCompanyId(companyId);
-					if(departmentList != null && departmentList.size() > 0){
-						List<BTreeVO> deparmentTree = new LinkedList<BTreeVO>(); 
-						BTreeVO deparmentNode = null;
-						for (DepartmentEntity department : departmentList) {
-							Long parentId = department.getParentDepartmentId();
-							if(parentId == null){
-								deparmentNode = this.getTreeNode(department, DepartmentEntity.class);
-								//说明是一级节点，去查找子节点
-								String departmentId = department.getId().toString();
-								List<BTreeVO> subDeparmentTree = new LinkedList<BTreeVO>();
-								for (DepartmentEntity anotherDepartment : departmentList) {
-									Long anotherParentId = anotherDepartment.getParentDepartmentId();
-									if(anotherParentId != null){
-										if(departmentId.equals(anotherParentId.toString())){
-											BTreeVO subDeparmentNode = this.getTreeNode(anotherDepartment, DepartmentEntity.class);
-											subDeparmentTree.add(subDeparmentNode);
-										}
-									}
-								}
-								
-								if(subDeparmentTree.size() > 0){
-									deparmentNode.setNodes(subDeparmentTree);
-								}
-								
-								deparmentTree.add(deparmentNode);
-							}
+					BTreeVO companyTreeNode = this.getTreeNode(company, CompanyEntity.class);
+					//1.子公司
+					//2.一级部门
+					//3.下级部门
+					Long pId = company.getId();
+					List<CompanyEntity> subCompanyList = companyService.getSubCompanyListByPId(pId.intValue());
+					List<BTreeVO> subCompanyChildrens = this.switchCompanyListToTreeList(subCompanyList);
+					if(subCompanyList != null && subCompanyList.size() > 0){
+						CompanyEntity subCompany = null;
+						for(int i=0; i< subCompanyList.size(); i++){
+							subCompany = subCompanyList.get(i);
+							Long subCompanyId = subCompany.getId();
+							List<DepartmentEntity> rootDeparmentList = departmentService.getListByCompanyId(subCompanyId.toString());
+							
 						}
-						
-						companyNode.setNodes(deparmentTree);
 					}
 					
-					companyTree.add(companyNode);
+					
+					List<DepartmentEntity> rootDeparmentList = departmentService.getListByCompanyId(pId.toString());
+					
+					List<BTreeVO> companyChildrens = this.switchDepartmentListToTreeList(rootDeparmentList);
+					subCompanyChildrens.addAll(companyChildrens);
+					companyTreeNode.setChildren(subCompanyChildrens);
+					companyTree.add(companyTreeNode);
 				}
 				
 				String tree = JsonUtils.json2Str(companyTree);				
@@ -447,30 +437,75 @@ public class CompanyApi {
 		return result;
 	}
 	
+	private List<DepartmentEntity> getDepartmentListByPid(String pid){
+		List<DepartmentEntity> list = departmentService.getDepartmentByParentId(pid);
+		if(list == null || list.size() < 1){
+			return null;
+		}
+		
+		return list;
+	}
+	
+	
+	private List<BTreeVO> switchDepartmentListToTreeList(List<DepartmentEntity> deparmentList){
+		List<BTreeVO> treeList  = new LinkedList<BTreeVO>();
+		if(deparmentList != null && deparmentList.size() > 0){
+			BTreeVO tree = null;
+			DepartmentEntity department = null;
+			for(int i=0; i< deparmentList.size(); i++){
+				department = deparmentList.get(i);
+				tree = this.getTreeNode(department, DepartmentEntity.class);
+				treeList.add(tree);
+			}
+		}
+		
+		return treeList;
+	}
+	
+	private List<BTreeVO> switchCompanyListToTreeList(List<CompanyEntity> companyList){
+		List<BTreeVO> treeList  = new LinkedList<BTreeVO>();
+		if(companyList != null && companyList.size() > 0){
+			BTreeVO tree = null;
+			CompanyEntity company = null;
+			for(int i=0; i< companyList.size(); i++){
+				company = companyList.get(i);
+				tree = this.getTreeNode(company, CompanyEntity.class);
+				treeList.add(tree);
+			}
+		}
+		
+		return treeList;
+	}
+	
 	private BTreeVO getTreeNode(Object obj, Class clazz){
 		String className = clazz.getName();
 		Integer id = 0;
 		String text = StringUtils.EMPTY;
+		Integer nodeType = 0;
 		if("com.brp.entity.CompanyEntity".equals(className)){
 			CompanyEntity company = (CompanyEntity)obj;
 			id = company.getId().intValue();
 			text = company.getCompanyName();
+			nodeType = 1;
 		}else if("com.brp.entity.UserEntity".equals(className)){
 			UserEntity user = (UserEntity)obj;
 			id = user.getId().intValue();
 			text = user.getUserName();
+			nodeType = 3;
 		}else if("com.brp.entity.DepartmentEntity".equals(className)){
 			DepartmentEntity department = (DepartmentEntity)obj;
 			id = department.getId().intValue();
 			text = department.getDepartmentName();
+			nodeType = 2;
 		}
 		
 		BTreeVO node = new BTreeVO();
 		node.setId(id);
-		node.setText(text);
+		node.setName(text);
+		node.setNodeType(nodeType);
 		
 		return node;
-	}*/
+	}
 	
 	private List<UserEntity> getUserListByCompanyIdAndDeptId(String departmentId, String companyId){
 		UserQuery userQuery = new UserQuery();
