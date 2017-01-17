@@ -15,6 +15,7 @@ public class BTreeVO {
 	private String name;
 	private String pid;
     private List<BTreeVO> children;
+    private String icon;
 	public Integer getId() {
 		return id;
 	}
@@ -38,6 +39,12 @@ public class BTreeVO {
 	}
 	public void setChildren(List<BTreeVO> children) {
 		this.children = children;
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	
 }
