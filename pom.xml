@@ -171,7 +171,7 @@
 		<!--logback -->
 
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>${jsp.version}</version>
@@ -181,7 +181,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.0.1</version>
-		</dependency>
+		</dependency> -->
 		<!-- spring mvc json -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
