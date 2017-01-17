@@ -100,7 +100,14 @@ function isNotBlank(args){
    
 $(function(){
 	initTree();
+	InitOper();
 })
+
+function InitOper(){
+	$("#crduIcon0").click(function(){
+		alert("a")
+	})
+}
 
 var nodeId = "";
 function initTree() {
@@ -108,9 +115,14 @@ function initTree() {
 	   type : 'get',
 	   url : ctx + "/inner/menu/treeData",
 	   success: function(data){
-		   $('#tree').treeview({data: data});
+		   $('#tree').treeview({
+			   data: data,
+			   selectedBackColor: "#4b646f",
+			   onNodeSelected: function(event, data) {
+				   
+			   }
+		   });
 		   $("#divLoader").hide();
-		   $('#tree').treeview('collapseAll', { silent: true });
 	   }
    })  
    

@@ -587,13 +587,13 @@
 				treeItem
 					.append($(_this.template.link)
 						.attr('href', node.href)
-						.append(node.text)
+						.append(node.text + "<span class=\"glyphicon glyphicon-cog\" id=\"crduIcon\" style=\"display:none;\"></span>")
 					);
 			}
 			else {
 				// otherwise just text
 				treeItem
-					.append(node.text);
+					.append(node.text + "      <span class=\"glyphicon glyphicon-cog\" id=\"crduIcon" + node.nodeId + "\"></span>");
 			}
 
 			// Add tags as badges
