@@ -53,15 +53,7 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return department;
 	}
 
-	@Override
-	public boolean isExistDepartment(String departmentName, String companyId) {
-		DepartmentEntity department = departmentMapper.getDepartmentByNameAndcompanyId(departmentName, companyId);
-		if(department != null){
-			return true;
-		}
-		
-		return false;
-	}
+	
 
 	@Override
 	public List<DepartmentEntity> getListByCompanyId(String companyId) {
@@ -88,8 +80,27 @@ public class DepartmentServiceImpl implements DepartmentService{
 
 	@Override
 	public List<DepartmentEntity> getDepartmentListByPId(String pid) {
-		// TODO Auto-generated method stub
 		return departmentMapper.getDepartmentListByPId(pid);
+	}
+
+	@Override
+	public boolean isExistDepartment(String departmentName, String companyId) {
+		DepartmentEntity department = departmentMapper.getDepartmentByNameAndcompanyId(departmentName, companyId);
+		if(department != null){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean isExistDepartmentByPid(String departmentName, String pId) {
+		DepartmentEntity department = departmentMapper.getDepartmentByNameAndPId(departmentName, pId);
+		if(department != null){
+			return true;
+		}
+		
+		return false;
 	}
 
 }

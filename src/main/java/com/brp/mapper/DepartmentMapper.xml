@@ -91,6 +91,14 @@
          from department
          where company_id = #{companyId} and department_name = #{departmentName} and status = 0
     </select>
+    <select id="getDepartmentByNameAndPId" resultMap="BaseResultMap" >
+         select 
+         <include refid="Base_Column_List" />
+         from department
+         where department_name = #{departmentName} and parent_department_id = #{pId} and status = 0
+    </select>
+    
+    
     <select id="getDepartmentTreeByPIdAndCId" resultMap="BaseResultMap">
          select 
          <include refid="Base_Column_List" />

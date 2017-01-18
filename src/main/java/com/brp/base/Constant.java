@@ -43,5 +43,14 @@ public class Constant {
 	 */
 	public static final String LOGIN_USER_SESSION = "loginUser";
 	
+	/**
+	 * true str
+	 */
+	public static final String TRUE = "true";
+	/**
+	 * false str
+	 */
+	public static final String FALSE = "false";
+	
 }
 

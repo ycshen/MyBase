@@ -20,6 +20,8 @@ public interface DepartmentService {
 	void updateDepartment(DepartmentEntity department);
 	DepartmentEntity getDepartmentById(Integer id);
 	boolean isExistDepartment(String departmentName, String companyId);
+	boolean isExistDepartmentByPid(String departmentName, String pId);
+	
 	List<DepartmentEntity> getListByCompanyId(String companyId);
 	List<BTreeVO> getDepartmentTreeByPidAndCid(String pid, String cid);
 	List<DepartmentEntity> getDepartmentListByPId(String pid);
