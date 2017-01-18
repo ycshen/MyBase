@@ -11,16 +11,14 @@ import java.util.List;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class BTreeVO {
-	private Integer id;
+	private String id;  //id_type_pid eg: 1_2_n  1_n_n 2_2_995 //type:1 公司 2.分公司 3.部门 4.用户 5. 菜单  n:空  pid: n为空
 	private String name;
 	private String pid;
-	private Integer nodeType; //1 公司 2.部门 3.用户 4. 菜单
     private List<BTreeVO> children;
-    private String icon;
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -41,18 +39,7 @@ public class BTreeVO {
 	public void setChildren(List<BTreeVO> children) {
 		this.children = children;
 	}
-	public String getIcon() {
-		return icon;
-	}
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
-	public Integer getNodeType() {
-		return nodeType;
-	}
-	public void setNodeType(Integer nodeType) {
-		this.nodeType = nodeType;
-	}
+	
 	
 	
 }

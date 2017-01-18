@@ -165,7 +165,7 @@ public class MenuController extends BaseController{
 			for (MenuEntity menuEntity : list) {
 				treeVO = new BTreeVO();
 				Integer idInt = menuEntity.getId().intValue();
-				treeVO.setId(idInt);
+				treeVO.setId(idInt + "_5_n");
 				treeVO.setName(menuEntity.getMenuName());
 				String id = menuEntity.getId().toString();
 				menuQuery = new MenuQuery();
@@ -197,7 +197,7 @@ public class MenuController extends BaseController{
 				menuQuery.setParentMenuId(id);
 				menuQuery = menuService.getMenuPage(menuQuery);
 				List<BTreeVO> childrens = this.getNodes(menuQuery.getItems(), menuQuery);
-				treeVO.setId(idInt);
+				treeVO.setId(idInt + "_5_" + id);
 				treeVO.setChildren(childrens);
 				
 				treeList.add(treeVO);

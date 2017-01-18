@@ -22,7 +22,7 @@
    <sql id="base_column" >
 	   id,company_id,company_name,department_name,parent_department_id
   </sql>
-  <insert id="insertDepartment" parameterType="com.brp.entity.DepartmentEntity" >
+  <insert id="insertDepartment" parameterType="com.brp.entity.DepartmentEntity"  useGeneratedKeys="true" keyProperty="id">
     insert Department
    		(create_user,update_user,create_time, update_time,
    		company_id,company_name,department_name,status,

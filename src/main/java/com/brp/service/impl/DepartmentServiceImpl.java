@@ -67,7 +67,7 @@ public class DepartmentServiceImpl implements DepartmentService{
         if(departmentList != null && departmentList.size() > 0){  
             for(DepartmentEntity deptVo : departmentList){  
             	BTreeVO treeNode = new BTreeVO();
-            	treeNode.setId(deptVo.getId().intValue());  
+            	treeNode.setId(deptVo.getId().intValue() + "_3_" + pid);  
             	treeNode.setName(deptVo.getDepartmentName());
             	String id = deptVo.getId().toString();
             	treeNode.setChildren(getDepartmentTreeByPidAndCid(id, cid));

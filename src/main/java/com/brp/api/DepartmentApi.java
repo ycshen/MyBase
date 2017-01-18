@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.brp.base.Constant;
+import com.brp.base.Status;
 import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
@@ -93,12 +94,12 @@ public class DepartmentApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/insertCompany", method = RequestMethod.POST)
+	@RequestMapping(value = "/getDepById", method = RequestMethod.POST)
 	@ResponseBody
-	public String insertCompany(@RequestBody JSONObject jsonObject){
-		JsonData<String> jsonData = new JsonData<String>();
+	public String getDepById(@RequestBody JSONObject jsonObject){
+		JsonData<DepartmentEntity> jsonData = new JsonData<DepartmentEntity>();
 		try{
-			String companyJson = jsonObject.getString("companyJson");
+			String id = jsonObject.getString("id");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -106,7 +107,55 @@ public class DepartmentApi {
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("companyJson", companyJson);
+				maps.put("id", id);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Integer.class)){
+				DepartmentEntity department = departmentService.getDepartmentById(Integer.parseInt(id));
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(department);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/insertDepartment", method = RequestMethod.POST)
+	@ResponseBody
+	public String insertDepartment(@RequestBody JSONObject jsonObject){
+		JsonData<Long> jsonData = new JsonData<Long>();
+		try{
+			String departmentJson = jsonObject.getString("departmentJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("departmentJson", departmentJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -122,11 +171,11 @@ public class DepartmentApi {
 			}
 			
 			if(auth){
-				CompanyEntity company = JSONObject.parseObject(companyJson, CompanyEntity.class);
-				company.setCreateTime(new Date());
-				company.setLevel(VipLevel.VIP);		
-				company.setSecret(SHA1Utils.getSecret());
-				companyService.insertCompany(company);
+				DepartmentEntity department = JSONObject.parseObject(departmentJson, DepartmentEntity.class);
+				department.setCreateTime(new Date());
+				department.setStatus(Status.NORMAL);		
+				departmentService.insertDepartment(department);
+				jsonData.setData(department.getId());
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -144,12 +193,12 @@ public class DepartmentApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/updateCompany", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateDepartment", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateCompany(@RequestBody JSONObject jsonObject){
+	public String updateDepartment(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
-			String companyJson = jsonObject.getString("companyJson");
+			String departmentJson = jsonObject.getString("departmentJson");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -157,7 +206,7 @@ public class DepartmentApi {
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("companyJson", companyJson);
+				maps.put("departmentJson", departmentJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -173,8 +222,8 @@ public class DepartmentApi {
 			}
 			
 			if(auth){
-				CompanyEntity company = JSONObject.parseObject(companyJson, CompanyEntity.class);
-				companyService.updateCompany(company);
+				DepartmentEntity department = JSONObject.parseObject(departmentJson, DepartmentEntity.class);
+				departmentService.updateDepartment(department);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{

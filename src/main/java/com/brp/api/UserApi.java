@@ -1,5 +1,6 @@
 package com.brp.api;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
@@ -166,6 +168,103 @@ public class UserApi {
 				jsonData.setMessage("操作成功");
 				jsonData.setData(userQuery.getItems());
 				jsonData.setCount(userQuery.getCount());
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+	@ResponseBody
+	public String insertUser(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String userJson = jsonObject.getString("userJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("userJson", userJson);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserEntity user = JSONObject.parseObject(userJson, UserEntity.class);
+				user.setCreateTime(new Date());
+				userService.insertUser(user);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateUser(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String userJson = jsonObject.getString("userJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("userJson", userJson);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserEntity user = JSONObject.parseObject(userJson, UserEntity.class);
+				userService.updateUser(user);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

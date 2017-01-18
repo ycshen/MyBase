@@ -397,13 +397,13 @@ public class CompanyApi {
 					//2.一级部门
 					//3.下级部门
 					Long pId = company.getId();
-					List<CompanyEntity> subCompanyList = companyService.getSubCompanyListByPId(pId.intValue());
+					/*List<CompanyEntity> subCompanyList = companyService.getSubCompanyListByPId(pId.intValue());
 					List<BTreeVO> subCompanyChildrens = this.switchCompanyListToTreeList(subCompanyList);
-					
+					*/
 					List<DepartmentEntity> rootDeparmentList = departmentService.getListByCompanyId(pId.toString());
 					List<BTreeVO> companyChildrens = this.switchDepartmentListToTreeList(rootDeparmentList, pId.toString());
-					subCompanyChildrens.addAll(companyChildrens);
-					companyTreeNode.setChildren(subCompanyChildrens);
+					/*companyChildrens.addAll(subCompanyChildrens);*/
+					companyTreeNode.setChildren(companyChildrens);
 					companyTree.add(companyTreeNode);
 				}
 				
@@ -458,37 +458,48 @@ public class CompanyApi {
 	
 	private BTreeVO getTreeNode(Object obj, Class clazz){
 		String className = clazz.getName();
-		Integer id = 0;
+		String id = StringUtils.EMPTY;
 		String text = StringUtils.EMPTY;
-		Integer nodeType = 0;
+		//1 公司 2.分公司 3.部门 4.用户 5. 菜单
 		BTreeVO node = new BTreeVO();
 		if("com.brp.entity.CompanyEntity".equals(className)){
 			CompanyEntity company = (CompanyEntity)obj;
-			id = company.getId().intValue();
 			text = company.getCompanyName();
-			nodeType = 1;
+			String pCid = company.getParentCompanyId();
+			if(StringUtils.isNotBlank(pCid)){
+				//分公司
+				id = company.getId().intValue() + "_2_" + pCid; 
+			}else{
+				//总公司
+				id = company.getId().intValue() + "_1_n"; 
+			}
+			
+			
 			String cid = company.getId().toString();
 			List<DepartmentEntity> subDeparmentList = departmentService.getListByCompanyId(cid);
 			List<BTreeVO> departmentTreeNode = this.switchDepartmentListToTreeList(subDeparmentList, cid);
 			node.setChildren(departmentTreeNode);
 		}else if("com.brp.entity.UserEntity".equals(className)){
 			UserEntity user = (UserEntity)obj;
-			id = user.getId().intValue();
+			id = user.getId().intValue() + "_4_n"; 
 			text = user.getUserName();
-			nodeType = 3;
 		}else if("com.brp.entity.DepartmentEntity".equals(className)){
 			DepartmentEntity department = (DepartmentEntity)obj;
-			id = department.getId().intValue();
+			Long idLong = department.getId();
+			Long pid = department.getParentDepartmentId();
+			if(pid == null){
+				id = idLong.intValue() + "_3_n"; 
+			}else{
+				//总公司
+				id = idLong.intValue() + "_3_" + pid; 
+			}
 			text = department.getDepartmentName();
-			nodeType = 2;
-			List<BTreeVO> subTreeList = departmentService.getDepartmentTreeByPidAndCid(id.toString(), department.getCompanyId().toString());
+			List<BTreeVO> subTreeList = departmentService.getDepartmentTreeByPidAndCid(idLong.toString(), department.getCompanyId().toString());
 			node.setChildren(subTreeList);
 		}
 		
-		
 		node.setId(id);
 		node.setName(text);
-		node.setNodeType(nodeType);
 		
 		return node;
 	}
