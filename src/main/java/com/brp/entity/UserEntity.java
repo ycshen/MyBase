@@ -13,7 +13,6 @@ public class UserEntity extends BaseEntity{
 	private Integer departmentId;
 	private String departmentName;
 	private Integer status;
-	
 	private String userName;
 	private String telphone;
 	private String password;
