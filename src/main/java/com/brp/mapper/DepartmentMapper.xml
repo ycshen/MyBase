@@ -91,10 +91,17 @@
          from department
          where company_id = #{companyId} and department_name = #{departmentName} and status = 0
     </select>
-    <select id="getDepartmentByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    <select id="getDepartmentTreeByPIdAndCId" resultMap="BaseResultMap">
          select 
          <include refid="Base_Column_List" />
          from department
-         where parent_department_id = #{parentDepartmentId} and status=0
+         where parent_department_id = #{pid} and status=0 and company_id=#{cid}
+    </select>
+    
+    <select id="getDepartmentListByPId" resultMap="BaseResultMap" parameterType="java.lang.String">
+         select 
+         <include refid="Base_Column_List" />
+         from department
+         where parent_department_id = #{pid} and status=0
     </select>
 </mapper>

@@ -37,6 +37,11 @@ public class Constant {
 	public static final String local = "local";
 	public static final String test = "test";
 	public static final String prod = "prod";
+
+	/**
+	 * 用户登录session名称
+	 */
+	public static final String LOGIN_USER_SESSION = "loginUser";
 	
 }
 

@@ -399,20 +399,9 @@ public class CompanyApi {
 					Long pId = company.getId();
 					List<CompanyEntity> subCompanyList = companyService.getSubCompanyListByPId(pId.intValue());
 					List<BTreeVO> subCompanyChildrens = this.switchCompanyListToTreeList(subCompanyList);
-					if(subCompanyList != null && subCompanyList.size() > 0){
-						CompanyEntity subCompany = null;
-						for(int i=0; i< subCompanyList.size(); i++){
-							subCompany = subCompanyList.get(i);
-							Long subCompanyId = subCompany.getId();
-							List<DepartmentEntity> rootDeparmentList = departmentService.getListByCompanyId(subCompanyId.toString());
-							
-						}
-					}
-					
 					
 					List<DepartmentEntity> rootDeparmentList = departmentService.getListByCompanyId(pId.toString());
-					
-					List<BTreeVO> companyChildrens = this.switchDepartmentListToTreeList(rootDeparmentList);
+					List<BTreeVO> companyChildrens = this.switchDepartmentListToTreeList(rootDeparmentList, pId.toString());
 					subCompanyChildrens.addAll(companyChildrens);
 					companyTreeNode.setChildren(subCompanyChildrens);
 					companyTree.add(companyTreeNode);
@@ -437,23 +426,13 @@ public class CompanyApi {
 		return result;
 	}
 	
-	private List<DepartmentEntity> getDepartmentListByPid(String pid){
-		List<DepartmentEntity> list = departmentService.getDepartmentByParentId(pid);
-		if(list == null || list.size() < 1){
-			return null;
-		}
-		
-		return list;
-	}
 	
 	
-	private List<BTreeVO> switchDepartmentListToTreeList(List<DepartmentEntity> deparmentList){
+	private List<BTreeVO> switchDepartmentListToTreeList(List<DepartmentEntity> deparmentList, String cid){
 		List<BTreeVO> treeList  = new LinkedList<BTreeVO>();
 		if(deparmentList != null && deparmentList.size() > 0){
 			BTreeVO tree = null;
-			DepartmentEntity department = null;
-			for(int i=0; i< deparmentList.size(); i++){
-				department = deparmentList.get(i);
+			for (DepartmentEntity department : deparmentList) {
 				tree = this.getTreeNode(department, DepartmentEntity.class);
 				treeList.add(tree);
 			}
@@ -482,11 +461,16 @@ public class CompanyApi {
 		Integer id = 0;
 		String text = StringUtils.EMPTY;
 		Integer nodeType = 0;
+		BTreeVO node = new BTreeVO();
 		if("com.brp.entity.CompanyEntity".equals(className)){
 			CompanyEntity company = (CompanyEntity)obj;
 			id = company.getId().intValue();
 			text = company.getCompanyName();
 			nodeType = 1;
+			String cid = company.getId().toString();
+			List<DepartmentEntity> subDeparmentList = departmentService.getListByCompanyId(cid);
+			List<BTreeVO> departmentTreeNode = this.switchDepartmentListToTreeList(subDeparmentList, cid);
+			node.setChildren(departmentTreeNode);
 		}else if("com.brp.entity.UserEntity".equals(className)){
 			UserEntity user = (UserEntity)obj;
 			id = user.getId().intValue();
@@ -497,23 +481,16 @@ public class CompanyApi {
 			id = department.getId().intValue();
 			text = department.getDepartmentName();
 			nodeType = 2;
+			List<BTreeVO> subTreeList = departmentService.getDepartmentTreeByPidAndCid(id.toString(), department.getCompanyId().toString());
+			node.setChildren(subTreeList);
 		}
 		
-		BTreeVO node = new BTreeVO();
+		
 		node.setId(id);
 		node.setName(text);
 		node.setNodeType(nodeType);
 		
 		return node;
-	}
-	
-	private List<UserEntity> getUserListByCompanyIdAndDeptId(String departmentId, String companyId){
-		UserQuery userQuery = new UserQuery();
-		userQuery.setDepartmentId(departmentId);
-		userQuery.setCompanyId(companyId);
-		List<UserEntity> list = userService.getUserListByCompanyIdAndDeptId(userQuery);
-		
-		return list;
 	}
 }
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.brp.entity.DepartmentEntity;
 import com.brp.util.query.DepartmentQuery;
+import com.brp.util.vo.BTreeVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -20,6 +21,7 @@ public interface DepartmentService {
 	DepartmentEntity getDepartmentById(Integer id);
 	boolean isExistDepartment(String departmentName, String companyId);
 	List<DepartmentEntity> getListByCompanyId(String companyId);
-	List<DepartmentEntity> getDepartmentByParentId(String parentDepartmentId);
+	List<BTreeVO> getDepartmentTreeByPidAndCid(String pid, String cid);
+	List<DepartmentEntity> getDepartmentListByPId(String pid);
 }
 

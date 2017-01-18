@@ -1,14 +1,18 @@
 package com.brp.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.brp.entity.DepartmentEntity;
 import com.brp.mapper.DepartmentMapper;
 import com.brp.service.DepartmentService;
 import com.brp.util.query.DepartmentQuery;
+import com.brp.util.vo.BTreeVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -65,10 +69,28 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 
 	@Override
-	public List<DepartmentEntity> getDepartmentByParentId(
-			String parentDepartmentId) {
-		// TODO Auto-generated method stub
-		return departmentMapper.getDepartmentByParentId(parentDepartmentId);
+	public List<BTreeVO> getDepartmentTreeByPidAndCid(String pid, String cid) {
+		List<BTreeVO> deptVosList = new ArrayList<BTreeVO>();  
+        List<DepartmentEntity> departmentList = departmentMapper.getDepartmentTreeByPIdAndCId(pid, cid); 
+        if(departmentList != null && departmentList.size() > 0){  
+            for(DepartmentEntity deptVo : departmentList){  
+            	BTreeVO treeNode = new BTreeVO();
+            	treeNode.setId(deptVo.getId().intValue());  
+            	treeNode.setName(deptVo.getDepartmentName());
+            	String id = deptVo.getId().toString();
+            	treeNode.setChildren(getDepartmentTreeByPidAndCid(id, cid));
+            	deptVosList.add(treeNode);  
+            }  
+        }
+        
+        return deptVosList; 
 	}
+
+	@Override
+	public List<DepartmentEntity> getDepartmentListByPId(String pid) {
+		// TODO Auto-generated method stub
+		return departmentMapper.getDepartmentListByPId(pid);
+	}
+
 }
 

@@ -24,6 +24,7 @@ public interface DepartmentMapper {
 	DepartmentEntity getDepartmentById(Integer id);
 	DepartmentEntity getDepartmentByNameAndcompanyId(@Param("departmentName")String departmentName,@Param("companyId") String companyId);
 	List<DepartmentEntity> getListByCompanyId(String companyId);
-	List<DepartmentEntity> getDepartmentByParentId(String parentDepartmentId);
+	List<DepartmentEntity> getDepartmentTreeByPIdAndCId(@Param("pid") String pid, @Param("cid") String cid);
+	List<DepartmentEntity> getDepartmentListByPId(String pid);
 }
 

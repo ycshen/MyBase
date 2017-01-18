@@ -113,7 +113,8 @@ public class UserController {
 		DepartmentEntity department = null;
 		if(StringUtils.isNotBlank(id)){
 			mav.setViewName("/user/user_add");
-			List<DepartmentEntity> departmentList = departmentService.getDepartmentByParentId(id);
+			
+			List<DepartmentEntity> departmentList = departmentService.getDepartmentListByPId(id);
 			mav.addObject("department", department);
 			if(departmentList != null && departmentList.size() > 0){
 				mav.addObject("departmentList", departmentList);
