@@ -95,7 +95,7 @@
          select 
          <include refid="Base_Column_List" />
          from department
-         where parent_department_id = #{pid} and status=0 and company_id=#{cid}
+         where parent_department_id = #{pid} and status=0 and company_id=#{cid} and parent_department_id is not null
     </select>
     
     <select id="getDepartmentListByPId" resultMap="BaseResultMap" parameterType="java.lang.String">
