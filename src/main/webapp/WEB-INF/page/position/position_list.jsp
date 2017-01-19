@@ -33,7 +33,7 @@
 			<div id="main_body" style="padding: 0.6em;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						基础配置查询<span class="pull-right"> </span>
+						系统定义职位查询<span class="pull-right"> </span>
 					</div>
 					<div class="panel-body">
 						<div class="form-inline">
@@ -42,19 +42,14 @@
 								<tr style="border:0px">
 									<td style="border:0px">
 									<div class="form-group">
-										<label for="hidDistrict">键
-										<input type="text" placeholder="请输入键"  id="txtkey" class="form-control" value="${configQuery.key }"/>
+										<label for="hidDistrict">职位名称
+										<input type="text" placeholder="请输入职位名称"  id="txtkey" class="form-control" value="${configQuery.key }"/>
 									</div>
 									</td>
-									<td style="border:0px">
-										<div class="form-group">
-											<label for="hidDistrict">键值编码
-											<input type="text" id="txtcode" placeholder="请输入键值编码" class="form-control" value="${configQuery.code}"/>
-										</div>
-									</td>
+									
 									<td style="border:0px">
 									<button class="btn " onclick="queryConfig('${configQuery.page}')">查询</button>
-										<button class="btn " onclick="addConfig()">新增</button>
+										<button class="btn " onclick="addPosition()">新增</button>
 									</td>
 								</tr>
 								
@@ -66,7 +61,7 @@
 							
 						</div>
 					</div>
-					<div class="panel-heading">基础配置信息列表</div>
+					<div class="panel-heading">系统定义列表</div>
 
 					<div class="table-responsive">
 						<table id="syslist" class="table table-bordered table-hover">
@@ -82,9 +77,8 @@
 								<c:forEach items="${list}" var="position">
 									<tr>
 										<td style="display: none;">${position.id}</td>
-										<td><a href="#" onclick="addSameConfig('${position.id}')">新增同类</a>&nbsp;&nbsp;
-										<a  href="#" onclick="modifyConfig('${position.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewConfig('${position.id}')">详细</a>&nbsp;&nbsp;
+										<td>
+										<a  href="#" onclick="modifyPosition('${position.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="deleteConfig('${position.id}')">删除</a></td>
 										<td>${position.postionName }</td>
 										<td>${position.createUser}</td>
@@ -102,7 +96,7 @@
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
-<script type="text/javascript" src="${ctx}/js/pages/config/config_list.js"></script>
+<script type="text/javascript" src="${ctx}/js/pages/position/position_list.js"></script>
 <!-- <script type="text/javascript">
 	$(function(){
 		var start = {

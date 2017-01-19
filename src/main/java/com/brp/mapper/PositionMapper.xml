@@ -54,7 +54,7 @@
          from position
          where id = #{id} and is_delete = 0
     </select>
-   <select id=getPositionByQuery resultMap="BaseResultMap" parameterType="com.brp.util.query.PositionQuery" >
+   <select id="getPositionByQuery" resultMap="BaseResultMap" parameterType="com.brp.util.query.PositionQuery" >
          select 
          <include refid="Base_Column_List" />
          from position

@@ -1,8 +1,8 @@
-function addConfig(){
-	var url = ctx + "/inner/config/edit";
+function addPosition(){
+	var url = ctx + "/inner/position/edit";
 	layer.open({
 		type: 2,
-		title: '添加基础配置信息',
+		title: '添加职位信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],
@@ -11,11 +11,11 @@ function addConfig(){
 }
 
 
-function modifyConfig(id){
-	var url = ctx + "/inner/config/edit?id=" + id;
+function modifyPosition(id){
+	var url = ctx + "/inner/position/edit?id=" + id;
 	layer.open({
 		type: 2,
-		title: '编辑基础配置信息',
+		title: '编辑职位信息',
 		shadeClose: true,
 		shade: 0.8,
 		area: ['550px', '400px'],
@@ -63,7 +63,7 @@ function deleteConfig(id){
 }
 
 function addSuccess(){
-	window.location.href = ctx + "/inner/config/list";
+	window.location.href = ctx + "/inner/position/list";
 }
 
 function queryConfig(page){

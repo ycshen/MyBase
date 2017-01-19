@@ -67,13 +67,13 @@ public class PositionController extends BaseController{
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView editConfig(String id, HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("/config/config_edit");
-		ConfigEntity config = null;
+		ModelAndView mav = new ModelAndView("/position/position_edit");
+		PositionEntity position = null;
 		if(StringUtils.isNotBlank(id)){
-			config = configService.getConfigById(Integer.parseInt(id));
+			position = positionService.getPositionById(Integer.parseInt(id));
 		}
 		
-		mav.addObject("config", config);
+		mav.addObject("position", position);
 		
 		return mav;
 	}
