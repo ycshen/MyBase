@@ -34,21 +34,10 @@ function addSameConfig(id){
 		content: url
 	});
 }
-function viewConfig(id){
-	var url = ctx + "/inner/config/view?id=" + id;
-	layer.open({
-		type: 2,
-		title: '查看基础配置详细信息',
-		shadeClose: true,
-		shade: 0.8,
-		area: ['550px', '400px'],
-		content: url
-	});
-}
 
-function deleteConfig(id){
-	layer.confirm("确定删除该配置信息？", function(){
-		var url = ctx + "/inner/config/delete?id=" + id;
+function deletePosition(id){
+	layer.confirm("确定删除该职位信息？", function(){
+		var url = ctx + "/inner/position/delete?id=" + id;
 		$.ajax({
 	        type: "get",
 	        url: url,

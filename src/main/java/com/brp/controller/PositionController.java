@@ -121,11 +121,11 @@ public class PositionController extends BaseController{
 	public void delete(String id, HttpServletRequest request){
 		UserEntity user = UserUtils.getLoginUser(request);
 		if(StringUtils.isNotBlank(id)){
-			ConfigEntity config = configService.getConfigById(Integer.parseInt(id));
-			config.setUpdateTime(new Date());
-			config.setUpdateUser(user.getUserName());
-			config.setIsDelete(1);
-			configService.updateConfig(config);
+			PositionEntity position = positionService.getPositionById(Integer.parseInt(id));
+			position.setUpdateTime(new Date());
+			position.setUpdateUser(user.getUserName());
+			position.setIsDelete(1);
+			positionService.updatePosition(position);
 		}
 	}
 }

@@ -79,7 +79,7 @@
 										<td style="display: none;">${position.id}</td>
 										<td>
 										<a  href="#" onclick="modifyPosition('${position.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="deleteConfig('${position.id}')">删除</a></td>
+										<a  href="#" onclick="deletePosition('${position.id}')">删除</a></td>
 										<td>${position.postionName }</td>
 										<td>${position.createUser}</td>
 										<td>${position.updateUser}</td>
