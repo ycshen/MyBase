@@ -1,4 +1,4 @@
-package com.brp.base;
+package com.brp.base.enums;
 /** 
  * <p>Project: MyBase</p> 
  * <p>Title: MenuEnum.java</p> 

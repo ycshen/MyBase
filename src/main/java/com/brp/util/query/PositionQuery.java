@@ -1,23 +1,20 @@
-package com.brp.entity;
+package com.brp.util.query;
+
+import com.brp.entity.MenuEntity;
+import com.brp.model.pageutil.Page;
+
 /** 
  * <p>Project: MyBase</p> 
- * <p>Title: UserEntity.java</p> 
+ * <p>Title: ConfigQuery.java</p> 
  * <p>Description: TODO</p> 
  * <p>Copyright (c) 2016 xjw Consultancy Services</p>
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-public class PositionEntity extends BaseEntity{
+public class PositionQuery extends Page<MenuEntity>{
 	private Long companyId;
 	private Integer positionType; // 1.用户自定义 2.系统定义
 	private String postionName;
-	private Integer isDelete;
-	public Long getCompanyId() {
-		return companyId;
-	}
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
-	}
 	public Integer getPositionType() {
 		return positionType;
 	}
@@ -30,11 +27,12 @@ public class PositionEntity extends BaseEntity{
 	public void setPostionName(String postionName) {
 		this.postionName = postionName;
 	}
-	public Integer getIsDelete() {
-		return isDelete;
+	public Long getCompanyId() {
+		return companyId;
 	}
-	public void setIsDelete(Integer isDelete) {
-		this.isDelete = isDelete;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
+	
 }
 

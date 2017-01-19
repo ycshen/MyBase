@@ -1,6 +1,5 @@
 package com.brp.api;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,20 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brp.base.Config;
-import com.brp.base.MenuEnum;
-import com.brp.entity.LogEntity;
+import com.brp.base.enums.MenuEnum;
 import com.brp.entity.MenuEntity;
 import com.brp.service.CompanyService;
-import com.brp.service.LogService;
 import com.brp.service.MenuService;
-import com.brp.util.DateUtils;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
-import com.brp.util.query.LogQuery;
 import com.brp.util.query.MenuQuery;
 
 /** 

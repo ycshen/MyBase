@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.PositionMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.PositionEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="position_type" property="positionType" jdbcType="INTEGER" />
+    <result column="position_name" property="postionName" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+	   company_id,position_type,position_name,is_delete
+  </sql>
+  <insert id="insertPosition" parameterType="com.brp.entity.PositionEntity" >
+    insert position
+   		(create_user,update_user,create_time, update_time,
+   		company_id,position_type,position_name,is_delete) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{companyId,jdbcType=INTEGER},#{positionType,jdbcType=INTEGER},#{postionName,jdbcType=VARCHAR},#{isDelete,jdbcType=VARCHAR})
+  </insert>
+  
+    
+    <select id="getPositionList" resultMap="BaseResultMap" parameterType="com.brp.util.query.PositionQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from position
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="companyId != null and companyId != ''" >
+		       and company_id =  #{companyId}
+		      </if>
+		      <if test="positionType != '' and positionType != null" >
+		       and position_type = #{positionType}
+		      </if>
+		      <if test="postionName != '' and postionName != null" >
+		       and postion_name = #{postionName}
+		      </if>
+		 </trim>
+		 and is_delete = 0
+         order by create_time desc
+    </select>
+    
+	<select id="getPositionById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from position
+         where id = #{id} and is_delete = 0
+    </select>
+   <select id=getPositionByQuery resultMap="BaseResultMap" parameterType="com.brp.util.query.PositionQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from position
+        where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="companyId != null and companyId != ''" >
+		       and company_id =  #{companyId}
+		      </if>
+		      <if test="positionType != '' and positionType != null" >
+		       and position_type = #{positionType}
+		      </if>
+		      <if test="postionName != '' and postionName != null" >
+		       and postion_name = #{postionName}
+		      </if>
+		 </trim>
+		 and is_delete = 0 limit 1
+    </select>
+    <update id="deletePositionById" parameterType="java.lang.String">
+		update position set 
+		
+		is_delete = 1
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	
+   <update id="updatePosition" parameterType="com.brp.entity.MenuEntity">
+		update position set 
+		<if test="createUser != null">
+			create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			update_user=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="companyId != null">
+      	company_id=#{companyId,jdbcType=INTEGER},
+		</if>
+		<if test="positionType != null">
+      	position_type=#{positionType,jdbcType=INTEGER},
+		</if>
+		<if test="isDelete != null">
+      	 is_delete=#{isDelete,jdbcType=VARCHAR},
+		</if>
+		<if test="postionName != null">
+      	 position_name=#{postionName,jdbcType=VARCHAR},
+		</if>
+		
+		
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+</mapper>

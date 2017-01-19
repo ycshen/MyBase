@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.brp.base.Config;
-import com.brp.base.MenuEnum;
+import com.brp.base.enums.MenuEnum;
 import com.brp.entity.ConfigEntity;
 import com.brp.entity.MenuEntity;
 import com.brp.entity.UserEntity;
