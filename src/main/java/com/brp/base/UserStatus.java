@@ -14,5 +14,6 @@ public class UserStatus {
 	public static final Integer LEAVE_INT = 100; //离职
 	public static final Integer NORMAL_INT = 101; //正常
 	public static final Integer FORBIDDEN_INT = 102; //禁用
+	public static final Integer FORBID_LOGIN_INT = 103; //禁止登陆
 }
 

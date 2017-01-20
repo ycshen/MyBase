@@ -291,6 +291,7 @@ public class UserApi {
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			String updateUser = jsonObject.getString("updateUser");
+			String status = jsonObject.getString("status");
 			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
@@ -299,6 +300,7 @@ public class UserApi {
 				maps.put("id", id);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
+				maps.put("status", status);
 				maps.put("updateUser", updateUser);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
@@ -314,9 +316,10 @@ public class UserApi {
 			
 			if(auth){
 				UserEntity user = userService.getUserById(Integer.parseInt(id));
-				user.setStatus(UserStatus.FORBIDDEN_INT);
+				//user.setStatus(UserStatus.FORBIDDEN_INT);
 				user.setUpdateUser(updateUser);
 				user.setUpdateTime(new Date());
+				user.setStatus(Integer.parseInt(status));
 				userService.updateUser(user);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
