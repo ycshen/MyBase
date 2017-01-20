@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.base.Status;
 import com.brp.base.enums.PositionEnum;
 import com.brp.entity.PositionEntity;
 import com.brp.entity.UserEntity;
@@ -150,12 +151,12 @@ public class PositionApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertPosition", method = RequestMethod.POST)
 	@ResponseBody
-	public String insertUser(@RequestBody JSONObject jsonObject){
+	public String insertPosition(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
-			String userJson = jsonObject.getString("userJson");
+			String positionJson = jsonObject.getString("positionJson");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -163,7 +164,7 @@ public class PositionApi {
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("userJson", userJson);
+				maps.put("positionJson", positionJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -179,9 +180,60 @@ public class PositionApi {
 			}
 			
 			if(auth){
-				UserEntity user = JSONObject.parseObject(userJson, UserEntity.class);
-				user.setCreateTime(new Date());
-				userService.insertUser(user);
+				PositionEntity position = JSONObject.parseObject(positionJson, PositionEntity.class);
+				position.setCreateTime(new Date());
+				position.setPositionType(PositionEnum.USER_DEFINED.getPositionType());
+				position.setIsDelete(Status.NORMAL);
+				positionService.insertPosition(position);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(position.getId().toString());
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/updatePosition", method = RequestMethod.POST)
+	@ResponseBody
+	public String updatePosition(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String positionJson = jsonObject.getString("positionJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("positionJson", positionJson);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				PositionEntity position = JSONObject.parseObject(positionJson, PositionEntity.class);
+				positionService.updatePosition(position);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -199,20 +251,21 @@ public class PositionApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/isExistPosition", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateUser(@RequestBody JSONObject jsonObject){
-		JsonData<String> jsonData = new JsonData<String>();
+	public String isExistPosition(@RequestBody JSONObject jsonObject){
+		JsonData<Boolean> jsonData = new JsonData<Boolean>();
 		try{
-			String userJson = jsonObject.getString("userJson");
+			String companyId = jsonObject.getString("companyId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
-			
+			String positionName = jsonObject.getString("positionName");
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("userJson", userJson);
+				maps.put("companyId", companyId);
+				maps.put("positionName", positionName);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -228,10 +281,19 @@ public class PositionApi {
 			}
 			
 			if(auth){
-				UserEntity user = JSONObject.parseObject(userJson, UserEntity.class);
-				userService.updateUser(user);
+				PositionQuery positionQuery = new PositionQuery();
+				positionQuery.setCompanyId(Long.parseLong(companyId));
+				positionQuery.setPositionType(PositionEnum.USER_DEFINED.getPositionType());
+				positionQuery.setPostionName(positionName);
+				List<PositionEntity> list = positionService.getPositionList(positionQuery);
+				Boolean isExist = false;
+				if(list != null && list.size() > 0){
+					isExist = true;
+				}
+				
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
+				jsonData.setData(isExist);
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

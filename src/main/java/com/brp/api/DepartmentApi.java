@@ -2,6 +2,7 @@ package com.brp.api;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,14 +21,18 @@ import com.brp.base.Status;
 import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
+import com.brp.entity.OrganizationEntity;
+import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
+import com.brp.service.OrganzationService;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.CompanyQuery;
+import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
 
 /** 
@@ -45,6 +50,8 @@ public class DepartmentApi {
 	private CompanyService companyService;
 	@Autowired
 	private DepartmentService departmentService;
+	@Autowired
+	private OrganzationService organzationService;
 	
 	@RequestMapping(value = "/getDepByCompanyId", method = RequestMethod.POST)
 	@ResponseBody
@@ -175,6 +182,12 @@ public class DepartmentApi {
 				department.setCreateTime(new Date());
 				department.setStatus(Status.NORMAL);		
 				departmentService.insertDepartment(department);
+				Long companyId = department.getCompanyId();
+				OrganizationEntity org = new OrganizationEntity();
+				String tree = this.getOrgTreeByCompanyId(companyId.toString());
+				org.setCompanyId(companyId);
+				org.setOrgStr(tree);
+				organzationService.insertCompanyOrg(org);
 				jsonData.setData(department.getId());
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
@@ -224,6 +237,12 @@ public class DepartmentApi {
 			if(auth){
 				DepartmentEntity department = JSONObject.parseObject(departmentJson, DepartmentEntity.class);
 				departmentService.updateDepartment(department);
+				Long companyId = department.getCompanyId();
+				OrganizationEntity org = new OrganizationEntity();
+				String tree = this.getOrgTreeByCompanyId(companyId.toString());
+				org.setCompanyId(companyId);
+				org.setOrgStr(tree);
+				organzationService.insertCompanyOrg(org);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -392,6 +411,106 @@ public class DepartmentApi {
 		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
+	}
+	
+	private String getOrgTreeByCompanyId(String companyId){
+		List<BTreeVO> companyTree = new LinkedList<BTreeVO>(); 
+		CompanyEntity company = companyService.getCompanyById(Long.parseLong(companyId));
+		if(company != null){	
+			BTreeVO companyTreeNode = this.getTreeNode(company, CompanyEntity.class);
+			//1.子公司
+			//2.一级部门
+			//3.下级部门
+			Long pId = company.getId();
+			/*List<CompanyEntity> subCompanyList = companyService.getSubCompanyListByPId(pId.intValue());
+			List<BTreeVO> subCompanyChildrens = this.switchCompanyListToTreeList(subCompanyList);
+			*/
+			List<DepartmentEntity> rootDeparmentList = departmentService.getListByCompanyId(pId.toString());
+			List<BTreeVO> companyChildrens = this.switchDepartmentListToTreeList(rootDeparmentList, pId.toString());
+			/*companyChildrens.addAll(subCompanyChildrens);*/
+			companyTreeNode.setChildren(companyChildrens);
+			companyTree.add(companyTreeNode);
+		}
+		
+		String tree = JsonUtils.json2Str(companyTree);
+		
+		return tree;
+	}
+	
+	private List<BTreeVO> switchDepartmentListToTreeList(List<DepartmentEntity> deparmentList, String cid){
+		List<BTreeVO> treeList  = new LinkedList<BTreeVO>();
+		if(deparmentList != null && deparmentList.size() > 0){
+			BTreeVO tree = null;
+			for (DepartmentEntity department : deparmentList) {
+				tree = this.getTreeNode(department, DepartmentEntity.class);
+				treeList.add(tree);
+			}
+		}
+		
+		return treeList;
+	}
+	
+	private List<BTreeVO> switchCompanyListToTreeList(List<CompanyEntity> companyList){
+		List<BTreeVO> treeList  = new LinkedList<BTreeVO>();
+		if(companyList != null && companyList.size() > 0){
+			BTreeVO tree = null;
+			CompanyEntity company = null;
+			for(int i=0; i< companyList.size(); i++){
+				company = companyList.get(i);
+				tree = this.getTreeNode(company, CompanyEntity.class);
+				treeList.add(tree);
+			}
+		}
+		
+		return treeList;
+	}
+	
+	private BTreeVO getTreeNode(Object obj, Class clazz){
+		String className = clazz.getName();
+		String id = StringUtils.EMPTY;
+		String text = StringUtils.EMPTY;
+		//1 公司 2.分公司 3.部门 4.用户 5. 菜单
+		BTreeVO node = new BTreeVO();
+		if("com.brp.entity.CompanyEntity".equals(className)){
+			CompanyEntity company = (CompanyEntity)obj;
+			text = company.getCompanyName();
+			String pCid = company.getParentCompanyId();
+			if(StringUtils.isNotBlank(pCid)){
+				//分公司
+				id = company.getId().intValue() + "_2_" + pCid; 
+			}else{
+				//总公司
+				id = company.getId().intValue() + "_1_n"; 
+			}
+			
+			
+			String cid = company.getId().toString();
+			List<DepartmentEntity> subDeparmentList = departmentService.getListByCompanyId(cid);
+			List<BTreeVO> departmentTreeNode = this.switchDepartmentListToTreeList(subDeparmentList, cid);
+			node.setChildren(departmentTreeNode);
+		}else if("com.brp.entity.UserEntity".equals(className)){
+			UserEntity user = (UserEntity)obj;
+			id = user.getId().intValue() + "_4_n"; 
+			text = user.getUserName();
+		}else if("com.brp.entity.DepartmentEntity".equals(className)){
+			DepartmentEntity department = (DepartmentEntity)obj;
+			Long idLong = department.getId();
+			Long pid = department.getParentDepartmentId();
+			if(pid == null){
+				id = idLong.intValue() + "_3_n"; 
+			}else{
+				//总公司
+				id = idLong.intValue() + "_3_" + pid; 
+			}
+			text = department.getDepartmentName();
+			List<BTreeVO> subTreeList = departmentService.getDepartmentTreeByPidAndCid(idLong.toString(), department.getCompanyId().toString());
+			node.setChildren(subTreeList);
+		}
+		
+		node.setId(id);
+		node.setName(text);
+		
+		return node;
 	}
 }
 

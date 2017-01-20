@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.OrganizationMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.OrganizationEntity" >
+    <id column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="org_str" property="orgStr" jdbcType="VARCHAR" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	  company_id,org_str
+  </sql>
+  <insert id="insertCompanyOrg" parameterType="com.brp.entity.OrganizationEntity" >
+    insert organzation
+   		(company_id,org_str) 
+    values
+    	( #{companyId,jdbcType=INTEGER},#{orgStr,jdbcType=VARCHAR})
+  </insert>
+ 
+
+	
+	<select id="getOrgByCompanyId" resultType="java.lang.String" parameterType="java.lang.Integer" >
+         select 
+         org_str
+         from organzation
+         where company_id = #{companyId}
+    </select>
+    
+
+	
+   <update id="updateCompnayOrg" parameterType="com.brp.entity.OrganizationEntity">
+		update company_id set 
+		<if test="orgStr != null">
+			org_str=#{orgStr,jdbcType=VARCHAR},
+		</if>
+		company_id=#{companyId}
+		 where company_id=#{companyId} limit 1;
+		 
+		 
+	</update>
+</mapper>

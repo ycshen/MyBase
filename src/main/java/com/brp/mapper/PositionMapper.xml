@@ -18,13 +18,13 @@
 	   id,create_user,update_user,create_time,update_time,
 	   company_id,position_type,position_name,is_delete
   </sql>
-  <insert id="insertPosition" parameterType="com.brp.entity.PositionEntity" >
+  <insert id="insertPosition" parameterType="com.brp.entity.PositionEntity"  useGeneratedKeys="true" keyProperty="id">
     insert position
    		(create_user,update_user,create_time, update_time,
    		company_id,position_type,position_name,is_delete) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
-    	#{companyId,jdbcType=INTEGER},#{positionType,jdbcType=INTEGER},#{postionName,jdbcType=VARCHAR},#{isDelete,jdbcType=VARCHAR})
+    	#{companyId,jdbcType=INTEGER},#{positionType,jdbcType=INTEGER},#{postionName,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
   </insert>
   
     
@@ -41,7 +41,7 @@
 		       and position_type = #{positionType}
 		      </if>
 		      <if test="postionName != '' and postionName != null" >
-		       and postion_name = #{postionName}
+		       and position_name = #{postionName}
 		      </if>
 		 </trim>
 		 and is_delete = 0
