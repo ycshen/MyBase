@@ -17,7 +17,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.brp.base.Status;
 import com.brp.base.enums.PositionEnum;
 import com.brp.entity.PositionEntity;
-import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.PositionService;
 import com.brp.service.UserService;
@@ -27,7 +26,6 @@ import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.PositionQuery;
-import com.brp.util.query.UserQuery;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -294,6 +292,170 @@ public class PositionApi {
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 				jsonData.setData(isExist);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/getPositionPage", method = RequestMethod.POST)
+	@ResponseBody
+	public String getPositionPage(@RequestBody JSONObject jsonObject){
+		JsonData<List<PositionEntity>> jsonData = new JsonData<List<PositionEntity>>();
+		try{
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			String pageSize = jsonObject.getString("pageSize");
+			String currentPage = jsonObject.getString("currentPage");
+			String companyId = jsonObject.getString("companyId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("companyId", companyId);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				maps.put("pageSize", pageSize);
+				maps.put("currentPage", currentPage);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(companyId) && TryParseUtils.tryParse(companyId, Long.class)){
+				PositionQuery positionQuery = new PositionQuery();
+				positionQuery.setCompanyId(Long.parseLong(companyId));
+				if(StringUtils.isBlank(currentPage)){
+					currentPage = "1";
+				}
+				
+				positionQuery.setPage(Integer.parseInt(currentPage));
+				if(StringUtils.isBlank(pageSize)){
+					pageSize = "10";
+				}
+				
+				positionQuery.setSize(Integer.parseInt(pageSize));
+				positionQuery = positionService.getPositionPage(positionQuery);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(positionQuery.getItems());
+				jsonData.setCount(positionQuery.getCount());
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/getPositionById", method = RequestMethod.POST)
+	@ResponseBody
+	public String getPositionById(@RequestBody JSONObject jsonObject){
+		JsonData<PositionEntity> jsonData = new JsonData<PositionEntity>();
+		try{
+			String id = jsonObject.getString("id");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("id", id);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){		
+				PositionEntity position = positionService.getPositionById(Integer.parseInt(id));
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(position);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/changePositionStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public String changePositionStatus(@RequestBody JSONObject jsonObject){
+		JsonData<PositionEntity> jsonData = new JsonData<PositionEntity>();
+		try{
+			String id = jsonObject.getString("id");
+			String status = jsonObject.getString("status");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("id", id);
+				maps.put("status", status);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){		
+				PositionEntity position = positionService.getPositionByIdWithoutIsdelete(Integer.parseInt(id));
+				position.setIsDelete(Integer.parseInt(status));
+				positionService.updatePosition(position);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

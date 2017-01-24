@@ -1,6 +1,6 @@
 package com.brp.util.query;
 
-import com.brp.entity.MenuEntity;
+import com.brp.entity.PositionEntity;
 import com.brp.model.pageutil.Page;
 
 /** 
@@ -11,7 +11,7 @@ import com.brp.model.pageutil.Page;
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-public class PositionQuery extends Page<MenuEntity>{
+public class PositionQuery extends Page<PositionEntity>{
 	private Long companyId;
 	private Integer positionType; // 1.用户自定义 2.系统定义
 	private String postionName;

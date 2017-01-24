@@ -47,12 +47,36 @@
 		 and is_delete = 0
          order by create_time desc
     </select>
+    <select id="getPositionPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.PositionQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from position
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="companyId != null and companyId != ''" >
+		       and company_id =  #{companyId}
+		      </if>
+		      <if test="positionType != '' and positionType != null" >
+		       and position_type = #{positionType}
+		      </if>
+		      <if test="postionName != '' and postionName != null" >
+		       and position_name = #{postionName}
+		      </if>
+		 </trim>
+         order by create_time desc
+    </select>
     
 	<select id="getPositionById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
          <include refid="Base_Column_List" />
          from position
          where id = #{id} and is_delete = 0
+    </select>
+    <select id="getPositionByIdWithoutIsdelete" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from position
+         where id = #{id}
     </select>
    <select id="getPositionByQuery" resultMap="BaseResultMap" parameterType="com.brp.util.query.PositionQuery" >
          select 

@@ -23,5 +23,8 @@ public interface PositionMapper {
 	PositionEntity getPositionById(Integer id);
 	void deletePositionById(String id);
 	PositionEntity getPositionByQuery(PositionQuery positionQuery);
+	List<PositionEntity> getPositionPage(PositionQuery positionQuery);
+	PositionEntity getPositionByIdWithoutIsdelete(Integer id);
+	
 }
 

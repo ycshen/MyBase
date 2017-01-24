@@ -20,5 +20,9 @@ public interface PositionService {
 	PositionEntity getPositionById(Integer id);
 	void deletePositionById(String id);
 	PositionEntity getPositionByQuery(PositionQuery positionQuery);
+	PositionQuery getPositionPage(PositionQuery positionQuery);
+	PositionEntity getPositionByIdWithoutIsdelete(Integer id);
+	
+	
 }
 

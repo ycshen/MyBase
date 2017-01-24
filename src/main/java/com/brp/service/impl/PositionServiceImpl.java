@@ -52,6 +52,18 @@ public class PositionServiceImpl implements PositionService{
 	public PositionEntity getPositionByQuery(PositionQuery positionQuery) {
 		return positionMapper.getPositionByQuery(positionQuery);
 	}
+
+	@Override
+	public PositionQuery getPositionPage(PositionQuery positionQuery) {
+		List<PositionEntity> list = positionMapper.getPositionPage(positionQuery);
+		positionQuery.setItems(list);
+		return positionQuery;
+	}
+
+	@Override
+	public PositionEntity getPositionByIdWithoutIsdelete(Integer id) {
+		return positionMapper.getPositionByIdWithoutIsdelete(id);
+	}
 	
 }
 
