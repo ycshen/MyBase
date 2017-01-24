@@ -8,12 +8,13 @@ package com.brp.base.enums;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public enum MenuEnum {
-	SYSTEM(0, "系统", "system"), 
+	OUTER_SYSTEM(0, "外部系统", "outer-system"), 
 	BUTTON(1, "按钮", "button"), 
 	A(2, "a标签", "href"),
 	URL(3, "菜单", "url"),
 	ONCLICK(4, "单击", "onclick"),
-	DBCLICK(5, "双击", "dbclick");
+	DBCLICK(5, "双击", "dbclick"),
+	INNER_SYSTEM(6, "内部系统", "inner-system");
 	private Integer menuType; 
 	private String menuTypeName;
 	private String menuTypeTag;

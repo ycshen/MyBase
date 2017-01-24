@@ -154,7 +154,7 @@ public class MenuController extends BaseController{
 	@RequestMapping(value = "/treeData", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String treeData(@ModelAttribute MenuQuery menuQuery, HttpServletRequest request){
-		menuQuery.setMenuType(MenuEnum.SYSTEM.getMenuType().toString());
+		menuQuery.setMenuType(MenuEnum.OUTER_SYSTEM.getMenuType().toString());
 		menuQuery = menuService.getMenuPage(menuQuery);
 		List<MenuEntity> list = menuQuery.getItems();
 		String tree = StringUtils.EMPTY;
@@ -226,7 +226,7 @@ public class MenuController extends BaseController{
 	public Integer isSystem(Integer id, HttpServletRequest request){
 		MenuEntity menu = menuService.getMenuById(id);
 		Integer isSystem = 0;
-		if(menu != null && MenuEnum.SYSTEM.getMenuType() == menu.getMenuType()){
+		if(menu != null && MenuEnum.OUTER_SYSTEM.getMenuType() == menu.getMenuType()){
 			isSystem = 1;
 		}
 		
@@ -240,7 +240,7 @@ public class MenuController extends BaseController{
 		Integer isSystemOrUrl = 0;
 		if(menu != null){
 			Integer menuType = menu.getMenuType();
-			if(MenuEnum.SYSTEM.getMenuType() == menuType){
+			if(MenuEnum.OUTER_SYSTEM.getMenuType() == menuType){
 				isSystemOrUrl = 1;
 			}else if(MenuEnum.URL.getMenuType() == menuType){
 				isSystemOrUrl = 2;
@@ -266,12 +266,12 @@ public class MenuController extends BaseController{
 			
 			if(oldMenu != null){
 				Integer menuType = oldMenu.getMenuType();
-				if(MenuEnum.SYSTEM.getMenuType() == menuType || MenuEnum.URL.getMenuType() == menuType){
+				if(MenuEnum.OUTER_SYSTEM.getMenuType() == menuType || MenuEnum.URL.getMenuType() == menuType){
 					isExist = 1;
 				}
 			}
 		}else{
-			menu = menuService.getMenuByNameAndType(menuName, MenuEnum.SYSTEM.getMenuType().toString());
+			menu = menuService.getMenuByNameAndType(menuName, MenuEnum.OUTER_SYSTEM.getMenuType().toString());
 			if(menu != null){
 				isExist = 2;
 			}
