@@ -60,7 +60,7 @@
 		       and position_type = #{positionType}
 		      </if>
 		      <if test="postionName != '' and postionName != null" >
-		       and position_name = #{postionName}
+		       and position_name like CONCAT('%',#{postionName},'%')  
 		      </if>
 		 </trim>
          order by create_time desc

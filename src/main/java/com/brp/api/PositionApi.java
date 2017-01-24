@@ -317,6 +317,8 @@ public class PositionApi {
 			String pageSize = jsonObject.getString("pageSize");
 			String currentPage = jsonObject.getString("currentPage");
 			String companyId = jsonObject.getString("companyId");
+			String positionName = jsonObject.getString("positionName");
+			
 			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
@@ -327,6 +329,7 @@ public class PositionApi {
 				maps.put("cId", cId);
 				maps.put("pageSize", pageSize);
 				maps.put("currentPage", currentPage);
+				maps.put("positionName", positionName);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
 					auth = true;
@@ -342,6 +345,7 @@ public class PositionApi {
 			if(auth && StringUtils.isNotBlank(companyId) && TryParseUtils.tryParse(companyId, Long.class)){
 				PositionQuery positionQuery = new PositionQuery();
 				positionQuery.setCompanyId(Long.parseLong(companyId));
+				positionQuery.setPostionName(positionName);
 				if(StringUtils.isBlank(currentPage)){
 					currentPage = "1";
 				}
