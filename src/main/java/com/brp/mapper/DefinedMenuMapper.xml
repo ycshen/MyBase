@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.brp.mapper.MenuMapper" >
+<mapper namespace="com.brp.mapper.DefinedMenuMapper" >
   <resultMap id="BaseResultMap" type="com.brp.entity.DefinedMenuEntity" >
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
@@ -11,6 +11,7 @@
     <result column="menu_id" property="menuId" jdbcType="INTEGER" />
     <result column="department_id" property="departmentId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="pmenu_id" property="pmenuId" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
   </resultMap> 
   
@@ -18,124 +19,15 @@
 	   create_user,update_user,create_time,update_time,
 	   company_id,menu_id,department_id,user_id,is_delete
   </sql>
-  <insert id="insertMenu" parameterType="com.brp.entity.MenuEntity" >
+  <insert id="insertMenu" parameterType="com.brp.entity.DefinedMenuEntity" >
     insert menu
    		(create_user,update_user,create_time,update_time,
-	   company_id,menu_id,department_id,user_id,is_delete) 
+	   company_id,menu_id,department_id,user_id,is_delete,pmenu_id) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
-    	#{companyId,jdbcType=INTEGER},#{menuId,jdbcType=INTEGER},#{departmentId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{"isDelete",jdbcType=INTEGER}
+    	#{companyId,jdbcType=INTEGER},#{menuId,jdbcType=INTEGER},#{departmentId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER}
+    	,#{pmenuId,jdbcType=INTEGER}
     	)
   </insert>
-  <select id="getMenuPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.MenuQuery" >
-         select 
-         <include refid="Base_Column_List" />
-         from menu
-         where 1=1
-         <trim prefix=" " suffix="" suffixOverrides="" >
-		     <if test="menuName != null and menuName != ''" >
-		       and menu_name =  #{menuName}
-		      </if>
-		      <if test="menuType != '' and menuType != null" >
-		       and menu_type = #{menuType}
-		      </if>
-		      <if test="beyondOfSystemId != '' and beyondOfSystemId != null" >
-		       and beyond_of_system_id = #{beyondOfSystemId}
-		      </if>
-		      <if test="parentMenuId != '' and parentMenuId != null" >
-		       and parent_menu_id = #{parentMenuId}
-		      </if>
-		 </trim>
-		 and is_delete = 0
-         order by create_time desc
-    </select>
-    
-    <select id="getMenuList" resultMap="BaseResultMap" parameterType="com.brp.util.query.MenuQuery" >
-         select 
-         <include refid="Base_Column_List" />
-         from menu
-         where 1=1
-         <trim prefix=" " suffix="" suffixOverrides="" >
-		     <if test="menuName != null and menuName != ''" >
-		       and menu_name =  #{menuName}
-		      </if>
-		      <if test="menuType != '' and menuType != null" >
-		       and menu_type = #{menuType}
-		      </if>
-		      <if test="beyondOfSystemId != '' and beyondOfSystemId != null" >
-		       and beyond_of_system_id = #{beyondOfSystemId}
-		      </if>
-		      <if test="parentMenuId != '' and parentMenuId != null" >
-		       and parent_menu_id = #{parentMenuId}
-		      </if>
-		 </trim>
-		 and is_delete = 0
-         order by create_time desc
-    </select>
-    
-	<select id="getMenuById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-         select 
-         <include refid="Base_Column_List" />
-         from menu
-         where id = #{id} and is_delete = 0
-    </select>
-    <select id="getMenuByNameAndType" resultMap="BaseResultMap" >
-         select 
-         <include refid="Base_Column_List" />
-         from menu
-         where menu_name = #{menuName} and menu_type=#{menuType} and is_delete = 0 limit 1
-    </select>
-    <select id="getMenuByNameAndSystemId" resultMap="BaseResultMap" >
-         select 
-         <include refid="Base_Column_List" />
-         from menu
-         where menu_name = #{menuName} and beyond_of_system_id=#{systemId} and is_delete = 0 limit 1
-    </select>
-    
-    <update id="deleteMenuById" parameterType="java.lang.String">
-		update menu set 
-		
-		is_delete = 1
-		 where id=#{id} limit 1;
-		 
-		 
-	</update>
-	
-   <update id="updateMenu" parameterType="com.brp.entity.MenuEntity">
-		update menu set 
-		<if test="createUser != null">
-			create_user=#{createUser,jdbcType=VARCHAR},
-		</if>
-		<if test="updateUser != null">
-			update_user=#{updateUser,jdbcType=VARCHAR}, 
-		</if>
-		<if test="createTime != null">
-			create_time=#{createTime,jdbcType=TIMESTAMP},
-		</if>
-		<if test="updateTime != null">
-		update_time=#{updateTime,jdbcType=TIMESTAMP},
-		</if>
-		
-		<if test="menuName != null">
-      	menu_name=#{menuName,jdbcType=VARCHAR},
-		</if>
-		<if test="beyondOfSystemId != null">
-      	beyond_of_system_id=#{beyondOfSystemId,jdbcType=VARCHAR},
-		</if>
-		<if test="isDelete != null">
-      	 is_delete=#{isDelete,jdbcType=VARCHAR},
-		</if>
-		<if test="menuUrl != null">
-      	 menu_url=#{menuUrl,jdbcType=VARCHAR},
-		</if>
-		<if test="beyondOfSystem != null">
-      	 beyond_of_system=#{beyondOfSystem,jdbcType=VARCHAR},
-		</if>
-		
-		
-		id=#{id}
-		 where id=#{id} limit 1;
-		 
-		 
-	</update>
+  
 </mapper>

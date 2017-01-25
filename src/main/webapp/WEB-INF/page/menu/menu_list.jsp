@@ -78,7 +78,8 @@
 									</td>
 									<td style="border:0px">
 									<button class="btn " onclick="queryMenu('${menuQuery.page}')">查询</button>
-										<button class="btn " onclick="addSystem()">新增系统</button>
+										<button class="btn " onclick="addSystem()">新增外部系统</button>
+										<button class="btn " onclick="addInnerSystem()">新增内部系统</button>
 									</td>
 								</tr>
 							</table>

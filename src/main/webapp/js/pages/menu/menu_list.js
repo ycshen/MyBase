@@ -1,6 +1,19 @@
 function addSystem(){
-	var title = "添加系统信息";
+	var title = "添加外部系统信息";
 	var url = ctx + "/inner/menu/edit?menuType=0";
+	layer.open({
+		type: 2,
+		title: title,
+		shadeClose: true,
+		shade: 0.8,
+		area: ['550px', '400px'],
+		content: url
+	});
+}
+
+function addInnerSystem(){
+	var title = "添加内部系统信息";
+	var url = ctx + "/inner/menu/edit?menuType=6";
 	layer.open({
 		type: 2,
 		title: title,
