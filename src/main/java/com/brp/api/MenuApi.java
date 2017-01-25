@@ -89,5 +89,57 @@ public class MenuApi {
 		
 		return result;
 	}
+	
+
+	@RequestMapping(value = "/getOuterSystemPage", method = RequestMethod.POST)
+	@ResponseBody
+	public String getOuterSystemPage(@RequestBody JSONObject jsonObject){
+		JsonData<MenuQuery> jsonData = new JsonData<MenuQuery>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				maps.put("companyId", companyId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(companyId)){
+				MenuQuery menuQuery = new MenuQuery();
+				menuQuery.setMenuType(MenuEnum.OUTER_SYSTEM.getMenuType().toString());
+				menuQuery = menuService.getMenuPage(menuQuery);
+				
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setData(menuQuery);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
 }
 
