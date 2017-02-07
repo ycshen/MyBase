@@ -19,7 +19,9 @@ import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
+import com.brp.util.MailSenderInfo;
 import com.brp.util.SHA1Utils;
+import com.brp.util.SimpleMailSender;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
@@ -281,6 +283,8 @@ public class UserApi {
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
 			String password = jsonObject.getString("password");
+			String email = jsonObject.getString("email");
+			String resetType = jsonObject.getString("resetType"); //1-输入密码 2-邮箱随机重置
 			String id = jsonObject.getString("id");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
@@ -290,6 +294,8 @@ public class UserApi {
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("password", password);
+				maps.put("resetType", resetType);
+				maps.put("email", email);
 				maps.put("id", id);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
@@ -307,8 +313,12 @@ public class UserApi {
 			
 			if(auth){
 				UserEntity user = userService.getUserById(Integer.parseInt(id));
-				if(StringUtils.isBlank(password)){
+				if("2".equals(resetType)){
+					//邮箱随机重置
 					password = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+					
+				}else if("1".equals(resetType)){
+					//手动输入重置	
 				}
 
 				user.setPassword(password);
@@ -433,6 +443,14 @@ public class UserApi {
 		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
+	}
+	@Autowired
+	private MailSenderInfo mailSenderInfo;
+	@RequestMapping(value = "/testEmail", method = RequestMethod.GET)
+	public void testEmail(){
+		mailSenderInfo.setSubject("aaa");
+		mailSenderInfo.setContent("ceshi");
+		SimpleMailSender.sendHtmlMail(mailSenderInfo);
 	}
 }
 
