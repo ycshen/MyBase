@@ -21,6 +21,7 @@ public class UserEntity extends BaseEntity{
 	private Integer isLoginMybase;
 	private Integer positionId;
 	private String positionName;
+	private String email;
 	
 	public Long getCompanyId() {
 		return companyId;
@@ -100,6 +101,11 @@ public class UserEntity extends BaseEntity{
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
 	}
-	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -281,6 +282,60 @@ public class UserApi {
 		return result;
 	}
 	
+	@RequestMapping(value = "/resetPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public String resetPassword(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String password = jsonObject.getString("password");
+			String id = jsonObject.getString("id");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("password", password);
+				maps.put("id", id);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserEntity user = userService.getUserById(Integer.parseInt(id));
+				if(StringUtils.isBlank(password)){
+					password = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+				}
+
+				user.setPassword(password);
+				userService.updateUser(user);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
 	
 	@RequestMapping(value = "/forbidUser", method = RequestMethod.POST)
 	@ResponseBody

@@ -80,7 +80,17 @@
 							style="width: 300px;" value="${user.telphone}">
 				</td>
 			</tr>
-			
+			<tr>
+				<td style="border:0px;text-align:right;">
+					<label ><span style="color:red;">*</span>邮箱地址：</label>
+				</td>
+				<td style="border:0px;">
+					<input name="email" id="txtEmail"
+							 maxlength="20"
+							class="form-control" type="text" placeholder="请输入邮箱地址"
+							style="width: 300px;" value="${user.email}">
+				</td>
+			</tr>
 		</form>
 			<tr>
 				<td style="border:0px;">

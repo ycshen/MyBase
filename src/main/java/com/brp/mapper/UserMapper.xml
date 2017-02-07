@@ -22,25 +22,27 @@
     <result column="is_login_mybase" property="isLoginMybase" jdbcType="INTEGER" />
     <result column="position_id" property="positionId" jdbcType="INTEGER" />
     <result column="position_name" property="positionName" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    
   </resultMap> 
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
    		company_id,company_name,department_name,status,department_id,
    		user_name,telphone,password,mobile,user_code,is_login_mybase,
-   		position_id
+   		position_id,email
   </sql>
   <insert id="insertUser" parameterType="com.brp.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
     insert user
    		(create_user,update_user,create_time, update_time,
    		company_id,company_name,department_name,status,department_id,
    		user_name,telphone,password,mobile,user_code,
-   		is_login_mybase,position_id
+   		is_login_mybase,position_id,email
    		) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{departmentId,jdbcType=INTEGER},
     	#{userName,jdbcType=VARCHAR},#{telphone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{userCode,jdbcType=VARCHAR},
-		#{isLoginMybase,jdbcType=INTEGER},#{positionId,jdbcType=INTEGER}
+		#{isLoginMybase,jdbcType=INTEGER},#{positionId,jdbcType=INTEGER},#{email,jdbcType=VARCHAR}
     	)
   </insert>
   <select id="getUserPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" > 
@@ -48,7 +50,7 @@
 			 u.id,u.create_user,u.update_user,u.create_time,u.update_time,
 			   		u.company_id,u.company_name,d.department_name as department_name,u.status,u.department_id,
 			   		u.user_name,u.telphone,u.password,u.mobile,u.user_code,u.is_login_mybase,
-			   		u.position_id, p.position_name as position_name from user u 
+			   		u.position_id, p.position_name as position_name,u.email from user u 
 			left join position p
 			on u.position_id=p.id
 			left join department d
@@ -119,12 +121,14 @@
 		user_name=#{userName,jdbcType=INTEGER},
 		</if>
 		<if test="telphone != null">
-		telphone=#{telphone,jdbcType=INTEGER},
+		telphone=#{telphone,jdbcType=VARCHAR},
 		</if>
 		<if test="isLoginMybase != null">
 		is_login_mybase=#{isLoginMybase,jdbcType=INTEGER},
 		</if>
-		
+		<if test="email != null">
+		email=#{email,jdbcType=VARCHAR},
+		</if>
 		id=#{id}
 		 where id=#{id} limit 1;
 		 

@@ -78,6 +78,7 @@
 									<th>所属公司</th>
 									<th>所属部门</th>
 									<th>电话号码</th>
+									<th>邮箱地址</th>
 									<th>创建人</th>
 									<th>创建时间</th>
 									<th>更新人</th>
@@ -114,6 +115,7 @@
 										<td>${user.companyName}</td>
 										<td>${user.departmentName}</td>
 										<td>${user.telphone}</td>
+										<td>${user.email}</td>
 										<td>${user.createUser}</td>
 										<td>
 											<f:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
