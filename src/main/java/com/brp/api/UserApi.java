@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brp.base.UserStatus;
-import com.brp.base.VipLevel;
-import com.brp.entity.CompanyEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.UserService;
@@ -26,11 +23,7 @@ import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
-import com.brp.util.query.CompanyQuery;
-import com.brp.util.query.DepartmentQuery;
 import com.brp.util.query.UserQuery;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -376,6 +369,55 @@ public class UserApi {
 				user.setUpdateTime(new Date());
 				user.setStatus(Integer.parseInt(status));
 				userService.updateUser(user);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/getUserById", method = RequestMethod.POST)
+	@ResponseBody
+	public String getUserById(@RequestBody JSONObject jsonObject){
+		JsonData<UserEntity> jsonData = new JsonData<UserEntity>();
+		try{
+			String id = jsonObject.getString("id");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("id", id);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserEntity user = userService.getUserById(Integer.parseInt(id));
+				user.setPassword(StringUtils.EMPTY);
+				jsonData.setData(user);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
