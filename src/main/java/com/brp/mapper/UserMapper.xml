@@ -123,6 +123,9 @@
 		<if test="telphone != null">
 		telphone=#{telphone,jdbcType=VARCHAR},
 		</if>
+		<if test="password != null">
+		`password`=#{password,jdbcType=VARCHAR},
+		</if>
 		<if test="isLoginMybase != null">
 		is_login_mybase=#{isLoginMybase,jdbcType=INTEGER},
 		</if>
