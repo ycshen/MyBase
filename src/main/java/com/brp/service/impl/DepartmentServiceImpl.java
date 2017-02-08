@@ -103,5 +103,10 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return false;
 	}
 
+	@Override
+	public List<DepartmentEntity> getNoSubDeptListByCId(String cid) {
+		return departmentMapper.getNoSubDeptListByCId(cid);
+	}
+
 }
 

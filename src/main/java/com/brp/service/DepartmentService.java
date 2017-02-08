@@ -25,5 +25,6 @@ public interface DepartmentService {
 	List<DepartmentEntity> getListByCompanyId(String companyId);
 	List<BTreeVO> getDepartmentTreeByPidAndCid(String pid, String cid);
 	List<DepartmentEntity> getDepartmentListByPId(String pid);
+	List<DepartmentEntity> getNoSubDeptListByCId(String cid);
 }
 

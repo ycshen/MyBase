@@ -13,11 +13,14 @@
     <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="parent_department_id" property="parentDepartmentId" jdbcType="INTEGER" />
+    
+    <result column="is_has_sub" property="isHasSub" jdbcType="INTEGER" />
   </resultMap> 
      
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
-   		company_id,company_name,department_name,status,parent_department_id
+   		company_id,company_name,department_name,status,parent_department_id,
+   		is_has_sub
   </sql>
    <sql id="base_column" >
 	   id,company_id,company_name,department_name,parent_department_id
@@ -26,11 +29,11 @@
     insert Department
    		(create_user,update_user,create_time, update_time,
    		company_id,company_name,department_name,status,
-   		parent_department_id) 
+   		parent_department_id,is_has_sub) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},
-    	#{parentDepartmentId,jdbcType=INTEGER})
+    	#{parentDepartmentId,jdbcType=INTEGER},#{isHasSub,jdbcType=INTEGER})
   </insert>
   <select id="getDepartmentPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.DepartmentQuery" >
          select 
@@ -73,6 +76,9 @@
 		<if test="departmentName != null">
 		department_name=#{departmentName,jdbcType=VARCHAR},
 		</if>
+		<if test="isHasSub != null">
+		is_has_sub=#{isHasSub,jdbcType=INTEGER},
+		</if>
 		id=#{id}
 		 where id=#{id} limit 1;
 		 
@@ -111,5 +117,11 @@
          <include refid="Base_Column_List" />
          from department
          where parent_department_id = #{pid} and status=0
+    </select>
+    <select id="getNoSubDeptListByCId" resultMap="BaseResultMap" parameterType="java.lang.String">
+         select 
+         <include refid="Base_Column_List" />
+         from department
+         where company_id = #{cid} and is_has_sub=0
     </select>
 </mapper>

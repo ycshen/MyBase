@@ -101,6 +101,54 @@ public class DepartmentApi {
 		return result;
 	}
 	
+	@RequestMapping(value = "/getNoSubDepListByCId", method = RequestMethod.POST)
+	@ResponseBody
+	public String getNoSubDepListByCId(@RequestBody JSONObject jsonObject){
+		JsonData<List<DepartmentEntity>> jsonData = new JsonData<List<DepartmentEntity>>();
+		try{
+			String id = jsonObject.getString("id");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("id", id);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
+				List<DepartmentEntity> departmentList = departmentService.getNoSubDeptListByCId(id);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(departmentList);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/getDepById", method = RequestMethod.POST)
 	@ResponseBody
 	public String getDepById(@RequestBody JSONObject jsonObject){
@@ -188,6 +236,13 @@ public class DepartmentApi {
 				org.setCompanyId(companyId);
 				org.setOrgStr(tree);
 				organzationService.insertCompanyOrg(org);
+				Long parentDeptId = department.getParentDepartmentId();
+				DepartmentEntity parentDept = departmentService.getDepartmentById(parentDeptId.intValue());
+				if(0 == parentDept.getIsHasSub()){
+					parentDept.setIsHasSub(1);
+					departmentService.updateDepartment(parentDept);
+				}
+				
 				jsonData.setData(department.getId());
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");

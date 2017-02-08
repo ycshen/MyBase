@@ -13,6 +13,7 @@ public class DepartmentEntity extends BaseEntity{
 	private String departmentName;
 	private Integer status;
 	private Long parentDepartmentId;
+	private Integer isHasSub; // 0-无 1-有
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -43,6 +44,11 @@ public class DepartmentEntity extends BaseEntity{
 	public void setParentDepartmentId(Long parentDepartmentId) {
 		this.parentDepartmentId = parentDepartmentId;
 	}
-	
+	public Integer getIsHasSub() {
+		return isHasSub;
+	}
+	public void setIsHasSub(Integer isHasSub) {
+		this.isHasSub = isHasSub;
+	}
 }
 

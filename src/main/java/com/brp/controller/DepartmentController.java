@@ -58,6 +58,13 @@ public class DepartmentController extends BaseController{
 				department.setStatus(0);
 				department.setCreateUser(user.getUserName());
 				departmentService.insertDepartment(department);
+				Long parentDeptId = department.getParentDepartmentId();
+				DepartmentEntity parentDept = departmentService.getDepartmentById(parentDeptId.intValue());
+				if(0 == parentDept.getIsHasSub()){
+					parentDept.setIsHasSub(1);
+					departmentService.updateDepartment(parentDept);
+				}
+				
 				result = ResponseStatus.INSERT_SUCCESS;
 			}else{
 				department.setUpdateTime(new Date());
