@@ -1,6 +1,7 @@
 package com.brp.service.impl;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.lucene.util.CollectionUtil;
@@ -70,7 +71,10 @@ public class DepartmentServiceImpl implements DepartmentService{
             	treeNode.setId(deptVo.getId().intValue() + "_3_" + pid);  
             	treeNode.setName(deptVo.getDepartmentName());
             	String id = deptVo.getId().toString();
-            	treeNode.setChildren(getDepartmentTreeByPidAndCid(id, cid));
+            	if(deptVo.getIsHasSub() != null && deptVo.getIsHasSub() == 1){
+                	treeNode.setChildren(getDepartmentTreeByPidAndCid(id, cid));
+            	}
+            	
             	deptVosList.add(treeNode);  
             }  
         }
@@ -111,6 +115,28 @@ public class DepartmentServiceImpl implements DepartmentService{
 	@Override
 	public void deleteDepartmentById(String id) {
 		departmentMapper.deleteDepartmentById(id);
+	}
+
+	@Override
+	public List<DepartmentEntity> getDepartmentListByPidAndCid(String pid,
+			String cid) {
+		List<DepartmentEntity> returnList = new LinkedList<DepartmentEntity>();
+		List<DepartmentEntity> departmentList = departmentMapper.getDepartmentTreeByPIdAndCId(pid, cid); 
+        if(departmentList != null && departmentList.size() > 0){  
+            for(DepartmentEntity deptVo : departmentList){  
+            	String id = deptVo.getId().toString();
+            	if(deptVo.getIsHasSub() != null && deptVo.getIsHasSub() == 1){
+            		List<DepartmentEntity> subList = getDepartmentListByPidAndCid(id, cid);
+            		if(subList != null && subList.size() > 0){
+                		returnList.addAll(subList);
+            		}
+            	}
+            	
+            	returnList.add(deptVo);  
+            }  
+        }
+        
+        return returnList; 
 	}
 
 }

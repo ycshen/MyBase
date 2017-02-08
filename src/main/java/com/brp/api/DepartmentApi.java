@@ -236,16 +236,7 @@ public class DepartmentApi {
 				department.setIsHasSub(0);
 				departmentService.insertDepartment(department);
 				Long companyId = department.getCompanyId();
-				OrganizationEntity org = new OrganizationEntity();
-				String tree = this.getOrgTreeByCompanyId(companyId.toString());
-				org.setCompanyId(companyId);
-				org.setOrgStr(tree);
-				String deptTree = organzationService.getOrgByCompanyId(companyId.intValue());
-				if(StringUtils.isBlank(deptTree)){
-					organzationService.insertCompanyOrg(org);
-				}else{
-					organzationService.updateCompnayOrg(org);
-				}
+				this.initDeptTree(companyId.toString());
 				
 				Long parentDeptId = department.getParentDepartmentId();
 				DepartmentEntity parentDept = departmentService.getDepartmentById(parentDeptId.intValue());
@@ -304,16 +295,7 @@ public class DepartmentApi {
 				DepartmentEntity department = JSONObject.parseObject(departmentJson, DepartmentEntity.class);
 				departmentService.updateDepartment(department);
 				Long companyId = department.getCompanyId();
-				OrganizationEntity org = new OrganizationEntity();
-				String tree = this.getOrgTreeByCompanyId(companyId.toString());
-				org.setCompanyId(companyId);
-				org.setOrgStr(tree);
-				String deptTree = organzationService.getOrgByCompanyId(companyId.intValue());
-				if(StringUtils.isBlank(deptTree)){
-					organzationService.insertCompanyOrg(org);
-				}else{
-					organzationService.updateCompnayOrg(org);
-				}
+				this.initDeptTree(companyId.toString());
 				
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
@@ -616,18 +598,18 @@ public class DepartmentApi {
 			}
 			
 			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Integer.class)){
-				departmentService.deleteDepartmentById(cId);
-				UserQuery userQuery = new UserQuery();
-				userQuery.setCompanyId(companyId);
-				userQuery.setDepartmentId(id);
-				List<UserEntity> list = userService.getUserListByCompanyIdAndDeptId(userQuery);
-				if(list != null && list.size() > 0){
-					for (UserEntity userEntity : list) {
-						userEntity.setDepartmentId(-1);
-						userService.updateUser(userEntity);
+				departmentService.deleteDepartmentById(id);
+				this.freeUser(companyId, id);
+				List<DepartmentEntity> deptList = departmentService.getDepartmentListByPidAndCid(id, companyId);
+				if(deptList != null && deptList.size() > 0){
+					for (DepartmentEntity department : deptList) {
+						Long subDeptId = department.getId();
+						this.freeUser(companyId, subDeptId.toString());
+						departmentService.deleteDepartmentById(subDeptId.toString());
 					}
 				}
 				
+				this.initDeptTree(companyId);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -644,6 +626,32 @@ public class DepartmentApi {
 		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
+	}
+	
+	private void initDeptTree(String companyId){
+		OrganizationEntity org = new OrganizationEntity();
+		String tree = this.getOrgTreeByCompanyId(companyId.toString());
+		org.setCompanyId(Long.parseLong(companyId));
+		org.setOrgStr(tree);
+		String deptTree = organzationService.getOrgByCompanyId(Integer.parseInt(companyId));
+		if(StringUtils.isBlank(deptTree)){
+			organzationService.insertCompanyOrg(org);
+		}else{
+			organzationService.updateCompnayOrg(org);
+		}
+	}
+	
+	private void freeUser(String companyId, String departmentId){
+		UserQuery userQuery = new UserQuery();
+		userQuery.setCompanyId(companyId);
+		userQuery.setDepartmentId(departmentId);
+		List<UserEntity> list = userService.getUserListByCompanyIdAndDeptId(userQuery);
+		if(list != null && list.size() > 0){
+			for (UserEntity userEntity : list) {
+				userEntity.setDepartmentId(-1);
+				userService.updateUser(userEntity);
+			}
+		}
 	}
 }
 
