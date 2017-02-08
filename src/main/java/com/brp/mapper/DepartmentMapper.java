@@ -28,5 +28,6 @@ public interface DepartmentMapper {
 	List<DepartmentEntity> getDepartmentTreeByPIdAndCId(@Param("pid") String pid, @Param("cid") String cid);
 	List<DepartmentEntity> getDepartmentListByPId(String pid);
 	List<DepartmentEntity> getNoSubDeptListByCId(String cid);
+	void deleteDepartmentById(String id);
 }
 

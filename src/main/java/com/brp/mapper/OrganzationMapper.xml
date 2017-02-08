@@ -28,7 +28,7 @@
 
 	
    <update id="updateCompnayOrg" parameterType="com.brp.entity.OrganizationEntity">
-		update company_id set 
+		update organzation set 
 		<if test="orgStr != null">
 			org_str=#{orgStr,jdbcType=VARCHAR},
 		</if>

@@ -12,7 +12,6 @@ public class TryParseUtils {
 		boolean result = false;
 		try{
 			String className = clazz.getName();
-			System.out.println(className);
 			if("java.lang.Integer".equals(className)){
 				Integer.parseInt(value.toString());
 				result = true;

@@ -26,12 +26,14 @@ import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
 import com.brp.service.OrganzationService;
+import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.CompanyQuery;
+import com.brp.util.query.UserQuery;
 import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
 
@@ -52,6 +54,8 @@ public class DepartmentApi {
 	private DepartmentService departmentService;
 	@Autowired
 	private OrganzationService organzationService;
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value = "/getDepByCompanyId", method = RequestMethod.POST)
 	@ResponseBody
@@ -228,14 +232,21 @@ public class DepartmentApi {
 			if(auth){
 				DepartmentEntity department = JSONObject.parseObject(departmentJson, DepartmentEntity.class);
 				department.setCreateTime(new Date());
-				department.setStatus(Status.NORMAL);		
+				department.setStatus(Status.NORMAL);
+				department.setIsHasSub(0);
 				departmentService.insertDepartment(department);
 				Long companyId = department.getCompanyId();
 				OrganizationEntity org = new OrganizationEntity();
 				String tree = this.getOrgTreeByCompanyId(companyId.toString());
 				org.setCompanyId(companyId);
 				org.setOrgStr(tree);
-				organzationService.insertCompanyOrg(org);
+				String deptTree = organzationService.getOrgByCompanyId(companyId.intValue());
+				if(StringUtils.isBlank(deptTree)){
+					organzationService.insertCompanyOrg(org);
+				}else{
+					organzationService.updateCompnayOrg(org);
+				}
+				
 				Long parentDeptId = department.getParentDepartmentId();
 				DepartmentEntity parentDept = departmentService.getDepartmentById(parentDeptId.intValue());
 				if(0 == parentDept.getIsHasSub()){
@@ -297,7 +308,13 @@ public class DepartmentApi {
 				String tree = this.getOrgTreeByCompanyId(companyId.toString());
 				org.setCompanyId(companyId);
 				org.setOrgStr(tree);
-				organzationService.insertCompanyOrg(org);
+				String deptTree = organzationService.getOrgByCompanyId(companyId.intValue());
+				if(StringUtils.isBlank(deptTree)){
+					organzationService.insertCompanyOrg(org);
+				}else{
+					organzationService.updateCompnayOrg(org);
+				}
+				
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -566,6 +583,67 @@ public class DepartmentApi {
 		node.setName(text);
 		
 		return node;
+	}
+	
+	@RequestMapping(value = "/deleteDepartmentById", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteDepartmentById(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String id = jsonObject.getString("id");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("id", id);
+				maps.put("companyId", companyId);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Integer.class)){
+				departmentService.deleteDepartmentById(cId);
+				UserQuery userQuery = new UserQuery();
+				userQuery.setCompanyId(companyId);
+				userQuery.setDepartmentId(id);
+				List<UserEntity> list = userService.getUserListByCompanyIdAndDeptId(userQuery);
+				if(list != null && list.size() > 0){
+					for (UserEntity userEntity : list) {
+						userEntity.setDepartmentId(-1);
+						userService.updateUser(userEntity);
+					}
+				}
+				
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			System.out.println("促物");
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
 	}
 }
 

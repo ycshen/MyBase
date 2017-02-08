@@ -10,7 +10,7 @@
     
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
     <result column="company_name" property="companyName" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="INTEGER" />
     <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     
@@ -106,31 +106,31 @@
 			create_time=#{createTime,jdbcType=TIMESTAMP},
 		</if>
 		<if test="updateTime != null">
-		update_time=#{updateTime,jdbcType=TIMESTAMP},
+			update_time=#{updateTime,jdbcType=TIMESTAMP},
 		</if>
 		<if test="status != null">
-		status=#{status,jdbcType=INTEGER},
+			`status`=#{status,jdbcType=INTEGER},
 		</if>
 		<if test="departmentName != null">
-		department_name=#{departmentName,jdbcType=INTEGER},
+			department_name=#{departmentName,jdbcType=VARCHAR},
 		</if>
 		<if test="departmentId != null">
-		department_id=#{departmentId,jdbcType=INTEGER},
+			department_id=#{departmentId,jdbcType=INTEGER},
 		</if>
 		<if test="userName != null">
-		user_name=#{userName,jdbcType=INTEGER},
+			user_name=#{userName,jdbcType=VARCHAR},
 		</if>
 		<if test="telphone != null">
-		telphone=#{telphone,jdbcType=VARCHAR},
+			telphone=#{telphone,jdbcType=VARCHAR},
 		</if>
 		<if test="password != null">
-		`password`=#{password,jdbcType=VARCHAR},
+			`password`=#{password,jdbcType=VARCHAR},
 		</if>
 		<if test="isLoginMybase != null">
-		is_login_mybase=#{isLoginMybase,jdbcType=INTEGER},
+			is_login_mybase=#{isLoginMybase,jdbcType=INTEGER},
 		</if>
 		<if test="email != null">
-		email=#{email,jdbcType=VARCHAR},
+			email=#{email,jdbcType=VARCHAR},
 		</if>
 		id=#{id}
 		 where id=#{id} limit 1;

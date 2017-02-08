@@ -108,5 +108,10 @@ public class DepartmentServiceImpl implements DepartmentService{
 		return departmentMapper.getNoSubDeptListByCId(cid);
 	}
 
+	@Override
+	public void deleteDepartmentById(String id) {
+		departmentMapper.deleteDepartmentById(id);
+	}
+
 }
 

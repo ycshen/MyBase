@@ -18,6 +18,7 @@ public interface DepartmentService {
 	void insertDepartment(DepartmentEntity department);
 	DepartmentQuery getDepartmentList(DepartmentQuery departmentQuery);
 	void updateDepartment(DepartmentEntity department);
+	void deleteDepartmentById(String id);
 	DepartmentEntity getDepartmentById(Integer id);
 	boolean isExistDepartment(String departmentName, String companyId);
 	boolean isExistDepartmentByPid(String departmentName, String pId);
