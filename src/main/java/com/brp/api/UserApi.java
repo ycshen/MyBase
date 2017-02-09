@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
+import com.brp.service.DepartmentService;
 import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.MailSenderInfo;
@@ -40,6 +42,8 @@ import com.brp.util.query.UserQuery;
 public class UserApi {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private DepartmentService departmentService;
 	@Autowired
 	private CompanyService companyService;
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -117,7 +121,7 @@ public class UserApi {
 			String cId = jsonObject.getString("cId");
 			String pageSize = jsonObject.getString("pageSize");
 			String currentPage = jsonObject.getString("currentPage");
-			String status = jsonObject.getString("status");
+			String userName = jsonObject.getString("userName");
 			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
@@ -125,7 +129,7 @@ public class UserApi {
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("companyId", companyId);
 				maps.put("departmentId", departmentId);
-				maps.put("status", status);
+				maps.put("userName", userName);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				maps.put("pageSize", pageSize);
@@ -146,7 +150,19 @@ public class UserApi {
 				UserQuery userQuery = new UserQuery();
 				userQuery.setCompanyId(companyId);
 				if(StringUtils.isNotBlank(departmentId)){
-					userQuery.setDepartmentId(departmentId);
+					List<DepartmentEntity> deptList = departmentService.getDepartmentListByPidAndCid(departmentId, companyId);
+					if(deptList != null && deptList.size() > 0){
+						String deptStr = "";
+						for (DepartmentEntity department : deptList) {
+							deptStr += department.getId() + ",";
+						}
+						
+						deptStr = deptStr.substring(0, deptStr.length() - 1);
+						userQuery.setDepartmentId(deptStr);
+					}else{
+						userQuery.setDepartmentId(departmentId);
+					}
+					
 				}
 				
 				if(StringUtils.isBlank(currentPage)){
@@ -159,7 +175,10 @@ public class UserApi {
 				}
 				
 				userQuery.setSize(Integer.parseInt(pageSize));
-				//userQuery.setStatus(Integer.parseInt(status));
+				if(StringUtils.isNotBlank(userName)){
+					userQuery.setUserName("%" + userName +"%");
+				}
+				
 				userQuery = userService.getUserList(userQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");

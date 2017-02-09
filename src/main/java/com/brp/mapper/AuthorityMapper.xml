@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.AuthorityMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.AuthorityEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="auth_name" property="authName" jdbcType="VARCHAR" />
+    <result column="auth_desc" property="authDesc" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,create_user,update_user,create_time,update_time,
+	   auth_name,auth_desc,is_delete
+  </sql>
+  <insert id="insertAuthority" parameterType="com.brp.entity.AuthorityEntity"  useGeneratedKeys="true" keyProperty="id">
+    insert authority
+   		(create_user,update_user,create_time,update_time,
+	   auth_name,auth_desc,is_delete) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{authName,jdbcType=VARCHAR},#{authDesc,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
+  </insert>
+  
+    
+    
+    <select id="getAuthorityPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.AuthorityQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from authority
+         where 1=1
+         
+         order by create_time desc
+    </select>
+    
+	<select id="getAuthorityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from authority
+         where id = #{id} and is_delete = 0
+    </select>
+    
+   
+    <update id="deleteAuthorityById" parameterType="java.lang.String">
+		update authority set 
+		
+		is_delete = 1
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	
+   <update id="updateAuthority" parameterType="com.brp.entity.AuthorityEntity">
+		update position set 
+		<if test="createUser != null">
+			create_user=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			update_user=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			create_time=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		update_time=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+</mapper>

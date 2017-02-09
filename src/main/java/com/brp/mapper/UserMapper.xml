@@ -59,13 +59,13 @@
          where 1=1
          <trim prefix=" " suffix="" suffixOverrides="" >
 		   <if test="departmentId != null and departmentId != ''" >
-		       and u.department_id =  #{departmentId}
+		       and u.department_id in (${departmentId})
 		      </if>
 		      <if test="companyId != null and companyId != ''" >
 		       and u.company_id =  #{companyId}
 		      </if>
 		     <if test="userName != null and userName != ''" >
-		       and u.user_name =  #{userName}
+		       and u.user_name  like '${userName}'
 		      </if>
 		      <if test="telphone != null and telphone != ''" >
 		       and u.telphone =  #{telphone}
@@ -131,6 +131,9 @@
 		</if>
 		<if test="email != null">
 			email=#{email,jdbcType=VARCHAR},
+		</if>
+		<if test="positionId != null">
+			position_id=#{positionId,jdbcType=INTEGER},
 		</if>
 		id=#{id}
 		 where id=#{id} limit 1;
