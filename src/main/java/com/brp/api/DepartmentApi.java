@@ -415,6 +415,7 @@ public class DepartmentApi {
 		JsonData<Boolean> jsonData = new JsonData<Boolean>();
 		try{
 			String id = jsonObject.getString("id");
+			String departmentId = jsonObject.getString("departmentId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			String departmentName = jsonObject.getString("departmentName");
@@ -425,6 +426,7 @@ public class DepartmentApi {
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("id", id);
+				maps.put("departmentId", departmentId);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				maps.put("departmentName", departmentName);
@@ -444,9 +446,9 @@ public class DepartmentApi {
 			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
 				Boolean isExist = true;
 				if(Constant.TRUE.equals(isCompany)){
-					isExist = departmentService.isExistDepartment(departmentName, id);
+					isExist = departmentService.isExistDepartment(departmentName, id, departmentId);
 				}else{
-					isExist = departmentService.isExistDepartmentByPid(departmentName, id);
+					isExist = departmentService.isExistDepartmentByPid(departmentName, id, departmentId);
 				}
 				
 				jsonData.setData(isExist);

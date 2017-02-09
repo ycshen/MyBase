@@ -47,11 +47,15 @@ public class DepartmentController extends BaseController{
 		Integer result = ResponseStatus.INIT;
 		String departmentName = department.getDepartmentName();
 		Long companyId = department.getCompanyId();
-		boolean isExist = departmentService.isExistDepartment(departmentName, companyId.toString());
+		Long id = department.getId();
+		String departmentId = "";
+		if(id != null){
+			departmentId = id.toString();
+		}
+		boolean isExist = departmentService.isExistDepartment(departmentName, companyId.toString(), departmentId);
 		if(isExist){
 			result = ResponseStatus.EXIST;
 		}else{
-			Long id = department.getId();
 			UserEntity user = UserUtils.getLoginUser(request);
 			if(id == null){
 				department.setCreateTime(new Date());

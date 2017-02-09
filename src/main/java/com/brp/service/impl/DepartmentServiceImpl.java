@@ -88,9 +88,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 
 	@Override
-	public boolean isExistDepartment(String departmentName, String companyId) {
+	public boolean isExistDepartment(String departmentName, String companyId, String departmentId) {
 		DepartmentEntity department = departmentMapper.getDepartmentByNameAndcompanyId(departmentName, companyId);
-		if(department != null){
+		if(department != null && !department.getId().equals(departmentId)){
 			return true;
 		}
 		
@@ -98,9 +98,9 @@ public class DepartmentServiceImpl implements DepartmentService{
 	}
 	
 	@Override
-	public boolean isExistDepartmentByPid(String departmentName, String pId) {
+	public boolean isExistDepartmentByPid(String departmentName, String pId, String departmentId) {
 		DepartmentEntity department = departmentMapper.getDepartmentByNameAndPId(departmentName, pId);
-		if(department != null){
+		if(department != null && !department.getId().equals(departmentId)){
 			return true;
 		}
 		
