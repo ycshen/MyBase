@@ -33,7 +33,7 @@
 			<div id="main_body" style="padding: 0.6em;">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						面单申请查询<span class="pull-right"> </span>
+						公司信息查询<span class="pull-right"> </span>
 					</div>
 					<div class="panel-body">
 						<div class="form-inline">
