@@ -79,7 +79,7 @@
 									<tr>
 										<td style="display: none;">${auth.id}</td>
 										<td>
-										<a  href="#" onclick="modifyauth('${auth.id}')">修改</a>&nbsp;&nbsp;s
+										<a  href="#" onclick="modifyauth('${auth.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="deleteauth('${auth.id}')">删除</a></td>
 										<td>${auth.authName }</td>
 										<td>${auth.authDesc}</td>

@@ -118,4 +118,48 @@ function deleteUser(userId){
 	
 }
 
+$(function(){
+	$("#selectOper").change(function(){
+		var selectValue = $("#selectOper").val();
+		var userId = $("#selectOper").parent().siblings().eq(0).html();
+		if(selectValue == 0){
+			//不做任何动作
+		}else if(selectValue == 1){
+			modifyUser(userId);
+		}else if(selectValue == 2){
+			deleteUser(userId);
+		}else if(selectValue == 3){
+			leaveUser(userId);
+		}else if(selectValue == 4){
+			isLoginMybase(userId);
+		}else if(selectValue == 5){
+			isLoginMybase(userId);
+		}
+	});
+});
 
+function isLoginMybase(userId){
+	
+	layer.confirm("确定改变该员工登录MyBase的权限吗？", function(){
+		var url = ctx + "/inner/user/changeIsLoginMyBase?userId=" + userId;
+		$.ajax({
+			type: 'get',
+			url: url,
+			success: function(data){
+				if(data != -1){				
+					var loginStr = "<span class=\"btn btn-success\">否</span>";
+					if(data == 1){
+						loginStr = "<span class=\"btn btn-warning\">是</span>";
+					}
+					
+					layer.alert('操作成功', function(){
+						$("#tdIsLogin" + userId).html(loginStr);
+						layer.closeAll();
+					});
+				}else{
+					layer.alert("操作失败");
+				}
+			}
+		});
+	})
+}

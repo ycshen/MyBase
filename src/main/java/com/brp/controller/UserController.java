@@ -208,5 +208,28 @@ public class UserController {
 			
 		return ResponseStatus.UPDATE_SUCCESS;
 	}
+	
+	@RequestMapping(value = "/changeIsLoginMyBase", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer changeIsLogin(String userId, HttpServletRequest request){
+		UserEntity loginUser = UserUtils.getLoginUser(request);
+		Integer isLoginMybase = -1;
+		if(StringUtils.isNotBlank(userId)){
+			UserEntity user = userService.getUserById(Integer.parseInt(userId));
+			user.setUpdateTime(new Date());
+			user.setUpdateUser(loginUser.getUserName());
+			isLoginMybase = user.getIsLoginMybase();
+			if(isLoginMybase != null && isLoginMybase == 1){
+				isLoginMybase = 0;
+			}else{
+				isLoginMybase = 1;
+			}
+			
+			user.setIsLoginMybase(isLoginMybase);
+			userService.updateUser(user);
+		}
+			
+		return isLoginMybase;
+	}
 }
 

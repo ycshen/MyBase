@@ -75,6 +75,7 @@
 									<th>操作</th>
 									<th>员工姓名</th>
 									<th>员工状态</th>
+									<th>是否允许登录MyBase</th>
 									<th>所属公司</th>
 									<th>所属部门</th>
 									<th>电话号码</th>
@@ -90,15 +91,22 @@
 									<tr>
 										<td style="display: none;">${user.id}</td>
 										<td>
-										
-										<c:if test="${user.status == 101}">
-											<a  href="#" onclick="modifyUser('${user.id}')">修改</a>
-										
-										</c:if>
-										<c:if test="${user.status != 102}">
-											<a  href="#" onclick="deleteUser('${user.id}')">删除</a>
-										</c:if>
-										
+											<select class="form-control" style="width: 30px;" id="selectOper">
+												<option balue="0"></option>
+											  	<option value="1">编辑</option>
+											  	<option value="2">删除</option>
+												  	<c:if  test="${user.status == 101}">
+												  		<option value="3">确认离职</option>
+												  	</c:if>
+												  	<c:if  test="${user.isLoginMybase == 0}">
+												  		<option value="4">启用登录MyBase</option>
+												  	</c:if>
+												  	<c:if  test="${user.isLoginMybase == 1}">
+												  		<option value="5">停用登录MyBase</option>
+												  	</c:if>
+											  	
+											</select>
+										</td>
 										<td>${user.userName }</td>
 										<td id="userStatus${user.id}">
 											<c:choose>
@@ -108,14 +116,23 @@
 												<c:when test="${user.status == 102 }"><span style="color:green;">禁用</span>
 												</c:when>
 												<c:otherwise>在职
-												<a  href="#" onclick="leaveUser('${user.id}')">确认离职</a>
+												
 												</c:otherwise>
 											</c:choose>
+										</td>
+										<td id="tdIsLogin${user.id}">
+											<c:if test="${user.isLoginMybase == 0 }">
+												<span class="btn btn-success">否</span>
+											</c:if>
+											<c:if test="${user.isLoginMybase == 1 }">
+												<span class="btn btn-warning">是</span>
+											</c:if>
 										</td>
 										<td>${user.companyName}</td>
 										<td>${user.departmentName}</td>
 										<td>${user.telphone}</td>
 										<td>${user.email}</td>
+										
 										<td>${user.createUser}</td>
 										<td>
 											<f:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" />
