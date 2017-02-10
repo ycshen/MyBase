@@ -10,7 +10,7 @@ package com.brp.entity;
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-public class AuthorityEntity{
+public class AuthorityEntity extends BaseEntity{
 	private String authName;
 	private Integer isDelete;
 	private String authDesc;
