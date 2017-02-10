@@ -103,7 +103,6 @@ public class CompanyApi {
 				
 				companyQuery.setSize(Integer.parseInt(pageSize));
 				companyQuery = companyService.getSubCompanyPage(companyQuery);
-				System.out.println(new Gson().toJson(companyQuery));
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 				jsonData.setData(companyQuery.getItems());

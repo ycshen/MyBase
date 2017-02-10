@@ -13,6 +13,7 @@ import com.brp.model.pageutil.Page;
  */
 public class AuthorityQuery extends Page<AuthorityEntity>{
 	private String authName;
+	private String companyId;
 
 	public String getAuthName() {
 		return authName;
@@ -21,6 +22,13 @@ public class AuthorityQuery extends Page<AuthorityEntity>{
 	public void setAuthName(String authName) {
 		this.authName = authName;
 	}
-	
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 }
 
