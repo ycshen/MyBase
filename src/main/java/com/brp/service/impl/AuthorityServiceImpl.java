@@ -52,6 +52,11 @@ public class AuthorityServiceImpl implements AuthorityService{
 		return authorityQuery;
 	}
 
+	@Override
+	public void startAuthorityById(String id) {
+		authMapper.startAuthorityById(id);
+	}
+
 	
 }
 

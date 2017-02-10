@@ -33,7 +33,12 @@
          <include refid="Base_Column_List" />
          from authority
          where 1=1
-         
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="authName != null and authName != ''" >
+		       and auth_name like  '${authName}'
+		      </if>
+		      
+		 </trim>
          order by create_time desc
     </select>
     
@@ -53,7 +58,14 @@
 		 
 		 
 	</update>
-	
+	<update id="startAuthorityById" parameterType="java.lang.String">
+		update authority set 
+		
+		is_delete = 0
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
    <update id="updateAuthority" parameterType="com.brp.entity.AuthorityEntity">
 		update authority set 
 		<if test="createUser != null">
@@ -74,7 +86,9 @@
 		<if test="authDesc != null">
 		auth_desc=#{authDesc,jdbcType=VARCHAR},
 		</if>
-		
+		<if test="isDelete != null">
+		is_delete=#{isDelete,jdbcType=INTEGER},
+		</if>
 		id=#{id}
 		 where id=#{id} limit 1;
 		 

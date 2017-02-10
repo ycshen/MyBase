@@ -17,7 +17,7 @@ public interface AuthorityService {
 	AuthorityEntity getAuthorityById(Integer id);
 	void deleteAuthorityById(String id);
 	AuthorityQuery getAuthorityPage(AuthorityQuery authorityQuery);
-	
+	void startAuthorityById(String id);
 	
 }
 

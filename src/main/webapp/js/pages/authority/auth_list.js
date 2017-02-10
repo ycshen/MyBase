@@ -46,14 +46,30 @@ function viewConfig(id){
 	});
 }
 
-function deleteConfig(id){
-	layer.confirm("确定删除该配置信息？", function(){
-		var url = ctx + "/inner/config/delete?id=" + id;
+function deleteauth(id){
+	layer.confirm("确定停用权限信息？", function(){
+		var url = ctx + "/inner/authority/delete?id=" + id;
 		$.ajax({
 	        type: "get",
 	        url: url,
 	        success: function() {
-	        	layer.alert('删除成功', function(index){
+	        	layer.alert('停用成功', function(index){
+	      		  window.location.reload();
+	    		});
+	        }
+	    });
+	})
+	
+}
+
+function startauth(id){
+	layer.confirm("确定启用权限信息？", function(){
+		var url = ctx + "/inner/authority/start?id=" + id;
+		$.ajax({
+	        type: "get",
+	        url: url,
+	        success: function() {
+	        	layer.alert('启用成功', function(index){
 	      		  window.location.reload();
 	    		});
 	        }
@@ -66,19 +82,15 @@ function addSuccess(){
 	window.location.href = ctx + "/inner/authority/list";
 }
 
-function queryConfig(page){
-	var url = ctx + "/inner/config/list?page=" + page;
-	var key = $("#txtkey").val();
-	if(isNotBlank(key)){
-		url += "&key=" + key;
+function queryauth(page){
+	var url = ctx + "/inner/authority/list?page=" + page;
+	var authName = $("#txtQueryAuthName").val();
+	if(isNotBlank(authName)){
+		url += "&authName=" + authName;
 	}
 	
 	
 	
-	var code = $("#txtcode").val();
-	if(isNotBlank(code)){
-		url += "&code=" + code;
-	}
 	
 	window.location.href = url;
 }

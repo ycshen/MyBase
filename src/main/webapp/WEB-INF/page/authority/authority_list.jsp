@@ -43,7 +43,7 @@
 									<td style="border:0px">
 									<div class="form-group">
 										<label for="hidDistrict">权限名称
-										<input type="text" placeholder="请输入权限名称" id="txtkey" class="form-control" value=""/>
+										<input type="text" placeholder="请输入权限名称" id="txtQueryAuthName" class="form-control" value=""/>
 									</div>
 									</td>
 									<td style="border:0px">
@@ -80,7 +80,12 @@
 										<td style="display: none;">${auth.id}</td>
 										<td>
 										<a  href="#" onclick="modifyauth('${auth.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="deleteauth('${auth.id}')">删除</a></td>
+										<c:if test="${auth.isDelete == 1}">
+											<a  href="#" onclick="startauth('${auth.id}')">启用</a></td>
+										</c:if>
+										<c:if test="${auth.isDelete == 0}">
+											<a  href="#" onclick="deleteauth('${auth.id}')">停用</a></td>
+										</c:if>
 										<td>${auth.authName }</td>
 										<td>${auth.authDesc}</td>
 										<td>

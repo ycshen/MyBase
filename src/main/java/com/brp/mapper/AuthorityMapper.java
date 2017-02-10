@@ -23,6 +23,7 @@ public interface AuthorityMapper {
 	void updateAuthority(AuthorityEntity authority);
 	AuthorityEntity getAuthorityById(Integer id);
 	void deleteAuthorityById(String id);
+	void startAuthorityById(String id);
 	List<AuthorityEntity> getAuthorityPage(AuthorityQuery authorityQuery);	
 }
 

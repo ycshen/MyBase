@@ -86,9 +86,22 @@ public class AuthorityController extends BaseController{
 		}
 	}
 	
+	@RequestMapping(value = "/start", method = RequestMethod.GET)
+	@ResponseBody
+	public void start(String id, HttpServletRequest request){
+		if(StringUtils.isNotBlank(id)){
+			authorityService.startAuthorityById(id);
+		}
+	}
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView listAuthority(@ModelAttribute AuthorityQuery authorityQuery, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/authority/authority_list");
+		String authName = authorityQuery.getAuthName();
+		if(StringUtils.isNotBlank(authName)){
+			authorityQuery.setAuthName("%" + authName + "%");
+		}
+		
 		authorityQuery = authorityService.getAuthorityPage(authorityQuery);
 		mav.addObject("authorityQuery", authorityQuery);
 		
