@@ -23,7 +23,6 @@ import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
-import com.brp.util.query.AuthorityQuery;
 import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.vo.AuthorityVO;
 
@@ -114,5 +113,52 @@ public class AuthorityApi {
 		return result;
 	}
 	
+	@RequestMapping(value = "/getAuthById", method = RequestMethod.POST)
+	@ResponseBody
+	public String getAuthById(@RequestBody JSONObject jsonObject){
+		JsonData<AuthorityEntity> jsonData = new JsonData<AuthorityEntity>();
+		try{
+			String id = jsonObject.getString("id");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("id", id);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
+				AuthorityEntity authority = authService.getAuthorityById(Integer.parseInt(id));
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(authority);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
 }
 
