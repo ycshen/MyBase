@@ -1,6 +1,6 @@
 
 function cancelEdit(){
-	layer.closeAll();
+	window.parent.layer.closeAll();
 }
 
 function isBlank(args){
