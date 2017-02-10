@@ -24,6 +24,8 @@ import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.AuthorityQuery;
+import com.brp.util.query.AuthorityVOQuery;
+import com.brp.util.vo.AuthorityVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -48,7 +50,7 @@ public class AuthorityApi {
 	@RequestMapping(value = "/getAuthPage", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAuthPage(@RequestBody JSONObject jsonObject){
-		JsonData<List<AuthorityEntity>> jsonData = new JsonData<List<AuthorityEntity>>();
+		JsonData<List<AuthorityVO>> jsonData = new JsonData<List<AuthorityVO>>();
 		try{
 			String id = jsonObject.getString("id");
 			String secret = jsonObject.getString("secret");
@@ -80,7 +82,7 @@ public class AuthorityApi {
 			}
 			
 			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
-				AuthorityQuery authQuery = new AuthorityQuery();
+				AuthorityVOQuery authQuery = new AuthorityVOQuery();
 				authQuery.setCompanyId(id);
 				if(StringUtils.isBlank(currentPage)){
 					currentPage = "1";
@@ -92,7 +94,7 @@ public class AuthorityApi {
 				}
 				
 				authQuery.setSize(Integer.parseInt(pageSize));
-				authQuery = authService.getAuthorityPage(authQuery);
+				authQuery = authService.getAuthorityVOPage(authQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 				jsonData.setData(authQuery.getItems());

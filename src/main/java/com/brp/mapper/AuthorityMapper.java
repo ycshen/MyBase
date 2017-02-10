@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import com.brp.entity.AuthorityEntity;
 import com.brp.entity.PositionEntity;
 import com.brp.util.query.AuthorityQuery;
+import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.query.PositionQuery;
+import com.brp.util.vo.AuthorityVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -25,5 +27,7 @@ public interface AuthorityMapper {
 	void deleteAuthorityById(String id);
 	void startAuthorityById(String id);
 	List<AuthorityEntity> getAuthorityPage(AuthorityQuery authorityQuery);	
+	List<AuthorityVO> getAuthorityVOPage(AuthorityVOQuery authorityQuery);	
+	
 }
 

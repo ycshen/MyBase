@@ -12,7 +12,11 @@
     <result column="auth_desc" property="authDesc" jdbcType="VARCHAR" />
     <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
   </resultMap> 
-  
+  <resultMap id="BaseResultVOMap" type="com.brp.util.vo.AuthorityVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="auth_name" property="authName" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap> 
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
 	   auth_name,auth_desc,is_delete
@@ -41,7 +45,12 @@
 		 </trim>
          order by create_time desc
     </select>
-    
+     <select id="getAuthorityVOPage" resultMap="BaseResultVOMap" parameterType="com.brp.util.query.AuthorityVOQuery" >
+         select a.id, a.auth_name,au1.count from authority a
+			left join 
+			(select  count(au.id) as count, au.auth_id as auth_id from authority_user au WHERE company_id =#{companyId}  group by au.auth_id) as au1 on a.id= au1.auth_id
+
+    </select>
 	<select id="getAuthorityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
          <include refid="Base_Column_List" />

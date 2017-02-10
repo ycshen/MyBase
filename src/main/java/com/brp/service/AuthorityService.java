@@ -1,7 +1,11 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.AuthorityEntity;
 import com.brp.util.query.AuthorityQuery;
+import com.brp.util.query.AuthorityVOQuery;
+import com.brp.util.vo.AuthorityVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -17,7 +21,8 @@ public interface AuthorityService {
 	AuthorityEntity getAuthorityById(Integer id);
 	void deleteAuthorityById(String id);
 	AuthorityQuery getAuthorityPage(AuthorityQuery authorityQuery);
-	void startAuthorityById(String id);
+	void startAuthorityById(String id);	
+	AuthorityVOQuery getAuthorityVOPage(AuthorityVOQuery authorityQuery);
 	
 }
 

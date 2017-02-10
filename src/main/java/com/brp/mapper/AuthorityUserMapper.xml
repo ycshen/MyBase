@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.AuthorityUserMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.AuthorityUserEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="auth_id" property="authId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+	<result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,auth_id,user_id,company_id,is_delete
+  </sql>
+ <!--  <insert id="insertAuthority" parameterType="com.brp.entity.AuthorityEntity"  useGeneratedKeys="true" keyProperty="id">
+    insert authority
+   		(create_user,update_user,create_time,update_time,
+	   auth_name,auth_desc,is_delete) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{authName,jdbcType=VARCHAR},#{authDesc,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
+  </insert>
+   -->
+    
+    
+    <select id="getAuthorityUserList" resultMap="BaseResultMap" parameterType="com.brp.util.query.AuthorityUserQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from authority_user
+         where is_delete = 0
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="authId != null and authId != ''" >
+		       and auth_id =  #{authId}
+		      </if>
+		      <if test="companyId != null and companyId != ''" >
+		       and company_id =  #{companyId}
+		      </if>
+		      <if test="userId != null and userId != ''" >
+		       and user_id =  #{userId}
+		      </if>
+		 </trim>
+         
+    </select>
+     
+</mapper>
