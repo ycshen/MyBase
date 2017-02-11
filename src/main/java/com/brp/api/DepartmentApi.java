@@ -240,7 +240,7 @@ public class DepartmentApi {
 				
 				Long parentDeptId = department.getParentDepartmentId();
 				DepartmentEntity parentDept = departmentService.getDepartmentById(parentDeptId.intValue());
-				if(0 == parentDept.getIsHasSub()){
+				if(parentDept != null && 0 == parentDept.getIsHasSub()){
 					parentDept.setIsHasSub(1);
 					departmentService.updateDepartment(parentDept);
 				}
