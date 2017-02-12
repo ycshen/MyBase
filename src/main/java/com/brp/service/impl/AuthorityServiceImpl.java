@@ -110,6 +110,11 @@ public class AuthorityServiceImpl implements AuthorityService{
 		return authorityQuery;
 	}
 
+	@Override
+	public void cancelAuthority(String idList) {
+		authUserMapper.cancelAuthority(idList);
+	}
+
 	
 }
 

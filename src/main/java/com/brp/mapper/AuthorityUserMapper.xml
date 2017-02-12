@@ -41,5 +41,8 @@
 		 </trim>
          
     </select>
-     
+     <update id="cancelAuthority" parameterType="java.lang.String">
+		update authority_user set is_delete = 0 where id in(${idList})
+		 
+	</update>
 </mapper>

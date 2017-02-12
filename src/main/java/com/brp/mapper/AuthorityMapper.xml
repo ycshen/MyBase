@@ -67,6 +67,8 @@
 		 
 		 
 	</update>
+	
+
 	<update id="startAuthorityById" parameterType="java.lang.String">
 		update authority set 
 		

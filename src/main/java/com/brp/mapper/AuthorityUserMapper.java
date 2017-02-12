@@ -18,6 +18,6 @@ import com.brp.util.query.AuthorityUserQuery;
 @Repository
 public interface AuthorityUserMapper {
 	List<AuthorityUserEntity> getAuthorityUserList(AuthorityUserQuery authuserQuery);	
-	
+	void cancelAuthority(String idList);
 }
 

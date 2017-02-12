@@ -26,5 +26,6 @@ public interface UserService {
 	List<UserEntity> getUserPage(UserQuery userQuery);
 	UserEntity loginMybase(String account, String password);
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
+	UserQuery getUserListByAuthIdPage(UserQuery userQuery);
 }
 

@@ -77,6 +77,25 @@
 		 
          order by create_time desc 
     </select>
+    <select id="getUserListByAuthIdPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" >  
+		select 
+			 u.id,u.create_user,u.update_user,u.create_time,u.update_time,
+			   		u.company_id,u.company_name,d.department_name as department_name,u.status,u.department_id,
+			   		u.user_name,u.telphone,u.password,u.mobile,u.user_code,u.is_login_mybase,
+			   		u.position_id, p.position_name as position_name,u.email 
+			from authority_user au 
+			left join user u  on au.user_id = u.id
+			left join position p
+			on u.position_id=p.id
+			left join department d
+			on u.department_id = d.id
+
+         where 1=1 and au.auth_id=#{authId} and u.company_id = #{companyId}
+         
+		 
+         order by create_time desc 
+    </select>
+     
      <select id="getUserListByCompanyIdAndDeptId" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" >
          select 
          <include refid="Base_Column_List" />

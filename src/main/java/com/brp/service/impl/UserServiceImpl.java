@@ -79,7 +79,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserEntity loginMybase(String account, String password) {
-		// TODO Auto-generated method stub
 		return userMapper.loginMybase(account, password);
 	}
 
@@ -88,6 +87,16 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userMapper.getUserListByCompanyIdAndDeptId(userQuery);
 	}
+
+	@Override
+	public UserQuery getUserListByAuthIdPage(UserQuery userQuery) {
+		List<UserEntity> list = userMapper.getUserListByAuthIdPage(userQuery);
+		userQuery.setItems(list);
+		
+		return userQuery;
+	}
+
+	
 	
 }
 

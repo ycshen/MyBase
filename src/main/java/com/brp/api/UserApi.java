@@ -471,5 +471,72 @@ public class UserApi {
 		mailSenderInfo.setContent("ceshi");
 		SimpleMailSender.sendHtmlMail(mailSenderInfo);
 	}
+	
+	@RequestMapping(value = "/getUserListByAuthId", method = RequestMethod.POST)
+	@ResponseBody
+	public String getUserListByAuthId(@RequestBody JSONObject jsonObject){
+		JsonData<List<UserEntity>> jsonData = new JsonData<List<UserEntity>>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String authId = jsonObject.getString("authId");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			String pageSize = jsonObject.getString("pageSize");
+			String currentPage = jsonObject.getString("currentPage");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("authId", authId);
+				maps.put("companyId", companyId);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				maps.put("pageSize", pageSize);
+				maps.put("currentPage", currentPage);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserQuery userQuery = new UserQuery();
+				userQuery.setAuthId(authId);
+				if(StringUtils.isBlank(currentPage)){
+					currentPage = "1";
+				}
+				
+				userQuery.setPage(Integer.parseInt(currentPage));
+				if(StringUtils.isBlank(pageSize)){
+					pageSize = "5";
+				}
+				
+				userQuery.setCompanyId(companyId);
+				userQuery = userService.getUserListByAuthIdPage(userQuery);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(userQuery.getItems());
+				jsonData.setCount(userQuery.getCount());
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
 }
 

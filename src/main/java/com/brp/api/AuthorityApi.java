@@ -1,5 +1,6 @@
 package com.brp.api;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.base.VipLevel;
 import com.brp.entity.AuthorityEntity;
+import com.brp.entity.CompanyEntity;
 import com.brp.service.AuthorityService;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
@@ -146,6 +149,117 @@ public class AuthorityApi {
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 				jsonData.setData(authority);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/insertAuth", method = RequestMethod.POST)
+	@ResponseBody
+	public String insertAuth(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String authJson = jsonObject.getString("authJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("authJson", authJson);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				AuthorityEntity authority = JSONObject.parseObject(authJson, AuthorityEntity.class);
+				authority.setIsDelete(0);
+				authService.insertAuthority(authority);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/cancelAuth", method = RequestMethod.POST)
+	@ResponseBody
+	public String cancelAuth(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String authJson = jsonObject.getString("authJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("authJson", authJson);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				List<AuthorityEntity> authoritys = JSONObject.parseArray(authJson, AuthorityEntity.class);
+				if(authoritys != null && authoritys.size() > 0){
+					String idList = "";
+					for (AuthorityEntity authorit : authoritys) {
+						idList += authorit.getId() + ",";
+					}
+					
+					if(StringUtils.isNotBlank(idList)){
+						idList = idList.substring(0, idList.length() - 1);
+					}
+					
+					if(StringUtils.isNotBlank(idList)){
+						authService.cancelAuthority(idList);
+					}
+				}
+				
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

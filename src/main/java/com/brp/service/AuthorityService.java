@@ -18,6 +18,7 @@ import com.brp.util.vo.AuthorityVO;
 public interface AuthorityService {
 	void insertAuthority(AuthorityEntity authority);
 	void updateAuthority(AuthorityEntity authority);
+	void cancelAuthority(String idList);
 	AuthorityEntity getAuthorityById(Integer id);
 	void deleteAuthorityById(String id);
 	AuthorityQuery getAuthorityPage(AuthorityQuery authorityQuery);
