@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import com.brp.entity.UserEntity;
 import com.brp.mapper.UserMapper;
 import com.brp.service.UserService;
+import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.vo.UserAuthVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -89,11 +91,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserQuery getUserListByAuthIdPage(UserQuery userQuery) {
-		List<UserEntity> list = userMapper.getUserListByAuthIdPage(userQuery);
-		userQuery.setItems(list);
+	public UserAuthQuery getUserListByAuthIdPage(UserAuthQuery userAuthQuery) {
+		List<UserAuthVO> list = userMapper.getUserListByAuthIdPage(userAuthQuery);
+		userAuthQuery.setItems(list);
 		
-		return userQuery;
+		return userAuthQuery;
 	}
 
 	

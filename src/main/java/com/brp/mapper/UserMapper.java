@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.UserEntity;
+import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.vo.UserAuthVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -27,6 +29,6 @@ public interface UserMapper {
 	void deleteUserById(String id);
 	UserEntity loginMybase(@Param("account")String account, @Param("password")String password);
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
-	List<UserEntity> getUserListByAuthIdPage(UserQuery userQuery);
+	List<UserAuthVO> getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
 }
 

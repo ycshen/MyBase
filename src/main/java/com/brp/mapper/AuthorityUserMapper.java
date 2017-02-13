@@ -2,6 +2,7 @@ package com.brp.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.AuthorityUserEntity;
@@ -18,6 +19,7 @@ import com.brp.util.query.AuthorityUserQuery;
 @Repository
 public interface AuthorityUserMapper {
 	List<AuthorityUserEntity> getAuthorityUserList(AuthorityUserQuery authuserQuery);	
-	void cancelAuthority(String idList);
+	void cancelAuthority(@Param("idList")String idList, @Param("companyId")String companyId);
+	void insertAuthorityUser(AuthorityUserEntity authUser);
 }
 

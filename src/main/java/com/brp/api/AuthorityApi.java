@@ -1,6 +1,5 @@
 package com.brp.api;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brp.base.VipLevel;
 import com.brp.entity.AuthorityEntity;
-import com.brp.entity.CompanyEntity;
+import com.brp.entity.AuthorityUserEntity;
 import com.brp.service.AuthorityService;
+import com.brp.service.AuthorityUserService;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
 import com.brp.service.UserService;
@@ -48,7 +47,8 @@ public class AuthorityApi {
 	private UserService userService;
 	@Autowired
 	private AuthorityService authService;
-	 
+	@Autowired
+	private AuthorityUserService authUserService;
 	@RequestMapping(value = "/getAuthPage", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAuthPage(@RequestBody JSONObject jsonObject){
@@ -169,7 +169,7 @@ public class AuthorityApi {
 	public String insertAuth(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
-			String authJson = jsonObject.getString("authJson");
+			String authUserJson = jsonObject.getString("authUserJson");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -177,7 +177,7 @@ public class AuthorityApi {
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("authJson", authJson);
+				maps.put("authUserJson", authUserJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -193,9 +193,12 @@ public class AuthorityApi {
 			}
 			
 			if(auth){
-				AuthorityEntity authority = JSONObject.parseObject(authJson, AuthorityEntity.class);
-				authority.setIsDelete(0);
-				authService.insertAuthority(authority);
+				List<AuthorityUserEntity> authoritys = JSONObject.parseArray(authUserJson, AuthorityUserEntity.class);
+				if(authoritys != null && authoritys.size() > 0){
+					for (AuthorityUserEntity authUser : authoritys) {
+						authUserService.insertAuthorityUser(authUser);
+					}
+				}
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -218,7 +221,7 @@ public class AuthorityApi {
 	public String cancelAuth(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
-			String authJson = jsonObject.getString("authJson");
+			String authUserJson = jsonObject.getString("authUserJson");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -226,7 +229,7 @@ public class AuthorityApi {
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("authJson", authJson);
+				maps.put("authUserJson", authUserJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -242,19 +245,20 @@ public class AuthorityApi {
 			}
 			
 			if(auth){
-				List<AuthorityEntity> authoritys = JSONObject.parseArray(authJson, AuthorityEntity.class);
+				List<AuthorityUserEntity> authoritys = JSONObject.parseArray(authUserJson, AuthorityUserEntity.class);
 				if(authoritys != null && authoritys.size() > 0){
 					String idList = "";
-					for (AuthorityEntity authorit : authoritys) {
-						idList += authorit.getId() + ",";
+					for (AuthorityUserEntity authUser : authoritys) {
+						idList += authUser.getId() + ",";
 					}
 					
 					if(StringUtils.isNotBlank(idList)){
 						idList = idList.substring(0, idList.length() - 1);
 					}
-					
+		
 					if(StringUtils.isNotBlank(idList)){
-						authService.cancelAuthority(idList);
+						String companyId = authoritys.get(0).getCompanyId().toString();
+						authUserService.cancelAuthority(idList, companyId);
 					}
 				}
 				

@@ -27,7 +27,9 @@ import com.brp.util.SimpleMailSender;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
+import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.vo.UserAuthVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -475,7 +477,7 @@ public class UserApi {
 	@RequestMapping(value = "/getUserListByAuthId", method = RequestMethod.POST)
 	@ResponseBody
 	public String getUserListByAuthId(@RequestBody JSONObject jsonObject){
-		JsonData<List<UserEntity>> jsonData = new JsonData<List<UserEntity>>();
+		JsonData<List<UserAuthVO>> jsonData = new JsonData<List<UserAuthVO>>();
 		try{
 			String companyId = jsonObject.getString("companyId");
 			String authId = jsonObject.getString("authId");
@@ -507,23 +509,23 @@ public class UserApi {
 			}
 			
 			if(auth){
-				UserQuery userQuery = new UserQuery();
-				userQuery.setAuthId(authId);
+				UserAuthQuery userAuthQuery = new UserAuthQuery();
+				userAuthQuery.setAuthId(authId);
 				if(StringUtils.isBlank(currentPage)){
 					currentPage = "1";
 				}
 				
-				userQuery.setPage(Integer.parseInt(currentPage));
+				userAuthQuery.setPage(Integer.parseInt(currentPage));
 				if(StringUtils.isBlank(pageSize)){
 					pageSize = "5";
 				}
 				
-				userQuery.setCompanyId(companyId);
-				userQuery = userService.getUserListByAuthIdPage(userQuery);
+				userAuthQuery.setCompanyId(companyId);
+				userAuthQuery = userService.getUserListByAuthIdPage(userAuthQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
-				jsonData.setData(userQuery.getItems());
-				jsonData.setCount(userQuery.getCount());
+				jsonData.setData(userAuthQuery.getItems());
+				jsonData.setCount(userAuthQuery.getCount());
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

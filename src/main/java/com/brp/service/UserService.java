@@ -5,6 +5,7 @@ import java.util.List;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
 import com.brp.util.query.DepartmentQuery;
+import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 
 /** 
@@ -26,6 +27,6 @@ public interface UserService {
 	List<UserEntity> getUserPage(UserQuery userQuery);
 	UserEntity loginMybase(String account, String password);
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
-	UserQuery getUserListByAuthIdPage(UserQuery userQuery);
+	UserAuthQuery getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
 }
 

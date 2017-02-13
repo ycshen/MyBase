@@ -1,4 +1,7 @@
-package com.brp.entity;
+package com.brp.util.vo;
+
+import com.brp.entity.BaseEntity;
+
 /** 
  * <p>Project: MyBase</p> 
  * <p>Title: UserEntity.java</p> 
@@ -7,7 +10,7 @@ package com.brp.entity;
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-public class UserEntity extends BaseEntity{
+public class UserAuthVO extends BaseEntity{
 	private Long companyId;
 	private String companyName;
 	private Integer departmentId;
@@ -22,6 +25,7 @@ public class UserEntity extends BaseEntity{
 	private Integer positionId;
 	private String positionName;
 	private String email;
+	private Integer authUserId;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -106,5 +110,12 @@ public class UserEntity extends BaseEntity{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public Integer getAuthUserId() {
+		return authUserId;
+	}
+	public void setAuthUserId(Integer authUserId) {
+		this.authUserId = authUserId;
+	}
+	
 }
 

@@ -12,15 +12,13 @@
   <sql id="Base_Column_List" >
 	   id,auth_id,user_id,company_id,is_delete
   </sql>
- <!--  <insert id="insertAuthority" parameterType="com.brp.entity.AuthorityEntity"  useGeneratedKeys="true" keyProperty="id">
-    insert authority
-   		(create_user,update_user,create_time,update_time,
-	   auth_name,auth_desc,is_delete) 
+  <insert id="insertAuthorityUser" parameterType="com.brp.entity.AuthorityUserEntity"  useGeneratedKeys="true" keyProperty="id">
+    insert authority_user
+   		(auth_id,user_id,company_id,is_delete) 
     values
-    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
-    	#{authName,jdbcType=VARCHAR},#{authDesc,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
+    	( #{authId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER})
   </insert>
-   -->
+  
     
     
     <select id="getAuthorityUserList" resultMap="BaseResultMap" parameterType="com.brp.util.query.AuthorityUserQuery" >
@@ -41,8 +39,8 @@
 		 </trim>
          
     </select>
-     <update id="cancelAuthority" parameterType="java.lang.String">
-		update authority_user set is_delete = 0 where id in(${idList})
+     <update id="cancelAuthority">
+		update authority_user set is_delete = 1 where id in(${idList}) and company_id=#{companyId} and is_delete = 0
 		 
 	</update>
 </mapper>

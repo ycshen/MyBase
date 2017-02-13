@@ -111,8 +111,8 @@ public class AuthorityServiceImpl implements AuthorityService{
 	}
 
 	@Override
-	public void cancelAuthority(String idList) {
-		authUserMapper.cancelAuthority(idList);
+	public void cancelAuthority(String idList, String companyId) {
+		authUserMapper.cancelAuthority(idList, companyId);
 	}
 
 	
