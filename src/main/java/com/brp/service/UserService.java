@@ -2,6 +2,8 @@ package com.brp.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
 import com.brp.util.query.DepartmentQuery;
@@ -28,5 +30,8 @@ public interface UserService {
 	UserEntity loginMybase(String account, String password);
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 	UserAuthQuery getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
+
+	List<UserEntity> getAuthUserByCompanyIdAndAuthId(String companyId, String authId);
+	List<UserEntity> getNotAuthUserByCompanyIdAndAuthId(String companyId, String authId);
 }
 

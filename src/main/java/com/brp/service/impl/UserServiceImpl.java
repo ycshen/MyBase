@@ -98,6 +98,18 @@ public class UserServiceImpl implements UserService{
 		return userAuthQuery;
 	}
 
+	@Override
+	public List<UserEntity> getAuthUserByCompanyIdAndAuthId(String companyId,
+			String authId) {
+		return userMapper.getAuthUserByCompanyIdAndAuthId(companyId, authId);
+	}
+
+	@Override
+	public List<UserEntity> getNotAuthUserByCompanyIdAndAuthId(
+			String companyId, String authId) {
+		return userMapper.getNotAuthUserByCompanyIdAndAuthId(companyId, authId);
+	}
+
 	
 	
 }

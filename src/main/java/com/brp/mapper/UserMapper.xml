@@ -221,7 +221,41 @@
          from user
          where  telphone=#{telphone} and department_id = #{departmentId} and status != 102 limit 1
     </select>
-    
-   
+    <select id="getAuthUserByCompanyIdAndAuthId" resultMap="BaseResultMap" >
+         SELECT
+			id, user_name
+		FROM
+			USER
+		WHERE
+			id IN (
+				SELECT
+					au.user_id
+				FROM
+					authority_user au
+				WHERE
+					is_delete = 0
+				AND company_id = #{companyId}
+				AND auth_id = #{authId}
+			)
+		AND company_id = #{companyId}
+    </select>
+    <select id="getNotAuthUserByCompanyIdAndAuthId" resultMap="BaseResultMap" >
+         SELECT
+			id, user_name
+		FROM
+			USER
+		WHERE
+			id NOT IN (
+				SELECT
+					au.user_id
+				FROM
+					authority_user au
+				WHERE
+					is_delete = 0
+				AND company_id = #{companyId}
+				AND auth_id = #{authId}
+			)
+		AND company_id = #{companyId}
+    </select>
     
 </mapper>

@@ -30,5 +30,7 @@ public interface UserMapper {
 	UserEntity loginMybase(@Param("account")String account, @Param("password")String password);
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 	List<UserAuthVO> getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
+	List<UserEntity> getAuthUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
+	List<UserEntity> getNotAuthUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
 }
 
