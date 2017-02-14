@@ -238,29 +238,27 @@
 		AND au.auth_id=#{authId}
     </select>
     <select id="getNotAuthUserByCompanyIdAndAuthId" resultMap="authUserResultMap" >
-        SELECT
+       SELECT
 			u.id,
 			u.user_name,
 			u.company_name,
-			u.department_name,
-			au.auth_id AS authUserId
+			u.department_name
 		FROM
-			`USER` u
-		LEFT JOIN authority_user au ON u.id = au.user_id
+			user u
 		WHERE
-			au.is_delete = 0
-		AND au.company_id = #{companyId}
-		AND u.company_id = #{companyId}
-		AND au.auth_id!=#{authId} and u.id not in(SELECT
-			u.id
-		FROM
-			`USER` u
-		LEFT JOIN authority_user au ON u.id = au.user_id
-		WHERE
-			au.is_delete = 0
-		AND au.company_id = #{companyId}
-		AND u.company_id = #{companyId}
-		AND au.auth_id=#{authId});
+		u.company_id = #{companyId} 
+		AND u.id NOT IN(
+			SELECT
+				u.id
+			FROM
+				user u
+			LEFT JOIN authority_user au ON u.id = au.user_id
+			WHERE
+				au.is_delete = 0
+			AND au.company_id = #{companyId}
+			AND u.company_id = #{companyId}
+			AND au.auth_id = #{authId}
+		)
     </select>
      <select id="getUserByCompanyIdAndAuthId" resultMap="authUserResultMap">  
 		SELECT
