@@ -9,6 +9,7 @@ import com.brp.entity.UserEntity;
 import com.brp.util.query.DepartmentQuery;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.vo.UserAuthVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -31,7 +32,8 @@ public interface UserService {
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 	UserAuthQuery getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
 
-	List<UserEntity> getAuthUserByCompanyIdAndAuthId(String companyId, String authId);
-	List<UserEntity> getNotAuthUserByCompanyIdAndAuthId(String companyId, String authId);
+	List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(String companyId, String authId);
+	List<UserAuthVO> getUserByCompanyIdAndAuthId(String companyId, String authId);
+	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(String companyId, String authId);
 }
 

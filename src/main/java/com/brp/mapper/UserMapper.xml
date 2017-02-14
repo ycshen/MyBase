@@ -119,7 +119,10 @@
 		 
          order by create_time desc 
     </select>
-     
+     <select id="getUserByCompanyIdAndAuthId" resultMap="authUserResultMap">  
+		select u.id, u.user_name,au.auth_id as authUserId from user u
+		left join authority_user au on u.id = au.user_id  group by id
+    </select>
      <select id="getUserListByCompanyIdAndDeptId" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" >
          select 
          <include refid="Base_Column_List" />
@@ -221,7 +224,7 @@
          from user
          where  telphone=#{telphone} and department_id = #{departmentId} and status != 102 limit 1
     </select>
-    <select id="getAuthUserByCompanyIdAndAuthId" resultMap="BaseResultMap" >
+    <select id="getAuthUserByCompanyIdAndAuthId" resultMap="authUserResultMap" >
          SELECT
 			id, user_name
 		FROM
@@ -239,7 +242,7 @@
 			)
 		AND company_id = #{companyId}
     </select>
-    <select id="getNotAuthUserByCompanyIdAndAuthId" resultMap="BaseResultMap" >
+    <select id="getNotAuthUserByCompanyIdAndAuthId" resultMap="authUserResultMap" >
          SELECT
 			id, user_name
 		FROM

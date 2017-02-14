@@ -469,7 +469,7 @@ public class UserApi {
 	@RequestMapping(value = "/getAuthUserByCidAndAuthId", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAuthUserByCidAndAuthId(@RequestBody JSONObject jsonObject){
-		JsonData<List<UserEntity>> jsonData = new JsonData<List<UserEntity>>();
+		JsonData<List<UserAuthVO>> jsonData = new JsonData<List<UserAuthVO>>();
 		try{
 			String companyId = jsonObject.getString("companyId");
 			String isAuth = jsonObject.getString("isAuth");
@@ -499,13 +499,15 @@ public class UserApi {
 			}
 			
 			if(auth){
-				List<UserEntity> list = null;
-				boolean isAuthBool = Boolean.parseBoolean(isAuth);
-				if(isAuthBool){
+				List<UserAuthVO> list = null;
+				if("1".equals(isAuth)){
 					list = userService.getAuthUserByCompanyIdAndAuthId(companyId, authId);
-				}else{
+				}else if("2".equals(isAuth)){
 					list = userService.getNotAuthUserByCompanyIdAndAuthId(companyId, authId);
+				}else if("3".equals(isAuth)){
+					list = userService.getUserByCompanyIdAndAuthId(companyId, authId);
 				}
+
 				jsonData.setData(list);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");

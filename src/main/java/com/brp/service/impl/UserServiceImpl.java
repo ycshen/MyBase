@@ -86,7 +86,6 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery) {
-		// TODO Auto-generated method stub
 		return userMapper.getUserListByCompanyIdAndDeptId(userQuery);
 	}
 
@@ -99,15 +98,21 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<UserEntity> getAuthUserByCompanyIdAndAuthId(String companyId,
+	public List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(String companyId,
 			String authId) {
 		return userMapper.getAuthUserByCompanyIdAndAuthId(companyId, authId);
 	}
 
 	@Override
-	public List<UserEntity> getNotAuthUserByCompanyIdAndAuthId(
+	public List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(
 			String companyId, String authId) {
 		return userMapper.getNotAuthUserByCompanyIdAndAuthId(companyId, authId);
+	}
+
+	@Override
+	public List<UserAuthVO> getUserByCompanyIdAndAuthId(String companyId,
+			String authId) {
+		return userMapper.getUserByCompanyIdAndAuthId(companyId, authId);
 	}
 
 	

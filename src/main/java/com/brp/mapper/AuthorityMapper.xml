@@ -51,6 +51,7 @@
 			(select  count(au.id) as count, au.auth_id as auth_id from authority_user au WHERE company_id =#{companyId} and au.is_delete=0  group by au.auth_id) as au1 on a.id= au1.auth_id
 
     </select>
+ 
 	<select id="getAuthorityById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
          <include refid="Base_Column_List" />

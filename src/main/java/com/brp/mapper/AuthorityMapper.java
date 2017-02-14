@@ -2,6 +2,7 @@ package com.brp.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.AuthorityEntity;
@@ -10,6 +11,7 @@ import com.brp.util.query.AuthorityQuery;
 import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.query.PositionQuery;
 import com.brp.util.vo.AuthorityVO;
+import com.brp.util.vo.UserAuthVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -27,7 +29,7 @@ public interface AuthorityMapper {
 	void deleteAuthorityById(String id);
 	void startAuthorityById(String id);
 	List<AuthorityEntity> getAuthorityPage(AuthorityQuery authorityQuery);	
-	List<AuthorityVO> getAuthorityVOPage(AuthorityVOQuery authorityQuery);	
+	List<AuthorityVO> getAuthorityVOPage(AuthorityVOQuery authorityQuery);
 	
 }
 
