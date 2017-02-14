@@ -2,6 +2,8 @@ package com.brp.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.brp.entity.AuthorityEntity;
 import com.brp.entity.AuthorityUserEntity;
 import com.brp.util.query.AuthorityQuery;
@@ -19,6 +21,6 @@ import com.brp.util.vo.AuthorityVO;
 public interface AuthorityUserService {
 	void cancelAuthority(String idList, String companyId);
 	void insertAuthorityUser(AuthorityUserEntity authUser);
-	
+	void batchCancelAuth(String userIdArr, String companyId, String authId);
 }
 

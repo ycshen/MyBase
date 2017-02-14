@@ -42,6 +42,12 @@ public class AuthorityUserServiceImpl implements AuthorityUserService{
 	public void insertAuthorityUser(AuthorityUserEntity authUser) {
 		authUserMapper.insertAuthorityUser(authUser);	
 	}
+
+	@Override
+	public void batchCancelAuth(String userIdArr, String companyId,
+			String authId) {
+		authUserMapper.batchCancelAuth(userIdArr, companyId, authId);
+	}
 	
 }
 

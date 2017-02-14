@@ -21,5 +21,7 @@ public interface AuthorityUserMapper {
 	List<AuthorityUserEntity> getAuthorityUserList(AuthorityUserQuery authuserQuery);	
 	void cancelAuthority(@Param("idList")String idList, @Param("companyId")String companyId);
 	void insertAuthorityUser(AuthorityUserEntity authUser);
+	//update authority_user set is_delete = 1 where user_id in(${userIdArr}) and company_id=#{companyId} and is_delete = 0 and auth_id=1
+	void batchCancelAuth(@Param("userIdArr")String userIdArr, @Param("companyId")String companyId, @Param("authId")String authId);
 }
 

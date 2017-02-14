@@ -119,10 +119,7 @@
 		 
          order by create_time desc 
     </select>
-     <select id="getUserByCompanyIdAndAuthId" resultMap="authUserResultMap">  
-		select u.id, u.user_name,au.auth_id as authUserId from user u
-		left join authority_user au on u.id = au.user_id  group by id
-    </select>
+    
      <select id="getUserListByCompanyIdAndDeptId" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" >
          select 
          <include refid="Base_Column_List" />
@@ -225,40 +222,56 @@
          where  telphone=#{telphone} and department_id = #{departmentId} and status != 102 limit 1
     </select>
     <select id="getAuthUserByCompanyIdAndAuthId" resultMap="authUserResultMap" >
-         SELECT
-			id, user_name
+       SELECT
+			u.id,
+			u.user_name,
+			u.company_name,
+			u.department_name,
+			au.auth_id AS authUserId
 		FROM
-			USER
+			`USER` u
+		LEFT JOIN authority_user au ON u.id = au.user_id
 		WHERE
-			id IN (
-				SELECT
-					au.user_id
-				FROM
-					authority_user au
-				WHERE
-					is_delete = 0
-				AND company_id = #{companyId}
-				AND auth_id = #{authId}
-			)
-		AND company_id = #{companyId}
+			au.is_delete = 0
+		AND au.company_id = #{companyId}
+		AND u.company_id = #{companyId}
+		AND au.auth_id=#{authId}
     </select>
     <select id="getNotAuthUserByCompanyIdAndAuthId" resultMap="authUserResultMap" >
-         SELECT
-			id, user_name
+        SELECT
+			u.id,
+			u.user_name,
+			u.company_name,
+			u.department_name,
+			au.auth_id AS authUserId
 		FROM
-			USER
+			`USER` u
+		LEFT JOIN authority_user au ON u.id = au.user_id
 		WHERE
-			id NOT IN (
-				SELECT
-					au.user_id
-				FROM
-					authority_user au
-				WHERE
-					is_delete = 0
-				AND company_id = #{companyId}
-				AND auth_id = #{authId}
-			)
-		AND company_id = #{companyId}
+			au.is_delete = 0
+		AND au.company_id = #{companyId}
+		AND u.company_id = #{companyId}
+		AND au.auth_id!=#{authId} and u.id not in(SELECT
+			u.id
+		FROM
+			`USER` u
+		LEFT JOIN authority_user au ON u.id = au.user_id
+		WHERE
+			au.is_delete = 0
+		AND au.company_id = #{companyId}
+		AND u.company_id = #{companyId}
+		AND au.auth_id=#{authId});
     </select>
-    
+     <select id="getUserByCompanyIdAndAuthId" resultMap="authUserResultMap">  
+		SELECT
+			u.id,
+			u.user_name,
+			au.auth_id AS authUserId
+		FROM
+			USER u
+		LEFT JOIN authority_user au ON u.id = au.user_id
+		where au.is_delete=0
+		GROUP BY
+			id
+    </select>
 </mapper>

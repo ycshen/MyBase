@@ -1,6 +1,7 @@
 package com.brp.api;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.vo.AuthorityVO;
+import com.brp.util.vo.UserAuthVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -259,6 +261,99 @@ public class AuthorityApi {
 					if(StringUtils.isNotBlank(idList)){
 						String companyId = authoritys.get(0).getCompanyId().toString();
 						authUserService.cancelAuthority(idList, companyId);
+					}
+				}
+				
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/batchAuth", method = RequestMethod.POST)
+	@ResponseBody
+	public String batchAuth(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String authId = jsonObject.getString("authId");
+			String authUserIdArray = jsonObject.getString("authUserIdArray");
+			String notAuthUserIdArray = jsonObject.getString("notAuthUserIdArray");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("authId", authId);
+				maps.put("companyId", companyId);
+				maps.put("authUserIdArray", authUserIdArray);
+				maps.put("notAuthUserIdArray", notAuthUserIdArray);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(authId)){
+				if(StringUtils.isNotBlank(notAuthUserIdArray)){
+					String[] notAuthArr = notAuthUserIdArray.split("\\^");
+					String userIdArr = "";
+					for (String notAuth : notAuthArr) {
+						userIdArr += notAuth + ",";
+					}
+					
+					if(StringUtils.isNotBlank(userIdArr)){
+						userIdArr = userIdArr.substring(0, userIdArr.length() - 1);
+					}
+					
+					authUserService.batchCancelAuth(userIdArr, companyId, authId);
+				}
+				
+				if(StringUtils.isNotBlank(authUserIdArray)){
+					String[] authArr = authUserIdArray.split("\\^");
+					List<String> authUserIdList = new LinkedList<String>();
+					for (String authUser : authArr) {
+						authUserIdList.add(authUser);
+					}
+
+					List<UserAuthVO> list = userService.getAuthUserByCompanyIdAndAuthId(companyId, authId);
+					if(list != null && list.size() > 0){
+						for (UserAuthVO userAuthVO : list) {
+							String userId = userAuthVO.getId().toString();
+							if(authUserIdList.contains(userId)){
+								authUserIdList.remove(userId);
+							}
+						}
+					}
+					
+					for (String userId : authUserIdList) {
+						AuthorityUserEntity authUser = new AuthorityUserEntity();
+						authUser.setAuthId(Integer.parseInt(authId));
+						authUser.setCompanyId(Integer.parseInt(companyId));
+						authUser.setIsDelete(0);
+						authUser.setUserId(Integer.parseInt(userId));
+						authUserService.insertAuthorityUser(authUser);
 					}
 				}
 				

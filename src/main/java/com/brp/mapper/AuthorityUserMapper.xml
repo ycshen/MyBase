@@ -43,4 +43,9 @@
 		update authority_user set is_delete = 1 where id in(${idList}) and company_id=#{companyId} and is_delete = 0
 		 
 	</update>
+	<update id="batchCancelAuth">
+		update authority_user set is_delete = 1 where user_id in(${userIdArr}) and company_id=#{companyId} and is_delete = 0 and auth_id=1
+		 
+	</update>
+	
 </mapper>
