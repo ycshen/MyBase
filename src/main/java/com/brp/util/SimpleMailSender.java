@@ -19,6 +19,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 
+import com.brp.base.MailConstant;
+
 /** 
 * 简单邮件（不带附件的邮件）发送器 
 */ 
@@ -57,7 +59,7 @@ public class SimpleMailSender  {
 	  // 发送邮件 
 	  Transport.send(mailMessage);
 	  return true; 
-	  } catch (MessagingException ex) { 
+	  } catch (Exception ex) { 
 		  ex.printStackTrace(); 
 	  } 
 	  return false; 
@@ -93,7 +95,7 @@ public class SimpleMailSender  {
 	  mailMessage.setRecipient(Message.RecipientType.TO,to); 
 	  
 	  csUser = mailInfo.getMsAddress();
-	  if(csUser != null){
+	  if(csUser != null && csUser.length > 0){
 		  String toListcs = getMailList(csUser);
 		  @SuppressWarnings("static-access")
 		InternetAddress[] csUserLists = new InternetAddress().parse(toListcs);
@@ -116,7 +118,7 @@ public class SimpleMailSender  {
 	  // 发送邮件 
 	  Transport.send(mailMessage); 
 	  return true; 
-	  } catch (MessagingException ex) { 
+	  } catch (Exception ex) { 
 		  ex.printStackTrace(); 
 	  } 
 	  return false; 
@@ -140,5 +142,38 @@ public class SimpleMailSender  {
 		return toList.toString();
 	}
 	
+	/**
+	 * 发送注册邮件
+	 * @param registerAccount 注册账号
+	 * @return
+	 */
+	public static boolean sendRegisterEmail(String registerAccount){
+		SimpleMailSender sms = new SimpleMailSender();
+		MailSenderInfo mailInfo = new MailSenderInfo();
+		String content = MailConstant.REGISTER_CONTENT.replaceAll("${account}", registerAccount);
+		mailInfo.setContent(content);
+		mailInfo.setSubject(MailConstant.REGISTER_SUBJECT);
+		boolean isSend = sms.sendHtmlMail(mailInfo);
+		
+		return isSend;
+	}
+	
+	public static void main(String[] args) {
+		SimpleMailSender sms = new SimpleMailSender();
+		MailSenderInfo mailInfo = new MailSenderInfo();
+		mailInfo.setContent(MailConstant.REGISTER_CONTENT);
+		mailInfo.setFromAddress("449614531@qq.com");
+		mailInfo.setMailServerHost("smtp.qq.com");
+		mailInfo.setMailServerPort("587");
+		mailInfo.setPassword("jvbiulzewfamcahf");
+		mailInfo.setSubject(MailConstant.REGISTER_SUBJECT);
+		mailInfo.setToAddress("1966225457@qq.com");
+		mailInfo.setUserName("449614531@qq.com");
+		mailInfo.setValidate(true);
+		System.out.println("开始发送");
+		boolean isSend = sms.sendHtmlMail(mailInfo);
+		System.out.println("结束发送");
+		System.out.println(isSend);
+	}
 } 
 

@@ -78,6 +78,7 @@ public class UserApi {
 			}
 			
 			if(auth && StringUtils.isNotBlank(account) && StringUtils.isNotBlank(password)){
+				password = SHA1Utils.getSecretPassword(password);
 				UserEntity userInfo = userService.login(account, password);
 				if(userInfo != null){
 					jsonData.setCode(ApiCode.OK);
@@ -232,6 +233,13 @@ public class UserApi {
 			if(auth){
 				UserEntity user = JSONObject.parseObject(userJson, UserEntity.class);
 				user.setCreateTime(new Date());
+				String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+				try{
+					user.setPassword(SHA1Utils.getSecretPassword(initPass));
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				user.setIsLoginMybase(0);
 				userService.insertUser(user);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");

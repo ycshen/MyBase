@@ -1,7 +1,9 @@
 package com.brp.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import com.brp.service.ConfigService;
 import com.brp.service.DepartmentService;
 import com.brp.service.MemoEventService;
 import com.brp.service.UserService;
+import com.brp.util.SHA1Utils;
 import com.brp.util.UserUtils;
 import com.brp.util.query.UserQuery;
 import com.google.gson.Gson;
@@ -61,7 +64,12 @@ public class UserController {
 			user.setCreateTime(new Date());
 			user.setCreateUser(loginUser.getUserName());
 			String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
-			user.setPassword(initPass);
+			try{
+				user.setPassword(SHA1Utils.getSecretPassword(initPass));
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 			user.setStatus(UserStatus.NORMAL_INT);
 			user.setIsLoginMybase(0);
 			userService.insertUser(user);

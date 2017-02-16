@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -108,5 +109,18 @@ public class SHA1Utils {
 	public static String getSecret() throws Exception {
 		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		return  uuid;
+	}
+	
+	/**
+	 * 生成秘钥
+	 * @return
+	 * @throws Exception
+	 */
+	public static String getSecretPassword(String password) throws Exception {
+		Map<String, Object> maps = new HashMap<String, Object>();
+		maps.put("password", password);
+		String sha1Pass = SHA1Utils.SHA1(maps);
+		
+		return  sha1Pass;
 	}
 }

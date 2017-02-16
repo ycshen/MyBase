@@ -25,7 +25,7 @@ public class MailSenderInfo {
 	private String toAddress; 
 	
 	//邮件抄送接受者地址
-	private String[] msAddress = {"shenyuchuan@itiaoling.com"};
+	private String[] msAddress = {};
 	//private String[] msAddress = {"shenyuchuan@itiaoling.com"};
 	// 登陆邮件发送服务器的用户名和密码 
 	@Value("${mail.validate.user}")
@@ -49,6 +49,9 @@ public class MailSenderInfo {
 		p.put("mail.smtp.host", this.mailServerHost);
 		p.put("mail.smtp.port", this.mailServerPort);
 		p.put("mail.smtp.auth", validate ? "true" : "false");
+	    p.put("mail.smtp.starttls.enable","true"); 
+	    p.put("mail.smtp.auth","true");
+	    
 		return p;
 	}
 
