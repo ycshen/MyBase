@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.brp.base.MailConstant;
+import com.brp.base.UserStatus;
+import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
@@ -608,6 +611,93 @@ public class UserApi {
 		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@ResponseBody
+	public String register(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String userJson = jsonObject.getString("userJson");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("userJson", userJson);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserEntity user = JSONObject.parseObject(userJson, UserEntity.class);
+				if(user != null){
+					String companyName = user.getCompanyName();
+					String telephone = user.getTelphone();
+					if(StringUtils.isNotBlank(companyName) && StringUtils.isNotBlank(telephone)){
+						CompanyEntity company = new CompanyEntity();
+						company.setCompanyName(companyName);
+						company.setCompanyTelephone(telephone);
+						companyService.insertCompany(company);
+						user.setCompanyId(company.getId());
+						user.setCreateUser("企家婆注册");
+						user.setStatus(UserStatus.NORMAL_INT);
+						user.setCreateTime(new Date());
+						String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+						try{
+							user.setPassword(SHA1Utils.getSecretPassword(initPass));
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+						user.setIsLoginMybase(0);
+						userService.insertUser(user);
+						this.sendRegisterEmail(user.getUserName());
+					}
+					
+				}
+				
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	/**
+	 * 发送注册邮件
+	 * @param registerAccount 注册账号
+	 * @return
+	 */
+	private boolean sendRegisterEmail(String registerAccount){
+		SimpleMailSender sms = new SimpleMailSender();
+		String content = MailConstant.REGISTER_CONTENT.replaceAll("QJP_ACCOUNT", registerAccount);
+		mailSenderInfo.setContent(content);
+		mailSenderInfo.setSubject(MailConstant.REGISTER_SUBJECT);
+		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
+		
+		return isSend;
 	}
 }
 

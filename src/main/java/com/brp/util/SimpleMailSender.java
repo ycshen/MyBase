@@ -142,21 +142,7 @@ public class SimpleMailSender  {
 		return toList.toString();
 	}
 	
-	/**
-	 * 发送注册邮件
-	 * @param registerAccount 注册账号
-	 * @return
-	 */
-	public static boolean sendRegisterEmail(String registerAccount){
-		SimpleMailSender sms = new SimpleMailSender();
-		MailSenderInfo mailInfo = new MailSenderInfo();
-		String content = MailConstant.REGISTER_CONTENT.replaceAll("${account}", registerAccount);
-		mailInfo.setContent(content);
-		mailInfo.setSubject(MailConstant.REGISTER_SUBJECT);
-		boolean isSend = sms.sendHtmlMail(mailInfo);
-		
-		return isSend;
-	}
+	
 	
 	public static void main(String[] args) {
 		SimpleMailSender sms = new SimpleMailSender();
