@@ -272,9 +272,7 @@
 		GROUP BY
 			id
     </select>
-    
-    isExistTelephone
-     <select id="isExistTelephone" resultMap="java.lang.Integer" >
+    <select id="isExistTelephone" resultType="java.lang.Integer" >
         select count(id) from user where telphone=#{telephone}
     </select>
 </mapper>
