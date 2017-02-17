@@ -29,6 +29,7 @@ import com.brp.entity.ResultEnum;
 import com.brp.entity.UserEntity;
 import com.brp.model.ResultModel;
 import com.brp.service.UserService;
+import com.brp.util.SHA1Utils;
 
 
 @Controller
@@ -45,43 +46,49 @@ public class HomeController {
 
 	@RequestMapping("/login")
 	public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-		String account = request.getParameter("account");
-		String password = request.getParameter("password");
-		UserEntity loginUser = null;
 		ModelAndView mv = new ModelAndView("login");
-		if (isEmpty(account, password) || !"POST".equalsIgnoreCase(request.getMethod())) {
-			return mv;
-		}else{
-			loginUser = userService.loginMybase(account, password);
-			if(loginUser != null){
-				HttpSession seesion = request.getSession();
-				seesion.setAttribute("loginUser",loginUser);
-			}else{
-				mv.addObject("msg", "用户名或者密码有误");
+		try{
+			String account = request.getParameter("account");
+			String password = request.getParameter("password");
+			UserEntity loginUser = null;
+			if (isEmpty(account, password) || !"POST".equalsIgnoreCase(request.getMethod())) {
 				return mv;
+			}else{
+				password = SHA1Utils.getSecretPassword(password);
+				loginUser = userService.loginMybase(account, password);
+				if(loginUser != null){
+					HttpSession seesion = request.getSession();
+					seesion.setAttribute("loginUser",loginUser);
+				}else{
+					mv.addObject("msg", "用户名或者密码有误");
+					return mv;
+				}
 			}
-		}
-		
-		mv.setViewName("redirect:inner/company/list");
-		try {
-			// 设置记住密码
-			if ("true".equals(request.getParameter("rememberMe"))) {
-				Cookie accountC = new Cookie("account", URLEncoder.encode(account, "UTF-8"));
-				Cookie passwordC = new Cookie("password", password);
-
-				accountC.setPath("/");
-				passwordC.setPath("/");
-
-				accountC.setMaxAge(7 * 24 * 60 * 60);
-				passwordC.setMaxAge(7 * 24 * 60 * 60);
-
-				response.addCookie(accountC);
-				response.addCookie(passwordC);
-			}
-		} catch (Exception e) {
 			
-		} 
-		
+			mv.setViewName("redirect:inner/company/list");
+			try {
+				// 设置记住密码
+				if ("true".equals(request.getParameter("rememberMe"))) {
+					Cookie accountC = new Cookie("account", URLEncoder.encode(account, "UTF-8"));
+					Cookie passwordC = new Cookie("password", password);
+
+					accountC.setPath("/");
+					passwordC.setPath("/");
+
+					accountC.setMaxAge(7 * 24 * 60 * 60);
+					passwordC.setMaxAge(7 * 24 * 60 * 60);
+
+					response.addCookie(accountC);
+					response.addCookie(passwordC);
+				}
+			} catch (Exception e) {
+				
+			} 
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		return mv;
 	}
 

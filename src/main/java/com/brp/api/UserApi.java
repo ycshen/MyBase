@@ -818,6 +818,15 @@ public class UserApi {
 		
 		return isSend;
 	}
-	
+	public static void main(String[] args) {
+		String pass = "";
+		try {
+			pass = SHA1Utils.getSecretPassword("1");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(pass);
+	}
 }
 
