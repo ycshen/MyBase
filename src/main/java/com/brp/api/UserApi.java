@@ -365,10 +365,12 @@ public class UserApi {
 				UserEntity user = userService.getUserById(Integer.parseInt(id));
 				if("2".equals(resetType)){
 					//邮箱随机重置
-					password = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
-					
+					String initPassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+					password = SHA1Utils.getSecretPassword(initPassword);
+					this.sendResetPassEmail(user.getUserName(), initPassword, email);
 				}else if("1".equals(resetType)){
-					//手动输入重置	
+					//手动输入重置
+					password = SHA1Utils.getSecretPassword(password);
 				}
 
 				user.setPassword(password);
@@ -744,6 +746,24 @@ public class UserApi {
 		String subject = MailConstant.ASSIGN_SUBJECT.replaceAll("QJP_COMPANYNAME", user.getCompanyName());
 		mailSenderInfo.setSubject(subject);
 		mailSenderInfo.setToAddress(user.getEmail());
+		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
+		
+		return isSend;
+	}
+	
+	/**
+	 * 发送分配员工邮件
+	 * @param registerAccount 注册账号
+	 * @return
+	 */
+	private boolean sendResetPassEmail(String account, String initPass, String email){
+		SimpleMailSender sms = new SimpleMailSender();
+		String content = MailConstant.RESETPASS_CONTENT.replaceAll("QJP_ACCOUNT", account);
+		content = content.replaceAll("QJP_PASS", initPass);
+		
+		mailSenderInfo.setContent(content);
+		mailSenderInfo.setSubject(MailConstant.RESETPASS_SUBJECT);
+		mailSenderInfo.setToAddress(email);
 		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
 		
 		return isSend;
