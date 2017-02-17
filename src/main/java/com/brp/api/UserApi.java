@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.brp.base.MailConstant;
 import com.brp.base.UserStatus;
+import com.brp.base.VipLevel;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
@@ -650,6 +651,9 @@ public class UserApi {
 						CompanyEntity company = new CompanyEntity();
 						company.setCompanyName(companyName);
 						company.setCompanyTelephone(telephone);
+						company.setCreateTime(new Date());
+						company.setLevel(VipLevel.VIP);
+						company.setStatus(0);
 						companyService.insertCompany(company);
 						user.setCompanyId(company.getId());
 						user.setCreateUser("企家婆注册");
