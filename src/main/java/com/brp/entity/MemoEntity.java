@@ -14,11 +14,12 @@ public class MemoEntity extends BaseEntity{
 	private Long userId;
 	private Date memoStartTime; //备忘开始时间
 	private Date memoEndTime; //备忘结束时间
-	private Long memoEventName;
+	private Long memoName; //行程名称
 	private Long memoTypeId;
 	private String memoDesc;
 	private Integer status; //1-未结束  2-已结束  3-已取消
 	private Integer isDelete; //是否删除
+	private String companyId;
 	public Long getUserId() {
 		return userId;
 	}
@@ -37,11 +38,11 @@ public class MemoEntity extends BaseEntity{
 	public void setMemoEndTime(Date memoEndTime) {
 		this.memoEndTime = memoEndTime;
 	}
-	public Long getMemoEventName() {
-		return memoEventName;
+	public Long getMemoName() {
+		return memoName;
 	}
-	public void setMemoEventName(Long memoEventName) {
-		this.memoEventName = memoEventName;
+	public void setMemoName(Long memoName) {
+		this.memoName = memoName;
 	}
 	public Long getMemoTypeId() {
 		return memoTypeId;
@@ -67,5 +68,12 @@ public class MemoEntity extends BaseEntity{
 	public void setIsDelete(Integer isDelete) {
 		this.isDelete = isDelete;
 	}
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	
 }
 
