@@ -206,6 +206,56 @@ public class UserApi {
 		return result;
 	}
 	
+	@RequestMapping(value = "/isExistTelephone", method = RequestMethod.POST)
+	@ResponseBody
+	public String isExistTelephone(@RequestBody JSONObject jsonObject){
+		JsonData<Integer> jsonData = new JsonData<Integer>();
+		try{
+			String telephone = jsonObject.getString("telephone");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("telephone", telephone);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				
+				
+				Integer isExist = userService.isExistTelephone(telephone);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(isExist);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/insertUser", method = RequestMethod.POST)
 	@ResponseBody
 	public String insertUser(@RequestBody JSONObject jsonObject){

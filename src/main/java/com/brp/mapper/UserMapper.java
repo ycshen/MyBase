@@ -33,5 +33,6 @@ public interface UserMapper {
 	List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
 	List<UserAuthVO> getUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
 	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
+	Integer isExistTelephone(String telephone);
 }
 

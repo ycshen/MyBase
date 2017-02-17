@@ -115,6 +115,11 @@ public class UserServiceImpl implements UserService{
 		return userMapper.getUserByCompanyIdAndAuthId(companyId, authId);
 	}
 
+	@Override
+	public Integer isExistTelephone(String telephone) {
+		return userMapper.isExistTelephone(telephone);
+	}
+
 	
 	
 }

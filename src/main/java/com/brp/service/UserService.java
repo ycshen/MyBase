@@ -35,5 +35,6 @@ public interface UserService {
 	List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(String companyId, String authId);
 	List<UserAuthVO> getUserByCompanyIdAndAuthId(String companyId, String authId);
 	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(String companyId, String authId);
+	Integer isExistTelephone(String telephone);
 }
 
