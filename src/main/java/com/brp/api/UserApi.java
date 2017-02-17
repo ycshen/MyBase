@@ -655,9 +655,9 @@ public class UserApi {
 						user.setCreateUser("企家婆注册");
 						user.setStatus(UserStatus.NORMAL_INT);
 						user.setCreateTime(new Date());
-						String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
+						user.setIsLoginMybase(0);
 						try{
-							user.setPassword(SHA1Utils.getSecretPassword(initPass));
+							user.setPassword(SHA1Utils.getSecretPassword(user.getPassword()));
 						}catch(Exception e){
 							e.printStackTrace();
 						}
