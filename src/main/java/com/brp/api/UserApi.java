@@ -243,8 +243,25 @@ public class UserApi {
 				}catch(Exception e){
 					e.printStackTrace();
 				}
+				
+				Long companyId = user.getCompanyId();
+				CompanyEntity company = companyService.getCompanyById(companyId);
+				if(company != null){
+					user.setCompanyName(company.getCompanyName());
+				}
+				
+				Integer departmentId = user.getDepartmentId();
+				DepartmentEntity department = departmentService.getDepartmentById(departmentId);
+				if(department != null){
+					user.setDepartmentName(department.getDepartmentName());
+				}
+				
 				user.setIsLoginMybase(0);
 				userService.insertUser(user);
+				String email = user.getEmail();
+				if(StringUtils.isNotBlank(email)){
+					this.sendAssignEmail(user, initPass);
+				}
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{
@@ -708,5 +725,29 @@ public class UserApi {
 		
 		return isSend;
 	}
+	
+	/**
+	 * 发送分配员工邮件
+	 * @param registerAccount 注册账号
+	 * @return
+	 */
+	private boolean sendAssignEmail(UserEntity user, String initPass){
+		SimpleMailSender sms = new SimpleMailSender();
+		String content = MailConstant.ASSIGN_CONTENT.replaceAll("QJP_ACCOUNT", user.getUserName());
+		content = content.replaceAll("QJP_COMPANYNAME", user.getCompanyName());
+		content = content.replaceAll("QJP_TELEPHONE", user.getTelphone());
+		content = content.replaceAll("QJP_EMAIL", user.getEmail());
+		content = content.replaceAll("QJP_PASS", initPass);
+		content = content.replaceAll("QJP_DEPARTMENT", user.getDepartmentName());
+		
+		mailSenderInfo.setContent(content);
+		String subject = MailConstant.ASSIGN_SUBJECT.replaceAll("QJP_COMPANYNAME", user.getCompanyName());
+		mailSenderInfo.setSubject(subject);
+		mailSenderInfo.setToAddress(user.getEmail());
+		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
+		
+		return isSend;
+	}
+	
 }
 
