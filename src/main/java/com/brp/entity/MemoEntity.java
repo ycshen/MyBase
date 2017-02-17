@@ -12,8 +12,12 @@ import java.util.Date;
  */
 public class MemoEntity extends BaseEntity{
 	private Long userId;
-	private Date memoTime; //备忘时间
-	private Long memoEventId;
+	private Date memoStartTime; //备忘开始时间
+	private Date memoEndTime; //备忘结束时间
+	private Long memoEventName;
+	private Long memoTypeId;
+	private String memoDesc;
+	private Integer status; //1-未结束  2-已结束  3-已取消
 	private Integer isDelete; //是否删除
 	public Long getUserId() {
 		return userId;
@@ -21,17 +25,41 @@ public class MemoEntity extends BaseEntity{
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Date getMemoTime() {
-		return memoTime;
+	public Date getMemoStartTime() {
+		return memoStartTime;
 	}
-	public void setMemoTime(Date memoTime) {
-		this.memoTime = memoTime;
+	public void setMemoStartTime(Date memoStartTime) {
+		this.memoStartTime = memoStartTime;
 	}
-	public Long getMemoEventId() {
-		return memoEventId;
+	public Date getMemoEndTime() {
+		return memoEndTime;
 	}
-	public void setMemoEventId(Long memoEventId) {
-		this.memoEventId = memoEventId;
+	public void setMemoEndTime(Date memoEndTime) {
+		this.memoEndTime = memoEndTime;
+	}
+	public Long getMemoEventName() {
+		return memoEventName;
+	}
+	public void setMemoEventName(Long memoEventName) {
+		this.memoEventName = memoEventName;
+	}
+	public Long getMemoTypeId() {
+		return memoTypeId;
+	}
+	public void setMemoTypeId(Long memoTypeId) {
+		this.memoTypeId = memoTypeId;
+	}
+	public String getMemoDesc() {
+		return memoDesc;
+	}
+	public void setMemoDesc(String memoDesc) {
+		this.memoDesc = memoDesc;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	public Integer getIsDelete() {
 		return isDelete;

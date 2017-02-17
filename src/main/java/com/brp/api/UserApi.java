@@ -663,7 +663,11 @@ public class UserApi {
 						}
 						user.setIsLoginMybase(0);
 						userService.insertUser(user);
-						this.sendRegisterEmail(user.getUserName());
+						String email = user.getEmail();
+						if(StringUtils.isNotBlank(email)){
+							this.sendRegisterEmail(user.getUserName(), email);
+						}
+						
 					}
 					
 				}
@@ -690,11 +694,12 @@ public class UserApi {
 	 * @param registerAccount 注册账号
 	 * @return
 	 */
-	private boolean sendRegisterEmail(String registerAccount){
+	private boolean sendRegisterEmail(String registerAccount, String email){
 		SimpleMailSender sms = new SimpleMailSender();
 		String content = MailConstant.REGISTER_CONTENT.replaceAll("QJP_ACCOUNT", registerAccount);
 		mailSenderInfo.setContent(content);
 		mailSenderInfo.setSubject(MailConstant.REGISTER_SUBJECT);
+		mailSenderInfo.setToAddress(email);
 		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
 		
 		return isSend;
