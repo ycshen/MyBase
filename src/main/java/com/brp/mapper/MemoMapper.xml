@@ -9,8 +9,8 @@
     <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
     
     <result column="userId" property="userId" jdbcType="INTEGER" />
-    <result column="memoStartTime" property="memoStartTime" jdbcType="TIMESTAMP" />
-    <result column="memoEndTime" property="memoEndTime" jdbcType="TIMESTAMP" />
+    <result column="memoStartTime" property="memoStartTime" jdbcType="VARCHAR" />
+    <result column="memoEndTime" property="memoEndTime" jdbcType="VARCHAR" />
     <result column="memoName" property="memoName" jdbcType="VARCHAR" />
     <result column="memoTypeId" property="memoTypeId" jdbcType="INTEGER" />
     
@@ -22,25 +22,32 @@
   
   <sql id="Base_Column_List" >
 	   id,createUser,updateUser,createTime,updateTime,
-	   user_id,mome_event_name,level,level_color,is_delete
+   		userId,memoStartTime,memoEndTime,memoName,memoTypeId,
+   		memoDesc,status,companyId,isDelete
   </sql>
   <insert id="insertMemo" parameterType="com.brp.entity.MemoEntity" >
     insert memo
-   		(create_user,update_user,create_time, update_time,
+   		(createUser,updateUser,createTime,updateTime,
    		userId,memoStartTime,memoEndTime,memoName,memoTypeId,
    		memoDesc,status,companyId,isDelete) 
     values
     	(#{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
-    	#{userId,jdbcType=INTEGER},#{memoStartTime,jdbcType=TIMESTAMP},#{memoEndTime,jdbcType=TIMESTAMP},#{memoName,jdbcType=VARCHAR},#{memoTypeId,jdbcType=INTEGER},
+    	#{userId,jdbcType=INTEGER},#{memoStartTime,jdbcType=VARCHAR},#{memoEndTime,jdbcType=VARCHAR},#{memoName,jdbcType=VARCHAR},#{memoTypeId,jdbcType=INTEGER},
     	#{memoDesc,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{companyId,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
   </insert>
  <select id="getMemoByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
          <include refid="Base_Column_List" />
          from memo
-         where  user_id=#(userId)
+         where  userId=#{userId}
          order by create_time desc
     </select>
- 
- 
+    <select id="getMemoList" resultMap="BaseResultMap" >
+         select 
+         <include refid="Base_Column_List" />
+         from memo
+         where memoStartTime &gt;= '${startTime}' and memoStartTime &lt;= '${endTime}' and userId=#{userId}
+         order by memoStartTime asc
+    </select>
+     
 </mapper>

@@ -2,6 +2,8 @@ package com.brp.entity;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /** 
  * <p>Project: MyBase</p> 
  * <p>Title: UserEntity.java</p> 
@@ -12,9 +14,9 @@ import java.util.Date;
  */
 public class MemoEntity extends BaseEntity{
 	private Long userId;
-	private Date memoStartTime; //备忘开始时间
-	private Date memoEndTime; //备忘结束时间
-	private Long memoName; //行程名称
+	private String memoStartTime; //备忘开始时间
+	private String memoEndTime; //备忘结束时间
+	private String memoName; //行程名称
 	private Long memoTypeId;
 	private String memoDesc;
 	private Integer status; //1-未结束  2-已结束  3-已取消
@@ -26,22 +28,22 @@ public class MemoEntity extends BaseEntity{
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Date getMemoStartTime() {
+	public String getMemoStartTime() {
 		return memoStartTime;
 	}
-	public void setMemoStartTime(Date memoStartTime) {
+	public void setMemoStartTime(String memoStartTime) {
 		this.memoStartTime = memoStartTime;
 	}
-	public Date getMemoEndTime() {
+	public String getMemoEndTime() {
 		return memoEndTime;
 	}
-	public void setMemoEndTime(Date memoEndTime) {
+	public void setMemoEndTime(String memoEndTime) {
 		this.memoEndTime = memoEndTime;
 	}
-	public Long getMemoName() {
+	public String getMemoName() {
 		return memoName;
 	}
-	public void setMemoName(Long memoName) {
+	public void setMemoName(String memoName) {
 		this.memoName = memoName;
 	}
 	public Long getMemoTypeId() {

@@ -2,6 +2,8 @@ package com.brp.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.brp.entity.MemoEntity;
 
 /** 
@@ -15,5 +17,8 @@ import com.brp.entity.MemoEntity;
 public interface MemoService {
 	void insertMemo(MemoEntity memo);
 	List<MemoEntity> getMemoByUserId(Integer userId);
+	List<MemoEntity> getTodayMemo(Integer userId);
+	List<MemoEntity> getWeekMemo(Integer userId);
+	List<MemoEntity> getMonthMemo(Integer userId);
 }
 

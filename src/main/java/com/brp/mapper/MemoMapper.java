@@ -20,5 +20,6 @@ public interface MemoMapper {
 	void insertMemo(MemoEntity memo);
 	List<MemoEntity> getMemoByUserId(Integer userId);
 	List<MemoEntity> getMemoByStartAndEndTime(@Param("startTime")String startTime, @Param("endTime")String endTime);
+	List<MemoEntity> getMemoList(@Param("startTime")String startTime, @Param("endTime")String endTime, @Param("userId")Integer userId);
 }
 

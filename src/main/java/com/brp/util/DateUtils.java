@@ -972,4 +972,46 @@ public class DateUtils {
 		return true;
 	}
 
+	public static String getFirstDayForWeek(String format, String dateStr) throws Exception{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new SimpleDateFormat(format).parse(dateStr));
+		int d = 0;
+		if(cal.get(Calendar.DAY_OF_WEEK)==1){
+			d = -6;
+		}else{
+			d = 2-cal.get(Calendar.DAY_OF_WEEK);
+		}
+		cal.add(Calendar.DAY_OF_WEEK, d);
+		//所在周开始日期
+		return new SimpleDateFormat(format).format(cal.getTime());
+	}
+	
+	public static String getLastDayForWeek(String format, String dateStr) throws Exception{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new SimpleDateFormat(format).parse(dateStr));
+		int d = 0;
+		if(cal.get(Calendar.DAY_OF_WEEK)==1){
+			d = -6;
+		}else{
+			d = 2-cal.get(Calendar.DAY_OF_WEEK);
+		}
+		
+		cal.add(Calendar.DAY_OF_WEEK, d);
+		cal.add(Calendar.DAY_OF_WEEK, 6);
+		//所在周开始日期
+		return new SimpleDateFormat(format).format(cal.getTime());
+		//所在周结束日期
+	}
+	
+	public static Date str2date(String str, String format){
+		Date date = null;
+		try {
+            DateFormat df = new SimpleDateFormat(format);
+             date = df.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+		
+		return date;
+	}
 }
