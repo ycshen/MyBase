@@ -53,8 +53,9 @@ public class MemoServiceImpl implements MemoService{
 	}
 	
 	@Override
-	public List<MemoEntity> getWeekMemo(Integer userId) {
-		String format = "yyyy-MM-dd";
+	public List<MemoEntity> getWeekMemo(String startTime, String endTime, Integer userId) {
+		return memoMapper.getMemoList(startTime, endTime, userId);
+		/*String format = "yyyy-MM-dd";
 		String now = DateUtils.getCurrentDate("yyyy-MM-dd");
 		List<MemoEntity> list = null;
 		try {
@@ -65,12 +66,13 @@ public class MemoServiceImpl implements MemoService{
 			e.printStackTrace();
 		}
 		
-		return list;
+		return list;*/
 	}
 
 	@Override
-	public List<MemoEntity> getMonthMemo(Integer userId) {
-		String format = "yyyy-MM";
+	public List<MemoEntity> getMonthMemo(String startTime, String endTime, Integer userId) {
+		return memoMapper.getMemoList(startTime, endTime, userId);
+		/*String format = "yyyy-MM";
 		List<MemoEntity> list = null;
 		try {
 			String startTime = DateUtils.getCurrentDate(format)  + "-01 00:00:00";
@@ -80,7 +82,7 @@ public class MemoServiceImpl implements MemoService{
 			e.printStackTrace();
 		}
 		
-		return list;
+		return list;*/
 	}
 	
 	public static void main(String[] args) {

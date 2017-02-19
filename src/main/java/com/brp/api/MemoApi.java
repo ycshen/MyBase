@@ -79,6 +79,7 @@ public class MemoApi {
 				memoService.insertMemo(memo);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
+				jsonData.setData(memo.getId().toString());
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");
@@ -149,6 +150,8 @@ public class MemoApi {
 		JsonData<List<MemoEntity> > jsonData = new JsonData<List<MemoEntity> >();
 		try{
 			String userId = jsonObject.getString("userId");
+			String startTime = jsonObject.getString("startTime");
+			String endTime = jsonObject.getString("endTime");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -157,6 +160,8 @@ public class MemoApi {
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("userId", userId);
+				maps.put("startTime", startTime);
+				maps.put("endTime", endTime);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -173,7 +178,7 @@ public class MemoApi {
 			
 			if(auth && StringUtils.isNotBlank(userId) && TryParseUtils.tryParse(userId, Integer.class)){
 				
-				List<MemoEntity> list = memoService.getWeekMemo(Integer.parseInt(userId));
+				List<MemoEntity> list = memoService.getWeekMemo(startTime, endTime, Integer.parseInt(userId));
 				jsonData.setData(list);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
@@ -198,6 +203,8 @@ public class MemoApi {
 		JsonData<List<MemoEntity> > jsonData = new JsonData<List<MemoEntity> >();
 		try{
 			String userId = jsonObject.getString("userId");
+			String startTime = jsonObject.getString("startTime");
+			String endTime = jsonObject.getString("endTime");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -206,6 +213,8 @@ public class MemoApi {
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("userId", userId);
+				maps.put("startTime", startTime);
+				maps.put("endTime", endTime);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -222,7 +231,7 @@ public class MemoApi {
 			
 			if(auth && StringUtils.isNotBlank(userId) && TryParseUtils.tryParse(userId, Integer.class)){
 				
-				List<MemoEntity> list = memoService.getMonthMemo(Integer.parseInt(userId));
+				List<MemoEntity> list = memoService.getMonthMemo(startTime, endTime, Integer.parseInt(userId));
 				jsonData.setData(list);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");

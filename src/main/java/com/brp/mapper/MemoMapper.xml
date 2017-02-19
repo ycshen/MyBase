@@ -25,7 +25,7 @@
    		userId,memoStartTime,memoEndTime,memoName,memoTypeId,
    		memoDesc,status,companyId,isDelete
   </sql>
-  <insert id="insertMemo" parameterType="com.brp.entity.MemoEntity" >
+  <insert id="insertMemo" parameterType="com.brp.entity.MemoEntity"  useGeneratedKeys="true" keyProperty="id">
     insert memo
    		(createUser,updateUser,createTime,updateTime,
    		userId,memoStartTime,memoEndTime,memoName,memoTypeId,

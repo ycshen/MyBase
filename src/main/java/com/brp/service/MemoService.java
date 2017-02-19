@@ -18,7 +18,7 @@ public interface MemoService {
 	void insertMemo(MemoEntity memo);
 	List<MemoEntity> getMemoByUserId(Integer userId);
 	List<MemoEntity> getTodayMemo(Integer userId);
-	List<MemoEntity> getWeekMemo(Integer userId);
-	List<MemoEntity> getMonthMemo(Integer userId);
+	List<MemoEntity> getWeekMemo(String startTime, String endTime, Integer userId);
+	List<MemoEntity> getMonthMemo(String startTime, String endTime, Integer userId);
 }
 
