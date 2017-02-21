@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.ProvinceMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.Province" >
+    <id column="provinceId" property="provinceId" jdbcType="VARCHAR" />
+    <result column="provinceName" property="provinceName" jdbcType="VARCHAR" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	  provinceName,provinceId
+  </sql>
+  <insert id="insertProvince" parameterType="com.brp.entity.Province" >
+    insert province
+   		( provinceName,provinceId) 
+    values
+    	( #{provinceName,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR})
+  </insert>
+ 
+
+	
+</mapper>

@@ -1,6 +1,6 @@
 package com.brp.entity;
 /** 
- * <p>Project: BRP</p> 
+ * <p>Project: MYBASE</p> 
  * <p>Title: City.java</p> 
  * <p>Description: TODO</p> 
  * <p>Copyright (c) 2016 xjw Consultancy Services</p>
@@ -8,20 +8,26 @@ package com.brp.entity;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class City {
-	//对接，牺牲格式
-	private String id;
-	private String text;
-	public String getId() {
-		return id;
+	private String provinceId;
+	private String cityId;
+	private String cityName;
+	public String getProvinceId() {
+		return provinceId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
 	}
-	public String getText() {
-		return text;
+	public String getCityId() {
+		return cityId;
 	}
-	public void setText(String text) {
-		this.text = text;
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
+	public String getCityName() {
+		return cityName;
+	}
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 }
 
