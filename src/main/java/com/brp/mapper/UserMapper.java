@@ -34,5 +34,6 @@ public interface UserMapper {
 	List<UserAuthVO> getUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
 	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(@Param("companyId") String companyId, @Param("authId") String authId);
 	Integer isExistTelephone(String telephone);
+	void changeCollapse(@Param("userId")String userId, @Param("isCollapseMenu")String isCollapseMenu);
 }
 

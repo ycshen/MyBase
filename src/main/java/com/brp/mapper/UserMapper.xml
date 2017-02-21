@@ -23,6 +23,8 @@
     <result column="position_id" property="positionId" jdbcType="INTEGER" />
     <result column="position_name" property="positionName" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="is_collapse_menu" property="isCollapseMenu" jdbcType="INTEGER" />
+    
    </resultMap> 
   <resultMap id="authUserResultMap" type="com.brp.util.vo.UserAuthVO" >
     <id column="id" property="id" jdbcType="INTEGER" />
@@ -53,20 +55,20 @@
 	   id,create_user,update_user,create_time,update_time,
    		company_id,company_name,department_name,status,department_id,
    		user_name,telphone,password,mobile,user_code,is_login_mybase,
-   		position_id,email
+   		position_id,email,is_collapse_menu
   </sql>
   <insert id="insertUser" parameterType="com.brp.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
     insert user
    		(create_user,update_user,create_time, update_time,
    		company_id,company_name,department_name,status,department_id,
    		user_name,telphone,password,mobile,user_code,
-   		is_login_mybase,position_id,email
+   		is_login_mybase,position_id,email,is_collapse_menu
    		) 
     values
     	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
     	#{companyId,jdbcType=INTEGER},#{companyName,jdbcType=VARCHAR},#{departmentName,jdbcType=VARCHAR},#{status,jdbcType=VARCHAR},#{departmentId,jdbcType=INTEGER},
     	#{userName,jdbcType=VARCHAR},#{telphone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{mobile,jdbcType=VARCHAR},#{userCode,jdbcType=VARCHAR},
-		#{isLoginMybase,jdbcType=INTEGER},#{positionId,jdbcType=INTEGER},#{email,jdbcType=VARCHAR}
+		#{isLoginMybase,jdbcType=INTEGER},#{positionId,jdbcType=INTEGER},#{email,jdbcType=VARCHAR},#{isCollapseMenu,jdbcType=INTEGER}
     	)
   </insert>
   <select id="getUserPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.UserQuery" > 
@@ -190,12 +192,20 @@
 		 
 		 
 	</update>
+	
+	<update id="changeCollapse">
+		update user set 
+		is_collapse_menu=#{isCollapseMenu}
+		where id=#{userId} limit 1;
+		 
+		 
+	</update>
     <select id="getUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
         select 
 			 u.id,u.create_user,u.update_user,u.create_time,u.update_time,
 			   		u.company_id,u.company_name,d.department_name as department_name,u.status,u.department_id,
 			   		u.user_name,u.telphone,u.password,u.mobile,u.user_code,u.is_login_mybase,
-			   		u.position_id, p.position_name as position_name,u.email from user u 
+			   		u.position_id, p.position_name as position_name,u.email,u.is_collapse_menu from user u 
 			left join position p
 			on u.position_id=p.id
 			left join department d

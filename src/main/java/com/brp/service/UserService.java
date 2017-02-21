@@ -36,5 +36,6 @@ public interface UserService {
 	List<UserAuthVO> getUserByCompanyIdAndAuthId(String companyId, String authId);
 	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(String companyId, String authId);
 	Integer isExistTelephone(String telephone);
+	void changeCollapse(String userId, String isCollapseMenu);
 }
 

@@ -547,6 +547,66 @@ public class UserApi {
 		return result;
 	}
 	
+	
+	
+	@RequestMapping(value = "/changeCollapse", method = RequestMethod.POST)
+	@ResponseBody
+	public String changeCollapse(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String userId = jsonObject.getString("userId");
+			String isCollapseMenu = jsonObject.getString("isCollapseMenu");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("userId", userId);
+				maps.put("isCollapseMenu", isCollapseMenu);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserEntity user = userService.getUserById(Integer.parseInt(userId));
+				if(user != null){
+					Integer isCollapse = user.getIsCollapseMenu();
+					if(isCollapse == 1){
+						isCollapseMenu = "0";
+					}else{
+						isCollapseMenu = "1";
+					}
+				}
+				
+				userService.changeCollapse(userId, isCollapseMenu);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
 	@RequestMapping(value = "/getAuthUserByCidAndAuthId", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAuthUserByCidAndAuthId(@RequestBody JSONObject jsonObject){

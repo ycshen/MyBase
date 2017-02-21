@@ -22,6 +22,7 @@ public class UserEntity extends BaseEntity{
 	private Integer positionId;
 	private String positionName;
 	private String email;
+	private Integer isCollapseMenu;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -105,6 +106,12 @@ public class UserEntity extends BaseEntity{
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public Integer getIsCollapseMenu() {
+		return isCollapseMenu;
+	}
+	public void setIsCollapseMenu(Integer isCollapseMenu) {
+		this.isCollapseMenu = isCollapseMenu;
 	}
 }
 

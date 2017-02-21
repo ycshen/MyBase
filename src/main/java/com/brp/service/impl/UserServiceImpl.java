@@ -120,6 +120,11 @@ public class UserServiceImpl implements UserService{
 		return userMapper.isExistTelephone(telephone);
 	}
 
+	@Override
+	public void changeCollapse(String userId, String isCollapseMenu) {
+		userMapper.changeCollapse(userId, isCollapseMenu);
+	}
+
 	
 	
 }
