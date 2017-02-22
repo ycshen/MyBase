@@ -24,7 +24,7 @@
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
    		company_name,company_telephone,company_ceo,company_site,company_address,
-   		level,parent_company_id,parent_company_name,status
+   		level,parent_company_id,parent_company_name,status,secret
   </sql>
   <insert id="insertCompany" parameterType="com.brp.entity.CompanyEntity" useGeneratedKeys="true" keyProperty="id">
     insert company
