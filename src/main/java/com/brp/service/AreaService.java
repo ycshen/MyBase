@@ -1,8 +1,8 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.Area;
-import com.brp.entity.City;
-import com.brp.entity.Province;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -14,5 +14,6 @@ import com.brp.entity.Province;
  */
 public interface AreaService {
 	void insertArea(Area area);
+	List<Area> getAreaListByCityId(String cityId);
 }
 

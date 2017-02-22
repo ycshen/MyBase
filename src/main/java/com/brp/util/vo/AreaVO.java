@@ -11,19 +11,20 @@ import java.util.List;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class AreaVO {
-	private String id;
-	private String name;
-	public String getId() {
-		return id;
+	private String areaId;
+	private String areaName;
+	public String getAreaId() {
+		return areaId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
 	}
-	public String getName() {
-		return name;
+	public String getAreaName() {
+		return areaName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
 	}
+	
 }
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.ConstantMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.ConstantEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="constant" property="constant" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap> 
+     
+  <sql id="Base_Column_List" >
+	  id,constant,code
+  </sql>
+  <insert id="insertConstant" parameterType="com.brp.entity.ConstantEntity" >
+    insert constant
+   		(constant,code) 
+    values
+    	( #{constant,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR})
+  </insert>
+ 
+
+	
+	<select id="getConstantByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         constant,code
+         from constant
+         where code = #{code}
+    </select>
+    
+
+	
+   <update id="updateConstant" parameterType="com.brp.entity.ConstantEntity">
+		update constant set 
+		<if test="constant != null">
+			constant=#{constant,jdbcType=VARCHAR},
+		</if>
+		 where code=#{code} limit 1;
+		 
+		 
+	</update>
+</mapper>

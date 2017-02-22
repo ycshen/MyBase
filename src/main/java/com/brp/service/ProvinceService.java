@@ -1,5 +1,7 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.Province;
 
 /** 
@@ -12,5 +14,6 @@ import com.brp.entity.Province;
  */
 public interface ProvinceService {
 	void insertProvince(Province province);
+	List<Province> getAllProvince();
 }
 

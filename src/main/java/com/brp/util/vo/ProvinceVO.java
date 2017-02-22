@@ -12,26 +12,27 @@ import java.util.List;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class ProvinceVO {
-	private String id;
-	private String name;
-	private List<CityVO> sub;
-	public String getId() {
-		return id;
+	private String provinceId;
+	private String provinceName;
+	private List<CityVO> cityList;
+	public String getProvinceId() {
+		return provinceId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
 	}
-	public String getName() {
-		return name;
+	public String getProvinceName() {
+		return provinceName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
 	}
-	public List<CityVO> getSub() {
-		return sub;
+	public List<CityVO> getCityList() {
+		return cityList;
 	}
-	public void setSub(List<CityVO> sub) {
-		this.sub = sub;
+	public void setCityList(List<CityVO> cityList) {
+		this.cityList = cityList;
 	}
+	
 }
 

@@ -34,6 +34,10 @@ public class CityServiceImpl implements CityService{
 	public void insertCity(City city) {
 		cityMapper.insertCity(city);
 	}
+	@Override
+	public List<City> getCityListByProvinceId(String provinceId) {
+		return cityMapper.getCityListByProvinceId(provinceId);
+	}
 
 	
 }

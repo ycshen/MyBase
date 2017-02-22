@@ -34,6 +34,10 @@ public class ProvinceServiceImpl implements ProvinceService{
 	public void insertProvince(Province province) {
 		provinceMapper.insertProvince(province);
 	}
+	@Override
+	public List<Province> getAllProvince() {
+		return provinceMapper.getAllProvince();
+	}
 
 }
 

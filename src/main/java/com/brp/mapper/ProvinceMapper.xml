@@ -15,7 +15,9 @@
     values
     	( #{provinceName,jdbcType=VARCHAR},#{provinceId,jdbcType=VARCHAR})
   </insert>
- 
+ <select id="getAllProvince" resultMap="BaseResultMap">
+ 	select  <include refid="Base_Column_List"/> from province
+ 	</select>
 
 	
 </mapper>

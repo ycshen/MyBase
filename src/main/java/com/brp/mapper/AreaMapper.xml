@@ -17,6 +17,8 @@
     	( #{cityId,jdbcType=VARCHAR},#{areaId,jdbcType=VARCHAR},#{areaName,jdbcType=VARCHAR})
   </insert>
  
-
+<select id="getAreaListByCityId" resultMap="BaseResultMap" parameterType="java.lang.String">
+ 	select  <include refid="Base_Column_List"/>  from area where cityId=#{cityId}
+ 	</select>
 	
 </mapper>

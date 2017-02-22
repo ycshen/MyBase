@@ -1,5 +1,7 @@
 package com.brp.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.Province;
@@ -15,5 +17,6 @@ import com.brp.entity.Province;
 @Repository
 public interface ProvinceMapper {
 	void insertProvince(Province province);
+	List<Province> getAllProvince();
 }
 

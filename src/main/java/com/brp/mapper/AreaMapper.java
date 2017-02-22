@@ -1,5 +1,7 @@
 package com.brp.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.Area;
@@ -16,5 +18,6 @@ import com.brp.entity.Province;
 @Repository
 public interface AreaMapper {
 	void insertArea(Area area);
+	List<Area> getAreaListByCityId(String cityId);
 }
 
