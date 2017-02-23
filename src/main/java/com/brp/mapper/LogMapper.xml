@@ -12,21 +12,26 @@
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="log_msg" property="logMsg" jdbcType="VARCHAR" />
-    <result column="log_type" property="logType" jdbcType="INTEGER" />   
+    <result column="log_type" property="logType" jdbcType="INTEGER" />  
+    <result column="casecade_id" property="casecadeId" jdbcType="VARCHAR" />
+    <result column="casecade_id_desc" property="casecadeIdDesc" jdbcType="VARCHAR" />    
     
   </resultMap> 
   
   <sql id="Base_Column_List" >
 	   id,create_user,update_user,create_time,update_time,
-	   user_name,company_id,user_id,log_msg,log_type
+	   user_name,company_id,user_id,log_msg,log_type,
+	   casecade_id,casecade_id_desc
   </sql>
   <insert id="insertLog" parameterType="com.brp.entity.LogEntity" >
     insert log
    		(id,create_user,update_user,create_time, update_time,
-		user_name,company_id,user_id,log_msg,log_type) 
+		user_name,company_id,user_id,log_msg,log_type,
+		casecade_id,casecade_id_desc) 
     values
     	(#{id,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
-    	#{userName,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{logMsg,jdbcType=VARCHAR},#{logType,jdbcType=INTEGER})
+    	#{userName,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{logMsg,jdbcType=VARCHAR},#{logType,jdbcType=INTEGER},
+    	#{casecadeId,jdbcType=VARCHAR},#{casecadeIdDesc,jdbcType=VARCHAR})
   </insert>
   <select id="getLogPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.LogQuery" >
          select 
@@ -37,6 +42,12 @@
 		     
 		      <if test="companyId != '' and companyId != null" >
 		       and company_id = #{companyId}
+		      </if>
+		      <if test="casecadeId != '' and casecadeId != null" >
+		       and casecade_id = #{casecadeId}
+		      </if>
+		      <if test="logType != '' and logType != null" >
+		       and log_type = #{logType}
 		      </if>
 		     
 		 </trim>

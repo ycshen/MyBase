@@ -14,12 +14,14 @@ import org.springframework.format.annotation.DateTimeFormat;
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 public class LogEntity{
-	private Long companyId;
-	private Long departmentId;
-	private Long userId;
-	private String userName;
+	private Long companyId;  //公司id
+	private Long departmentId; //部门id
+	private Long userId; //添加日志人id
+	private String userName; //添加日志人名称
 	private String logMsg;
-	private Integer logType;
+	private Integer logType; //日志类型
+	private String casecadeId; //日志级联id
+	private String casecadeIdDesc; //日志级联id描述
 	
 	/**
 	 * 
@@ -121,6 +123,18 @@ public class LogEntity{
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+	public String getCasecadeId() {
+		return casecadeId;
+	}
+	public void setCasecadeId(String casecadeId) {
+		this.casecadeId = casecadeId;
+	}
+	public String getCasecadeIdDesc() {
+		return casecadeIdDesc;
+	}
+	public void setCasecadeIdDesc(String casecadeIdDesc) {
+		this.casecadeIdDesc = casecadeIdDesc;
 	}
 }
 

@@ -137,10 +137,61 @@ public class LogApi {
 				
 				logQuery.setSize(Integer.parseInt(pageSize));
 				logQuery.setCompanyId(companyId);
+				logQuery.setLogType("1");
 				logQuery = logService.getLogPage(logQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setCount(logQuery.getCount());
 				jsonData.setData(logQuery.getItems());
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/getLogs", method = RequestMethod.POST)
+	@ResponseBody
+	public String getLogs(@RequestBody JSONObject jsonObject){
+		JsonData<List<LogEntity>> jsonData = new JsonData<List<LogEntity>>();
+		try{
+			String query = jsonObject.getString("query");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("query", query);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth && StringUtils.isNotBlank(query)){
+				LogQuery LogQuery = JSONObject.parseObject(query, LogQuery.class);
+				LogQuery = logService.getLogPage(LogQuery);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setCount(LogQuery.getCount());
+				jsonData.setData(LogQuery.getItems());
 				jsonData.setMessage("操作成功");
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
