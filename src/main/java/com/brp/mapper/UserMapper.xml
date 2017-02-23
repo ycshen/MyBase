@@ -139,6 +139,14 @@
          order by create_time desc 
     </select>
     
+    <select id="getUserListByCompanyId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from user
+         where company_id =  #{companyId}
+         order by create_time desc 
+    </select>
+    
 	<update id="updateUser" parameterType="com.brp.entity.UserEntity">
 		update user set 
 		<if test="createUser != null">

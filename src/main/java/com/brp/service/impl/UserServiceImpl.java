@@ -125,6 +125,11 @@ public class UserServiceImpl implements UserService{
 		userMapper.changeCollapse(userId, isCollapseMenu);
 	}
 
+	@Override
+	public List<UserEntity> getUserListByCompanyId(String companyId) {
+		return userMapper.getUserListByCompanyId(companyId);
+	}
+
 	
 	
 }
