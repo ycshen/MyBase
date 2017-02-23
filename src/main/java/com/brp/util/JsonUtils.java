@@ -15,7 +15,7 @@ import com.google.gson.JsonParser;
  */
 public class JsonUtils {
 	public static String json2Str(Object o){
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		Gson gson = new GsonBuilder().serializeNulls().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		
 		return gson.toJson(o);
 	}
