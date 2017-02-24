@@ -17,7 +17,7 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">企家婆</a>
+				<a class="navbar-brand" href="#">企家婆基础数据服务</a>
 			</div>
 		</div>
 	</nav>

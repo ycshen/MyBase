@@ -1,15 +1,18 @@
 package com.brp.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brp.entity.DepartmentEntity;
 import com.brp.entity.MenuEntity;
 import com.brp.mapper.MenuMapper;
 import com.brp.service.MenuService;
 import com.brp.util.query.MenuQuery;
 import com.brp.util.vo.BTreeVO;
+import com.brp.util.vo.MenuTreeVO;
 import com.google.gson.Gson;
 
 /** 
@@ -76,6 +79,25 @@ public class MenuServiceImpl implements MenuService{
 	@Override
 	public List<MenuEntity> getMenuList(MenuQuery menuQuery) {
 		return menuMapper.getMenuList(menuQuery);
+	}
+
+	@Override
+	public List<MenuTreeVO> getMenuTreeByPid(String pid) {
+		List<MenuTreeVO> menuTreeList = new ArrayList<MenuTreeVO>();  
+        List<MenuEntity> menuList = menuMapper.getMenuListByPid(pid); 
+        if(menuList != null && menuList.size() > 0){  
+            for(MenuEntity menu : menuList){  
+            	MenuTreeVO treeNode = new MenuTreeVO();
+            	treeNode.setId(menu.getId().toString());  
+            	treeNode.setName(menu.getMenuName());
+            	String id = menu.getId().toString();
+            	treeNode.setChildren(getMenuTreeByPid(id));
+            	
+            	menuTreeList.add(treeNode);  
+            }  
+        }
+        
+        return menuTreeList; 
 	}
 }
 

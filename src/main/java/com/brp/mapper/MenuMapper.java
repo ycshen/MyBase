@@ -24,6 +24,7 @@ public interface MenuMapper {
 	void updateMenu(MenuEntity menu);
 	MenuEntity getMenuById(Integer id);
 	List<MenuEntity> getMenuListByCode(String code);
+	List<MenuEntity> getMenuListByPid(String pId);
 	void deleteMenuById(String id);
 	MenuEntity getMenuByNameAndType(@Param("menuName")String menuName, @Param("menuType")String menuType);
 	MenuEntity getMenuByNameAndSystemId(@Param("menuName")String menuName, @Param("systemId")String systemId);

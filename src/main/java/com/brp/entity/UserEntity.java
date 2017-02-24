@@ -23,6 +23,7 @@ public class UserEntity extends BaseEntity{
 	private String positionName;
 	private String email;
 	private Integer isCollapseMenu;
+	private Integer menuDefinedType;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -113,5 +114,12 @@ public class UserEntity extends BaseEntity{
 	public void setIsCollapseMenu(Integer isCollapseMenu) {
 		this.isCollapseMenu = isCollapseMenu;
 	}
+	public Integer getMenuDefinedType() {
+		return menuDefinedType;
+	}
+	public void setMenuDefinedType(Integer menuDefinedType) {
+		this.menuDefinedType = menuDefinedType;
+	}
+
 }
 

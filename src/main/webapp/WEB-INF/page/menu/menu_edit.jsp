@@ -52,14 +52,14 @@
 				</td>
 			</tr>
 			<c:choose>
-				<c:when test="${menu.menuType == 3}">
+				<c:when test="${menu.menuType == 3 || menu.menuType == 7 || menu.menuType == 8}">
 					<tr>
 						<td style="border:0px;text-align:right;">
 							<label ><span style="color:red;">*</span>菜单URL：</label>
 						</td>
 						<td style="border:0px;">
 							<input name="menuUrl" id="txtmenuUrl"
-									value="${menu.menuUrl}" maxlength="20" 
+									value="${menu.menuUrl}" maxlength="40" 
 									class="form-control" type="text" placeholder="请输入菜单URL"
 									style="width: 300px;">
 						</td>

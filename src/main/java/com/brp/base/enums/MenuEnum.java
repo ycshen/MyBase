@@ -14,7 +14,9 @@ public enum MenuEnum {
 	URL(3, "菜单", "url"),
 	ONCLICK(4, "单击", "onclick"),
 	DBCLICK(5, "双击", "dbclick"),
-	INNER_SYSTEM(6, "内部系统", "inner-system");
+	INNER_SYSTEM(6, "内部系统", "inner-system"),
+	TOP_URL(8, "顶部菜单", "top-url"),
+	SECOND_URL(7, "二级菜单", "second-url");
 	private Integer menuType; 
 	private String menuTypeName;
 	private String menuTypeTag;

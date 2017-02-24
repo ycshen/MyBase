@@ -9,6 +9,10 @@
 <title>菜单权限信息管理</title>
 <link href="${ctx}/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/common.css" rel="stylesheet">
+<script type="text/javascript" src="${ctx}/js/jquery.js"></script>
+<script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
+<script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
+<script type="text/javascript" src="${ctx}/js/pages/menu/menu_list.js"></script>
 <script type="text/javascript">
 	var ctx = "${pageContext.request.contextPath}";
 </script>
@@ -99,6 +103,7 @@
 								<tr>
 									<th>操作</th>
 									<th>菜单名称</th>
+									<th>路径</th>
 									<th>菜单类型</th>
 									<th>菜单类型标签</th>
 									<th>所属系统</th>
@@ -107,25 +112,29 @@
 								</tr>
 							</thead>
 							<tbody >
-								<c:forEach items="${menuQuery.items}" var="menu">
+								<input type="hidden" id="hidCurPageCount" value="${menuQuery.items.size()}"/>
+								<c:forEach items="${menuQuery.items}" var="menu" varStatus="status">
 									<tr>
 										<td style="display: none;">${menu.id}</td>
 										<td>
 										
-										<a  href="#" onclick="modifyMenu('${menu.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="viewMenu('${menu.id}')">详细</a>&nbsp;&nbsp;
-										<a  href="#" onclick="deleteMenu('${menu.id}')">删除</a>
-										
-										<c:choose>
-											<c:when test="${menu.menuType == 0}">
-												<a  href="#" onclick="addSub('${menu.id}', 3)">添加子菜单</a>&nbsp;&nbsp;
-											</c:when>
-											<c:when test="${menu.menuType == 3}">
-												<a  href="#" onclick="addMultiSub('${menu.id}')">添加事件</a>&nbsp;&nbsp;
-											</c:when>
-										</c:choose>
+										<select class="form-control" style="width: 30px;" id="selectOper${status.index}">
+												<option balue="0"></option>
+											  	<option value="1">编辑</option>
+											  	<option value="2">删除</option>
+											  	<option value="3">详细</option>
+											  	<c:if test="${menu.menuType == 0}">
+											  		<option value="4">添加子菜单</option>
+											  		<option value="7">添加顶部菜单</option>
+											  	</c:if>
+											  	<c:if test="${menu.menuType == 3}">
+											  		<option value="5">添加二级菜单</option>
+											  		<option value="6">添加事件</option>	
+											  	</c:if>										  	
+											</select>
 										</td>
 										<td>${menu.menuName }</td>
+										<td>${menu.menuUrl }</td>
 										<td>${menu.menuTypeName}</td>
 										<td>${menu.menuTypeTag}</td>
 										<td>${menu.beyondOfSystem}</td>
@@ -169,10 +178,6 @@
 	<input type="button"  class="btn btn-default" value="取消操作" onclick="cancleType();"/>
 	<input type="hidden"  id="hidMenuId"/>
 </div>
-<script type="text/javascript" src="${ctx}/js/jquery.js"></script>
-<script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
-<script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
-<script type="text/javascript" src="${ctx}/js/pages/menu/menu_list.js"></script>
 <!-- <script type="text/javascript">
 	$(function(){
 		var start = {

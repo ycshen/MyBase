@@ -137,3 +137,43 @@ function isNotBlank(args){
 	return result;
 }
 
+function isBlank(args){
+	var result = false;
+	if(args == "" || args == null || args == undefined){
+		result = true;
+	}
+	
+	return result;
+}
+$(function(){
+	var size = $("#hidCurPageCount").val();
+	if(isBlank(size)){
+		size = 0;
+	}
+	
+	for(var i=0; i< size; i++){
+		$("#selectOper" + i).change(function(){
+			var selectValue = $(this).val();
+			var menuId = $(this).parent().siblings().eq(0).html();
+			if(selectValue == 0){
+				//不做任何动作
+			}else if(selectValue == 1){
+				modifyMenu(menuId); //编辑
+			}else if(selectValue == 2){
+				deleteMenu(menuId);
+			}else if(selectValue == 3){
+				viewMenu(menuId);
+			}else if(selectValue == 4){
+				addSub(menuId, 3);
+			}else if(selectValue == 6){
+				addMultiSub(menuId);
+			}else if(selectValue == 5){
+				addSub(menuId, 7);
+			}else if(selectValue == 7){
+				addSub(menuId, 8);
+			}
+		});
+	}
+
+	
+});

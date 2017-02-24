@@ -80,6 +80,13 @@
 		 and is_delete = 0
          order by create_time desc
     </select>
+    <select id="getMenuListByPid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from menu
+         where  is_delete=0 and parent_menu_id=#{pId}
+         order by create_time desc
+    </select>
     
 	<select id="getMenuById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
