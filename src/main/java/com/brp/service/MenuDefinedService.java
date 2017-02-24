@@ -2,6 +2,8 @@ package com.brp.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.brp.entity.City;
 import com.brp.entity.MenuDefinedEntity;
 
@@ -15,5 +17,9 @@ import com.brp.entity.MenuDefinedEntity;
  */
 public interface MenuDefinedService {
 	void insertMenuDefined(MenuDefinedEntity menuDefined);
+	List<MenuDefinedEntity> getMenuDefinedList(
+			String companyId, String definedType, String casecadeId);
+	void batchUpdateIsDelete(Integer isDelete, List<MenuDefinedEntity> list);
+	void batchInsertMenuDefined(List<MenuDefinedEntity> list);
 }
 

@@ -1,5 +1,8 @@
 package com.brp.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.MenuDefinedEntity;
@@ -15,5 +18,9 @@ import com.brp.entity.MenuDefinedEntity;
 @Repository
 public interface MenuDefinedMapper {
 	void insertMenuDefined(MenuDefinedEntity menuDefined);
+	List<MenuDefinedEntity> getMenuDefinedList(
+			@Param("companyId")String companyId, 
+			@Param("definedType")String definedType, 
+			@Param("casecadeId")String casecadeId);
 }
 

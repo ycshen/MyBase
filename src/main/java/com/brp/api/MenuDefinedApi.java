@@ -87,11 +87,43 @@ public class MenuDefinedApi {
 			if(auth){
 				List<MenuDefinedEntity> mdList = JSONObject.parseArray(mdJson, MenuDefinedEntity.class);
 				if(mdList != null && mdList.size() > 0){
-					for (MenuDefinedEntity menuDefined : mdList) {
-						menuDefined.setCreateTime(new Date());
-						mdService.insertMenuDefined(menuDefined);
+					MenuDefinedEntity example = mdList.get(0);
+					String companyId = example.getCompanyId();
+					String definedType = example.getDefinedType().toString();
+					String casecadeId = example.getDefinedCasecaseId();
+					List<MenuDefinedEntity> existMdList = mdService.getMenuDefinedList(companyId, definedType, casecadeId);
+					if(existMdList != null && existMdList.size() > 0){
+						List<MenuDefinedEntity> deleteList = new LinkedList<MenuDefinedEntity>();
+						List<MenuDefinedEntity> updateList = new LinkedList<MenuDefinedEntity>();
+						for (MenuDefinedEntity existMD : existMdList) {
+							if(mdList.contains(existMD)){
+								if(existMD.getIsDelete() == 1){
+									updateList.add(existMD);
+								}
+							}else{
+								if(existMD.getIsDelete() == 0){
+									deleteList.add(existMD);
+								}
+							}
+						}
+						
+						mdService.batchUpdateIsDelete(1, deleteList);
+						mdService.batchUpdateIsDelete(0, updateList);
+						
+						List<MenuDefinedEntity> notExistList = new LinkedList<MenuDefinedEntity>();
+						for (MenuDefinedEntity newMD : mdList) {
+							if(!existMdList.contains(newMD)){
+								notExistList.add(newMD);
+							}
+						}
+						
+						mdService.batchInsertMenuDefined(notExistList);
+						
+					}else{
+						mdService.batchInsertMenuDefined(mdList);
 					}
 				}
+				
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
 			}else{

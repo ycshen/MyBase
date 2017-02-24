@@ -37,6 +37,23 @@ public class MenuDefinedServiceImpl implements MenuDefinedService{
 	public void insertMenuDefined(MenuDefinedEntity menuDefined) {
 		mdMapper.insertMenuDefined(menuDefined);
 	}
+	@Override
+	public List<MenuDefinedEntity> getMenuDefinedList(String companyId,
+			String definedType, String casecadeId) {
+		return mdMapper.getMenuDefinedList(companyId, definedType, casecadeId);
+	}
+	@Override
+	public void batchUpdateIsDelete(Integer isDelete, List<MenuDefinedEntity> list) {
+		if(list != null && list.size() > 0){
+			
+		}
+	}
+	@Override
+	public void batchInsertMenuDefined(List<MenuDefinedEntity> list) {
+		if(list != null && list.size() > 0){
+			
+		}
+	}
 	
 	
 }
