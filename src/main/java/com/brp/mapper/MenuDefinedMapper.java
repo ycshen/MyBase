@@ -22,5 +22,8 @@ public interface MenuDefinedMapper {
 			@Param("companyId")String companyId, 
 			@Param("definedType")String definedType, 
 			@Param("casecadeId")String casecadeId);
+	void batchUpdateIsDelete(@Param("isDelete")Integer isDelete, @Param("idStr")String idStr);
+	void batchInsertMenuDefined(List<MenuDefinedEntity> list);
 }
+
 

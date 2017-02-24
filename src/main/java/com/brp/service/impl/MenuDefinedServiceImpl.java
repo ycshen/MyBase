@@ -2,24 +2,13 @@ package com.brp.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.brp.entity.Area;
-import com.brp.entity.City;
-import com.brp.entity.ConfigEntity;
 import com.brp.entity.MenuDefinedEntity;
-import com.brp.entity.OrganizationEntity;
-import com.brp.mapper.CityMapper;
-import com.brp.mapper.ConfigMapper;
 import com.brp.mapper.MenuDefinedMapper;
-import com.brp.mapper.OrganizationMapper;
-import com.brp.service.AreaService;
-import com.brp.service.CityService;
-import com.brp.service.ConfigService;
 import com.brp.service.MenuDefinedService;
-import com.brp.service.OrganzationService;
-import com.brp.util.query.ConfigQuery;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -45,13 +34,21 @@ public class MenuDefinedServiceImpl implements MenuDefinedService{
 	@Override
 	public void batchUpdateIsDelete(Integer isDelete, List<MenuDefinedEntity> list) {
 		if(list != null && list.size() > 0){
+			String idStr = "";
+			for (MenuDefinedEntity md : list) {
+				idStr += md.getId().toString() + ",";
+			}
 			
+			if(StringUtils.isNotBlank(idStr)){
+				idStr = idStr.substring(0, idStr.length() - 1);
+				mdMapper.batchUpdateIsDelete(isDelete, idStr);
+			}
 		}
 	}
 	@Override
 	public void batchInsertMenuDefined(List<MenuDefinedEntity> list) {
 		if(list != null && list.size() > 0){
-			
+			mdMapper.batchInsertMenuDefined(list);
 		}
 	}
 	
