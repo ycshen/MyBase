@@ -18,7 +18,8 @@ public class MenuDefinedEntity extends BaseEntity{
 	private String definedCasecaseId; //定义id 用户id  职位id 部门id   角色id
 	private Integer definedType;  //定义类型  1-按照用户定义 2-按照职位定义  3-按照部门定义 4-按照角色定义
 	private String menuId; //菜单id
-	private Long parentMenuId;  //父菜单id
+	private String parentMenuId;  //父菜单id
+	private Integer isDelete;
 	public String getCompanyId() {
 		return companyId;
 	}
@@ -43,11 +44,18 @@ public class MenuDefinedEntity extends BaseEntity{
 	public void setMenuId(String menuId) {
 		this.menuId = menuId;
 	}
-	public Long getParentMenuId() {
+	public String getParentMenuId() {
 		return parentMenuId;
 	}
-	public void setParentMenuId(Long parentMenuId) {
+	public void setParentMenuId(String parentMenuId) {
 		this.parentMenuId = parentMenuId;
 	}
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+	
 }
 

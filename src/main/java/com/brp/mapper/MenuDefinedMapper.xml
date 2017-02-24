@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.MenuDefinedMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.MenuDefinedEntity" >
+ 	 <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    
+  <result column="companyId" property="companyId" jdbcType="VARCHAR" />
+    <result column="definedCasecaseId" property="definedCasecaseId" jdbcType="VARCHAR" />
+    <result column="definedType" property="definedType" jdbcType="INTEGER" />
+    <result column="menuId" property="menuId" jdbcType="VARCHAR" />
+    <result column="parentMenuId" property="parentMenuId" jdbcType="VARCHAR" />
+    
+    <result column="isDelete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,createUser,updateUser,createTime,updateTime,
+	   companyId,definedCasecaseId,definedType,menuId,parentMenuId,
+	   isDelete
+  </sql>
+  <insert id="insertMenuDefined" parameterType="com.brp.entity.MenuDefinedEntity" >
+    insert menu_defined
+   		(createUser,updateUser,createTime,updateTime,
+	   companyId,definedCasecaseId,definedType,menuId,parentMenuId,
+	   isDelete) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{companyId,jdbcType=VARCHAR},#{definedCasecaseId,jdbcType=VARCHAR},#{definedType,jdbcType=INTEGER},#{menuId,jdbcType=VARCHAR},#{parentMenuId,jdbcType=VARCHAR}
+    	,#{isDelete,jdbcType=INTEGER}
+    	)
+  </insert>
+  
+</mapper>

@@ -15,6 +15,7 @@ public class MenuTreeVO {
 	private String name;
 	private String pid;
     private List<MenuTreeVO> children;
+    private String checked = "false";
 	public String getId() {
 		return id;
 	}
@@ -39,8 +40,11 @@ public class MenuTreeVO {
 	public void setChildren(List<MenuTreeVO> children) {
 		this.children = children;
 	}
-	
-	
-	
+	public String getChecked() {
+		return checked;
+	}
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
 }
 
