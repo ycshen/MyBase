@@ -56,9 +56,9 @@ public class MenuDefinedApi {
 	private MenuDefinedService mdService;
 
 	
-	@RequestMapping(value = "/insertDepartment", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertMenuDefined", method = RequestMethod.POST)
 	@ResponseBody
-	public String insertDepartment(@RequestBody JSONObject jsonObject){
+	public String insertMenuDefined(@RequestBody JSONObject jsonObject){
 		JsonData<Long> jsonData = new JsonData<Long>();
 		try{
 			String mdJson = jsonObject.getString("mdJson");
