@@ -2,6 +2,8 @@ package com.brp.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.brp.entity.MenuEntity;
 import com.brp.util.query.MenuQuery;
 import com.brp.util.vo.BTreeVO;
@@ -25,6 +27,7 @@ public interface MenuService {
 	MenuEntity getMenuByNameAndType(String menuName, String menuType);
 	MenuEntity getMenuByNameAndSystemId(String menuName, String systemId);
 	List<MenuEntity> getMenuList(MenuQuery menuQuery);
-	List<MenuTreeVO> getMenuTreeByPid(String pid);
+	List<MenuTreeVO> getMenuTreeByPid(String pid, String definedType, String casecadeId);
+	List<MenuEntity> getDefinedMenuList(String definedType, String menuType, String casecadeId);
 }
 

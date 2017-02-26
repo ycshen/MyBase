@@ -33,5 +33,24 @@
     	,#{isDelete,jdbcType=INTEGER}
     	)
   </insert>
+  <update id="batchUpdateIsDelete" >
+  		update menu_defined set isDelete= #{isDelete} where id in(${idStr})
+  </update>
+  <insert id="batchInsertMenuDefined" parameterType="java.util.List">
+   insert menu_defined
+   		(createUser,updateUser,createTime,updateTime,
+	   companyId,definedCasecaseId,definedType,menuId,parentMenuId,
+	   isDelete)  values
+	   <foreach collection="list" item="md" separator=",">
+	   (#{md.createUser,jdbcType=VARCHAR},#{md.updateUser},#{md.createTime},#{md.updateTime},
+	   #{md.companyId},#{md.definedCasecaseId},#{md.definedType},#{md.menuId},#{md.parentMenuId},
+	   #{md.isDelete})
+	   </foreach>
+  </insert>
   
+  <select id="getMenuDefinedList" resultMap="BaseResultMap">
+  	select <include refid="Base_Column_List"/>
+  	
+  	from menu_defined where companyId = #{companyId} and definedType=#{definedType} and definedCasecaseId=#{casecadeId}
+  </select>
 </mapper>

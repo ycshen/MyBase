@@ -54,6 +54,10 @@ public class MenuDefinedApi {
 	private CompanyService companyService;
 	@Autowired
 	private MenuDefinedService mdService;
+	@Autowired
+	private DepartmentService departmentService;
+	@Autowired
+	private UserService userService;
 
 	
 	@RequestMapping(value = "/insertMenuDefined", method = RequestMethod.POST)
@@ -91,12 +95,13 @@ public class MenuDefinedApi {
 					String companyId = example.getCompanyId();
 					String definedType = example.getDefinedType().toString();
 					String casecadeId = example.getDefinedCasecaseId();
+					
 					List<MenuDefinedEntity> existMdList = mdService.getMenuDefinedList(companyId, definedType, casecadeId);
 					if(existMdList != null && existMdList.size() > 0){
 						List<MenuDefinedEntity> deleteList = new LinkedList<MenuDefinedEntity>();
 						List<MenuDefinedEntity> updateList = new LinkedList<MenuDefinedEntity>();
 						for (MenuDefinedEntity existMD : existMdList) {
-							if(mdList.contains(existMD)){
+							if(this.listContainsMD(mdList, existMD)){
 								if(existMD.getIsDelete() == 1){
 									updateList.add(existMD);
 								}
@@ -112,7 +117,7 @@ public class MenuDefinedApi {
 						
 						List<MenuDefinedEntity> notExistList = new LinkedList<MenuDefinedEntity>();
 						for (MenuDefinedEntity newMD : mdList) {
-							if(!existMdList.contains(newMD)){
+							if(!this.listContainsMD(existMdList, newMD)){
 								notExistList.add(newMD);
 							}
 						}
@@ -121,6 +126,36 @@ public class MenuDefinedApi {
 						
 					}else{
 						mdService.batchInsertMenuDefined(mdList);
+					}
+					
+					if("3".equals(definedType)){
+						//按照部门定义
+						List<DepartmentEntity> subDeptList = departmentService.getDepartmentListByPidAndCid(casecadeId, companyId);
+						String deptIdStr = casecadeId;
+						if(subDeptList != null && subDeptList.size() > 0){
+							for (DepartmentEntity department : subDeptList) {
+								deptIdStr += department.getId() + ",";
+							}
+							
+							deptIdStr = deptIdStr.substring(0, deptIdStr.length() - 1);
+						}
+						
+						userService.batchUpdateUserDefineType(definedType, companyId, deptIdStr);
+					}else if("4".equals(definedType)){
+						//按照角色定义
+
+						List<String> userIdList = userService.getUserIdListByAuthIdForRole(casecadeId);
+						if(userIdList != null && userIdList.size() > 0){
+							String userIdStr = "";
+							for (String userId : userIdList) {
+								userIdStr += userId + ",";
+							}
+							
+							if(StringUtils.isNotBlank(userIdStr)){
+								userIdStr = userIdStr.substring(0, userIdStr.length() - 1);
+								userService.batchUpdateDefineTypeForRole(userIdStr);
+							}
+						}
 					}
 				}
 				
@@ -139,6 +174,24 @@ public class MenuDefinedApi {
 		String result = JsonUtils.json2Str(jsonData);
 		
 		return result;
+	}
+	
+	private boolean listContainsMD(List<MenuDefinedEntity> list , MenuDefinedEntity md){
+		String companyId = md.getCompanyId();
+		String casecaseId = md.getDefinedCasecaseId();
+		Integer definedType = md.getDefinedType();
+		String menuId = md.getMenuId();
+		boolean isContains = false;
+		if(list != null && list.size() > 0){
+			for (MenuDefinedEntity listMD : list) {
+				if(menuId.equals(listMD.getMenuId()) && companyId.equals(listMD.getCompanyId()) && casecaseId.equals(listMD.getDefinedCasecaseId()) && definedType == listMD.getDefinedType()){
+					isContains = true;
+					break;
+				}
+			}
+		}
+		
+		return isContains;
 	}
 	
 }

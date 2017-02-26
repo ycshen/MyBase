@@ -307,6 +307,7 @@ public class UserApi {
 				}
 				
 				user.setIsLoginMybase(0);
+				user.setMenuDefinedType(4);
 				userService.insertUser(user);
 				String email = user.getEmail();
 				if(StringUtils.isNotBlank(email)){

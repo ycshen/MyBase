@@ -82,22 +82,32 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public List<MenuTreeVO> getMenuTreeByPid(String pid) {
+	public List<MenuTreeVO> getMenuTreeByPid(String pid, String definedType, String casecadeId) {
 		List<MenuTreeVO> menuTreeList = new ArrayList<MenuTreeVO>();  
-        List<MenuEntity> menuList = menuMapper.getMenuListByPid(pid); 
+        List<MenuEntity> menuList = menuMapper.getMenuListByPid(pid, definedType, casecadeId); 
         if(menuList != null && menuList.size() > 0){  
             for(MenuEntity menu : menuList){  
             	MenuTreeVO treeNode = new MenuTreeVO();
+            	Integer isDelete = menu.getIsDelete();
+				if(isDelete != null && isDelete == 0){
+					treeNode.setChecked("true");
+				}
             	treeNode.setId(menu.getId().toString());  
             	treeNode.setName(menu.getMenuName());
             	String id = menu.getId().toString();
-            	treeNode.setChildren(getMenuTreeByPid(id));
+            	treeNode.setChildren(getMenuTreeByPid(id, definedType, casecadeId));
             	
             	menuTreeList.add(treeNode);  
             }  
         }
         
         return menuTreeList; 
+	}
+
+	@Override
+	public List<MenuEntity> getDefinedMenuList(String definedType,
+			String menuType, String casecadeId) {
+		return menuMapper.getDefinedMenuList(definedType, menuType, casecadeId);
 	}
 }
 

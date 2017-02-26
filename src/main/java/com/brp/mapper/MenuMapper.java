@@ -21,10 +21,11 @@ public interface MenuMapper {
 	void insertMenu(MenuEntity menu);
 	List<MenuEntity> getMenuPage(MenuQuery menuQuery);
 	List<MenuEntity> getMenuList(MenuQuery menuQuery);
+	List<MenuEntity> getDefinedMenuList(@Param("definedType")String definedType, @Param("menuType")String menuType, @Param("casecadeId")String casecadeId);
 	void updateMenu(MenuEntity menu);
 	MenuEntity getMenuById(Integer id);
 	List<MenuEntity> getMenuListByCode(String code);
-	List<MenuEntity> getMenuListByPid(String pId);
+	List<MenuEntity> getMenuListByPid(@Param("pId")String pId, @Param("definedType")String definedType, @Param("casecadeId")String casecadeId);
 	void deleteMenuById(String id);
 	MenuEntity getMenuByNameAndType(@Param("menuName")String menuName, @Param("menuType")String menuType);
 	MenuEntity getMenuByNameAndSystemId(@Param("menuName")String menuName, @Param("systemId")String systemId);

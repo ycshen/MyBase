@@ -157,6 +157,8 @@ public class MenuApi {
 	public String getAllOutterMenu(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
+			String definedType = jsonObject.getString("definedType");
+			String casecadeId = jsonObject.getString("casecadeId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -164,6 +166,8 @@ public class MenuApi {
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("definedType", definedType);
+				maps.put("casecadeId", casecadeId);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
@@ -179,24 +183,28 @@ public class MenuApi {
 			}
 			
 			if(auth){
-				MenuQuery menuQuery = new MenuQuery();
-				menuQuery.setMenuType(MenuEnum.OUTER_SYSTEM.getMenuType().toString());
-				menuQuery.setSize(50);
-				menuQuery = menuService.getMenuPage(menuQuery);
-				List<MenuEntity> list = menuQuery.getItems();
+				String menuType = MenuEnum.OUTER_SYSTEM.getMenuType().toString();
+			
+				List<MenuEntity> list = menuService.getDefinedMenuList(definedType, menuType, casecadeId);
 				MenuTreeVO menuTree = new MenuTreeVO();
 				menuTree.setId("-1");
 				menuTree.setName("企家婆(www.qijiapo.com)");
+				menuTree.setChecked("true");
 				List<MenuTreeVO> children = new LinkedList<MenuTreeVO>();
 				if(list != null && list.size() > 0 ){
 					for (MenuEntity menu : list) {
 						MenuTreeVO menuTreeVO = new MenuTreeVO();
 						String id = menu.getId().toString();
 						String menuName = menu.getMenuName();
+						Integer isDelete = menu.getIsDelete();
+						if(isDelete != null && isDelete == 0){
+							menuTreeVO.setChecked("true");
+						}
+						
 						menuTreeVO.setId(id);
 						menuTreeVO.setName(menuName);
 						menuTreeVO.setPid("-1");
-						menuTreeVO.setChildren(menuService.getMenuTreeByPid(id));
+						menuTreeVO.setChildren(menuService.getMenuTreeByPid(id, definedType, casecadeId));
 						children.add(menuTreeVO);
 					}
 				}

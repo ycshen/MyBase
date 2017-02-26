@@ -80,7 +80,7 @@
 			 u.id,u.create_user,u.update_user,u.create_time,u.update_time,
 			   		u.company_id,u.company_name,d.department_name as department_name,u.status,u.department_id,
 			   		u.user_name,u.telphone,u.password,u.mobile,u.user_code,u.is_login_mybase,
-			   		u.position_id, p.position_name as position_name,u.email from user u 
+			   		u.position_id, p.position_name as position_name,u.email,u.menu_defined_type from user u 
 			left join position p
 			on u.position_id=p.id
 			left join department d
@@ -299,4 +299,27 @@
     <select id="isExistTelephone" resultType="java.lang.Integer" >
         select count(id) from user where telphone=#{telephone}
     </select>
+    <update id="batchUpdateUserDefineType">
+  	  update user set menu_defined_type = #{defineType} where company_id=#{companyId} and department_id in (${deptIdStr}) and menu_defined_type>=#{defineType}
+    </update>
+    
+    <select id="getUserIdListByAuthIdForRole" resultType="java.lang.String" parameterType="java.lang.String">
+    	SELECT
+			u.id
+		FROM
+			authority_user au
+		LEFT JOIN `USER` u ON u.id = au.user_id
+		AND u.menu_defined_type >= 4
+		WHERE
+			au.auth_id = #{authId}
+		AND au.is_delete = 0
+    </select>
+    <update id="batchUpdateDefineTypeForRole" parameterType="java.lang.String">
+	    UPDATE user
+		SET menu_defined_type = 4
+		WHERE
+			id IN (
+				${userIdStr}
+			)
+    </update>
 </mapper>

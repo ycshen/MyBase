@@ -130,6 +130,22 @@ public class UserServiceImpl implements UserService{
 		return userMapper.getUserListByCompanyId(companyId);
 	}
 
+	@Override
+	public void batchUpdateUserDefineType(String defineType, String companyId,
+			String deptIdStr) {
+		userMapper.batchUpdateUserDefineType(defineType, companyId, deptIdStr);
+	}
+
+	@Override
+	public List<String> getUserIdListByAuthIdForRole(String authId) {
+		return userMapper.getUserIdListByAuthIdForRole(authId);
+	}
+
+	@Override
+	public void batchUpdateDefineTypeForRole(String userIdStr) {
+		userMapper.batchUpdateDefineTypeForRole(userIdStr);
+	}
+
 	
 	
 }

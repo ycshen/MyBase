@@ -57,6 +57,17 @@
 		 and is_delete = 0
          order by create_time desc
     </select>
+    <select id="getDefinedMenuList" resultMap="BaseResultMap"  >
+       select  m.id,m.create_user,m.update_user,m.create_time,m.update_time,
+	   m.menu_name,m.menu_type,m.menu_type_name,m.menu_type_tag,m.menu_url,
+	   m.parent_menu_id,m.beyond_of_system,m.beyond_of_system_id,mdf.isDelete as is_delete from menu m 
+		left join menu_defined mdf on mdf.menuId=m.id and mdf.definedType=#{definedType} and mdf.definedCasecaseId=#{casecadeId}
+		where m.is_delete=0 and m.menu_type=#{menuType} 
+         order by create_time desc
+         
+         
+    </select>
+    
     
     <select id="getMenuList" resultMap="BaseResultMap" parameterType="com.brp.util.query.MenuQuery" >
          select 
@@ -80,14 +91,17 @@
 		 and is_delete = 0
          order by create_time desc
     </select>
-    <select id="getMenuListByPid" resultMap="BaseResultMap" parameterType="java.lang.String" >
-         select 
-         <include refid="Base_Column_List" />
-         from menu
-         where  is_delete=0 and parent_menu_id=#{pId}
+    <select id="getMenuListByPid" resultMap="BaseResultMap" >
+
+          select  m.id,m.create_user,m.update_user,m.create_time,m.update_time,
+	   m.menu_name,m.menu_type,m.menu_type_name,m.menu_type_tag,m.menu_url,
+	   m.parent_menu_id,m.beyond_of_system,m.beyond_of_system_id,mdf.isDelete as is_delete from menu m 
+		left join menu_defined mdf on mdf.menuId=m.id and mdf.definedType=#{definedType}  and mdf.definedCasecaseId=#{casecadeId}
+		where m.is_delete=0 and m.parent_menu_id=#{pId}
          order by create_time desc
     </select>
     
+
 	<select id="getMenuById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
          select 
          <include refid="Base_Column_List" />
