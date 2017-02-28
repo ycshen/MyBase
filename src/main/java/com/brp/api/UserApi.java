@@ -859,6 +859,7 @@ public class UserApi {
 						}
 						user.setIsLoginMybase(0);
 						user.setMenuDefinedType(4);
+						user.setIsCollapseMenu(0);
 						userService.insertUser(user);
 						
 						MenuQuery menuQuery = new MenuQuery();
