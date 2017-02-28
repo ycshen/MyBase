@@ -72,6 +72,11 @@ public class AuthorityServiceImpl implements AuthorityService{
 	@Override
 	public AuthorityVOQuery getAuthorityVOPage(AuthorityVOQuery authorityQuery) {
 		List<AuthorityVO> list = authMapper.getAuthorityVOPage(authorityQuery);
+		String companyId = authorityQuery.getCompanyId();
+		if(StringUtils.isNotBlank(companyId)){
+			
+		}
+		
 		List<AuthorityVO> handleList = null;
 		if(list != null && list.size() > 0){
 			handleList = new LinkedList<AuthorityVO>();
@@ -81,6 +86,9 @@ public class AuthorityServiceImpl implements AuthorityService{
 				if(count != null && count > 0){
 					String authId = auth.getId();
 					authuserQuery = new AuthorityUserQuery();
+					if(StringUtils.isNotBlank(companyId)){
+						authuserQuery.setCompanyId(Integer.parseInt(companyId));
+					}
 					authuserQuery.setAuthId(Integer.parseInt(authId));
 					List<AuthorityUserEntity> authUserlist = authUserMapper.getAuthorityUserList(authuserQuery);
 					String userList = "";
