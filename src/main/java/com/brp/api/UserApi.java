@@ -18,11 +18,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.brp.base.MailConstant;
 import com.brp.base.UserStatus;
 import com.brp.base.VipLevel;
+import com.brp.base.enums.MenuEnum;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
+import com.brp.entity.MenuDefinedEntity;
+import com.brp.entity.MenuEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
+import com.brp.service.MenuDefinedService;
+import com.brp.service.MenuService;
 import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.MailSenderInfo;
@@ -31,6 +36,7 @@ import com.brp.util.SimpleMailSender;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
+import com.brp.util.query.MenuQuery;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 import com.brp.util.vo.UserAuthVO;
@@ -46,6 +52,10 @@ import com.brp.util.vo.UserAuthVO;
 @Controller
 @RequestMapping("/api/user")
 public class UserApi {
+	@Autowired
+	private MenuService menuService;
+	@Autowired
+	private MenuDefinedService mdService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -845,6 +855,32 @@ public class UserApi {
 						user.setIsLoginMybase(0);
 						user.setMenuDefinedType(4);
 						userService.insertUser(user);
+						
+						MenuQuery menuQuery = new MenuQuery();
+						String menuType = MenuEnum.URL.getMenuType().toString() + "," +
+								MenuEnum.SECOND_URL.getMenuType() + "," + 
+								MenuEnum.TOP_URL.getMenuType();
+						menuQuery.setMenuType(menuType);
+						List<MenuEntity> list = menuService.getMenuList(menuQuery);
+						if(list != null && list.size() > 0){
+							MenuDefinedEntity md = null;
+							for (MenuEntity menu : list) {
+								md = new MenuDefinedEntity();
+								md.setCompanyId(user.getCompanyId().toString());
+								md.setCreateTime(new Date());
+								md.setCreateUser(user.getUserName());
+								//为系统管理员，暂定为1
+								md.setDefinedCasecaseId("1");
+								md.setDefinedType(4);
+								md.setIsDelete(0);
+								md.setMenuId(menu.getId().toString());
+								md.setParentMenuId(menu.getParentMenuId());
+								mdService.insertMenuDefined(md);
+							}
+							
+						}
+						
+						
 						String email = user.getEmail();
 						if(StringUtils.isNotBlank(email)){
 							this.sendRegisterEmail(user.getUserName(), email);

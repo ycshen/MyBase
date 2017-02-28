@@ -105,7 +105,7 @@ public class MenuApi {
 		try{
 			String definedType = jsonObject.getString("definedType");
 			String companyId = jsonObject.getString("companyId");
-			String definedCasecaseId = jsonObject.getString("definedType");
+			String definedCasecaseId = jsonObject.getString("definedCasecaseId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
@@ -115,9 +115,9 @@ public class MenuApi {
 				Map<String,Object> maps = new HashMap<String, Object>();
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
+				maps.put("definedType", definedType);
 				maps.put("definedCasecaseId", definedCasecaseId);
 				maps.put("companyId", companyId);
-				maps.put("definedType", definedType);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
 					auth = true;
