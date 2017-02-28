@@ -75,7 +75,10 @@ public class MenuApi {
 			
 			if(auth && StringUtils.isNotBlank(userId)){
 				MenuQuery menuQuery = new MenuQuery();
-				menuQuery.setMenuType(MenuEnum.URL.getMenuType().toString());
+				String menuType = MenuEnum.URL.getMenuType().toString() + "," +
+						MenuEnum.SECOND_URL.getMenuType() + "," + 
+						MenuEnum.TOP_URL.getMenuType();
+				menuQuery.setMenuType(menuType);
 				List<MenuEntity> list = menuService.getMenuList(menuQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setData(list);

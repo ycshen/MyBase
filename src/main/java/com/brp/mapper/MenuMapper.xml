@@ -79,7 +79,7 @@
 		       and menu_name =  #{menuName}
 		      </if>
 		      <if test="menuType != '' and menuType != null" >
-		       and menu_type = #{menuType}
+		       and menu_type in (${menuType})
 		      </if>
 		      <if test="beyondOfSystemId != '' and beyondOfSystemId != null" >
 		       and beyond_of_system_id = #{beyondOfSystemId}
