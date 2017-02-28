@@ -18,7 +18,7 @@
 	<div id="main" class="container-fluid">
 
 		<jsp:include page="../share/nav_main.jsp">
-			<jsp:param name="nav" value="list_authority" />
+			<jsp:param name="nav" value="list_role" />
 		</jsp:include>
 
 		<div id="main_content">
@@ -43,12 +43,12 @@
 									<td style="border:0px">
 									<div class="form-group">
 										<label for="hidDistrict">角色名称
-										<input type="text" placeholder="请输入角色名称" id="txtQueryAuthName" class="form-control" value=""/>
+										<input type="text" placeholder="请输入角色名称" id="txtQueryRoleName" class="form-control" value=""/>
 									</div>
 									</td>
 									<td style="border:0px">
-									<button class="btn " onclick="queryauth('${authorityQuery.page}')">查询</button>
-										<button class="btn " onclick="addauth()">新增</button>
+									<button class="btn " onclick="queryrole('${roleQuery.page}')">查询</button>
+										<button class="btn " onclick="addrole()">新增</button>
 									</td>
 								</tr>
 								
@@ -75,29 +75,29 @@
 								</tr>
 							</thead>
 							<tbody >
-								<c:forEach items="${authorityQuery.items}" var="auth">
+								<c:forEach items="${roleQuery.items}" var="role">
 									<tr>
-										<td style="display: none;">${auth.id}</td>
+										<td style="display: none;">${role.id}</td>
 										<td>
-										<a  href="#" onclick="modifyauth('${auth.id}')">修改</a>&nbsp;&nbsp;
-										<c:if test="${auth.isDelete == 1}">
-											<a  href="#" onclick="startauth('${auth.id}')">启用</a></td>
+										<a  href="#" onclick="modifyrole('${role.id}')">修改</a>&nbsp;&nbsp;
+										<c:if test="${role.isDelete == 1}">
+											<a  href="#" onclick="startrole('${role.id}')">启用</a></td>
 										</c:if>
-										<c:if test="${auth.isDelete == 0}">
-											<a  href="#" onclick="deleteauth('${auth.id}')">停用</a></td>
+										<c:if test="${role.isDelete == 0}">
+											<a  href="#" onclick="deleterole('${role.id}')">停用</a></td>
 										</c:if>
-										<td>${auth.authName }</td>
-										<td>${auth.authDesc}</td>
+										<td>${role.roleName }</td>
+										<td>${role.roleDesc}</td>
 										<td>
-											<c:if test="${auth.isDelete == 0 }">
+											<c:if test="${role.isDelete == 0 }">
 												<span class="btn btn-success">正常</span>
 											</c:if>
-											<c:if test="${auth.isDelete == 1 }">
+											<c:if test="${role.isDelete == 1 }">
 												<span class="btn btn-warning">停用</span>
 											</c:if>
 										</td>
-										<td>${auth.createUser}</td>
-										<td>${auth.updateUser}</td>
+										<td>${role.createUser}</td>
+										<td>${role.updateUser}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -107,10 +107,10 @@
 						<nav class="text-center">
 							<jsp:include page="../share/page.jsp">
 								<jsp:param name="url"
-									value="?authName=${authorityQuery.authName }&page=" />
-								<jsp:param name="count" value="${authorityQuery.count }" />
-								<jsp:param name="page" value="${authorityQuery.page }" />
-								<jsp:param name="size" value="${authorityQuery.size }" />
+									value="?roleName=${roleQuery.roleName }&page=" />
+								<jsp:param name="count" value="${roleQuery.count }" />
+								<jsp:param name="page" value="${roleQuery.page }" />
+								<jsp:param name="size" value="${roleQuery.size }" />
 							</jsp:include>
 							
 						</nav>
@@ -123,7 +123,7 @@
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
-<script type="text/javascript" src="${ctx}/js/pages/authority/auth_list.js"></script>
+<script type="text/javascript" src="${ctx}/js/pages/role/role_list.js"></script>
 <!-- <script type="text/javascript">
 	$(function(){
 		var start = {

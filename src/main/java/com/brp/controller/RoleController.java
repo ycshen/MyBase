@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.brp.base.Status;
-import com.brp.entity.AuthorityEntity;
+import com.brp.entity.RoleEntity;
 import com.brp.entity.UserEntity;
-import com.brp.service.AuthorityService;
+import com.brp.service.RoleService;
 import com.brp.util.UserUtils;
-import com.brp.util.query.AuthorityQuery;
-import com.brp.util.query.ConfigQuery;
+import com.brp.util.query.RoleQuery;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -27,33 +26,33 @@ import com.brp.util.query.ConfigQuery;
  * <p>Description: TODO</p> 
  * <p>Copyright (c) 2016 xjw Consultancy Services</p>
  * <p>All Rights Reserved.</p>
- * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
+ * @roleor <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 @Controller
 @RequestMapping("/inner/role")
 public class RoleController extends BaseController{
 
 	@Autowired
-	private AuthorityService authorityService;
+	private RoleService roleService;
 	@RequestMapping(value = "/saveOrUpdate", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer saveOrUpdate(@ModelAttribute AuthorityEntity authority, HttpServletRequest request){
+	public Integer saveOrUpdate(@ModelAttribute RoleEntity role, HttpServletRequest request){
 		Integer result = 0;
-		Long id = authority.getId();
+		Long id = role.getId();
 		UserEntity user = UserUtils.getLoginUser(request);
 		if(id == null){
-			authority.setCreateTime(new Date());
-			authority.setCreateUser(user.getUserName());
-			authority.setIsDelete(Status.NORMAL);
-			authorityService.insertAuthority(authority);
+			role.setCreateTime(new Date());
+			role.setCreateUser(user.getUserName());
+			role.setIsDelete(Status.NORMAL);
+			roleService.insertRole(role);
 			result = 1;
 		}else{
-			AuthorityEntity oldAuthority = authorityService.getAuthorityById(id.intValue());
-			oldAuthority.setUpdateTime(new Date());
-			oldAuthority.setAuthName(authority.getAuthName());
-			oldAuthority.setAuthDesc(authority.getAuthDesc());
-			oldAuthority.setUpdateUser(user.getUserName());
-			authorityService.updateAuthority(oldAuthority);
+			RoleEntity oldRole = roleService.getRoleById(id.intValue());
+			oldRole.setUpdateTime(new Date());
+			oldRole.setRoleName(role.getRoleName());
+			oldRole.setRoleDesc(role.getRoleDesc());
+			oldRole.setUpdateUser(user.getUserName());
+			roleService.updateRole(oldRole);
 			result = 2;
 		}
 		
@@ -61,14 +60,14 @@ public class RoleController extends BaseController{
 	}
 	
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView editAuthority(String id, HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("/authority/authority_edit");
-		AuthorityEntity auth = null;
+	public ModelAndView editRole(String id, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/role/role_edit");
+		RoleEntity role = null;
 		if(StringUtils.isNotBlank(id)){
-			auth = authorityService.getAuthorityById(Integer.parseInt(id));
+			role = roleService.getRoleById(Integer.parseInt(id));
 		}
 		
-		mav.addObject("auth", auth);
+		mav.addObject("role", role);
 		
 		return mav;
 	}
@@ -78,11 +77,11 @@ public class RoleController extends BaseController{
 	public void delete(String id, HttpServletRequest request){
 		UserEntity user = UserUtils.getLoginUser(request);
 		if(StringUtils.isNotBlank(id)){
-			AuthorityEntity authority = authorityService.getAuthorityById(Integer.parseInt(id));
-			authority.setUpdateTime(new Date());
-			authority.setUpdateUser(user.getUserName());
-			authority.setIsDelete(1);
-			authorityService.updateAuthority(authority);
+			RoleEntity role = roleService.getRoleById(Integer.parseInt(id));
+			role.setUpdateTime(new Date());
+			role.setUpdateUser(user.getUserName());
+			role.setIsDelete(1);
+			roleService.updateRole(role);
 		}
 	}
 	
@@ -90,20 +89,20 @@ public class RoleController extends BaseController{
 	@ResponseBody
 	public void start(String id, HttpServletRequest request){
 		if(StringUtils.isNotBlank(id)){
-			authorityService.startAuthorityById(id);
+			roleService.startRoleById(id);
 		}
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView listAuthority(@ModelAttribute AuthorityQuery authorityQuery, HttpServletRequest request){
-		ModelAndView mav = new ModelAndView("/authority/authority_list");
-		String authName = authorityQuery.getAuthName();
-		if(StringUtils.isNotBlank(authName)){
-			authorityQuery.setAuthName("%" + authName + "%");
+	public ModelAndView listRole(@ModelAttribute RoleQuery roleQuery, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/role/role_list");
+		String roleName = roleQuery.getRoleName();
+		if(StringUtils.isNotBlank(roleName)){
+			roleQuery.setRoleName("%" + roleName + "%");
 		}
 		
-		authorityQuery = authorityService.getAuthorityPage(authorityQuery);
-		mav.addObject("authorityQuery", authorityQuery);
+		roleQuery = roleService.getRolePage(roleQuery);
+		mav.addObject("roleQuery", roleQuery);
 		
 		return mav;
 	}

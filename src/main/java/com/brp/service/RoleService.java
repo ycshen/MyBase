@@ -1,28 +1,24 @@
-package com.brp.mapper;
-
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
+package com.brp.service;
 
 import com.brp.entity.RoleEntity;
 import com.brp.util.query.RoleQuery;
 
 /** 
  * <p>Project: MyBase</p> 
- * <p>Title: PositionMapper.java</p> 
+ * <p>Title: RoleService.java</p> 
  * <p>Description: TODO</p> 
  * <p>Copyright (c) 2016 xjw Consultancy Services</p>
  * <p>All Rights Reserved.</p>
  * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
-@Repository
-public interface RoleMapper {
+public interface RoleService {
 	void insertRole(RoleEntity role);
 	void updateRole(RoleEntity role);
+	void cancelRole(String idList, String companyId);
 	RoleEntity getRoleById(Integer id);
 	void deleteRoleById(String id);
-	void startRoleById(String id);
-	List<RoleEntity> getRolePage(RoleQuery roleQuery);
+	RoleQuery getRolePage(RoleQuery roleQuery);
+	void startRoleById(String id);	
 	
 }
 

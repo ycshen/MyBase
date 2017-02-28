@@ -20,14 +20,14 @@
 			
 			
 	<form method="post" id="myForm">
-			<input type="hidden" value="${auth.id}" name="id"/>
+			<input type="hidden" value="${role.id}" name="id"/>
 			<tr>
 				<td style="border:0px;text-align:right;">
 					<label ><span style="color:red;">*</span>角色名称：</label>
 				</td>
 				<td style="border:0px;">
-					<input name="authName" id="txtAuthName"
-							value="${auth.authName}" maxlength="20"
+					<input name="roleName" id="txtRoleName"
+							value="${role.roleName}" maxlength="20"
 							class="form-control" type="text" placeholder="请输入角色名称"
 							style="width: 300px;">
 				</td>
@@ -37,7 +37,7 @@
 					<label ><span style="color:red;">*</span>角色描述：</label>
 				</td>
 				<td style="border:0px;">
-					<textarea class="form-control" name="authDesc" id="txtAuthDesc" style="width:300px;" rows="3" placeholder="请输入角色描述">${auth.authDesc}</textarea>
+					<textarea class="form-control" name="roleDesc" id="txtRoleDesc" style="width:300px;" rows="3" placeholder="请输入角色描述">${role.roleDesc}</textarea>
 				</td>
 			</tr>
 			
@@ -49,11 +49,11 @@
 				<td style="border:0px;">
 					<button class="btn btn-default" onclick="cancelEdit();">取消</button>
 					&nbsp;&nbsp;&nbsp;
-					<c:if test="${auth.id == null || auth.id == ''}">
-						<button onclick="editauth();" class="btn btn-default">确定</button>
+					<c:if test="${role.id == null || role.id == ''}">
+						<button onclick="editrole();" class="btn btn-default">确定</button>
 					</c:if>
-					<c:if test="${auth.id != null && auth.id != ''}">
-						<button onclick="editauth();" class="btn btn-default">修改</button>
+					<c:if test="${role.id != null && role.id != ''}">
+						<button onclick="editrole();" class="btn btn-default">修改</button>
 					</c:if>
 				</td>
 			</tr>
@@ -62,6 +62,6 @@
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
-<script type="text/javascript" src="${ctx}/js/pages/authority/auth_edit.js"></script>
+<script type="text/javascript" src="${ctx}/js/pages/role/role_edit.js"></script>
 </body>
 </html>
