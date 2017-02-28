@@ -80,6 +80,11 @@
 				href="<c:url value="/inner/authority/list"/>"
 				data-placement="auto right" title="code"><span
 					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>权限管理</a></li>
+					 <li <c:if test="${param.nav=='list_authority'}"> class="current"</c:if>><a
+				data-toggle="tooltip"
+				href="<c:url value="/inner/role/list"/>"
+				data-placement="auto right" title="code"><span
+					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>角色管理</a></li>
 			
 			
 			

@@ -1,46 +1,37 @@
 package com.brp.entity;
 
-public class RoleEntity extends BaseEntity {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	private String name;
-	private String code;
-	private StatusEnum status;
-	private String comm;
-
-	public String getName() {
-		return name;
+/** 
+ * <p>Project: MyBase</p> 
+ * <p>Title: AuthorityEntity.java</p> 
+ * <p>Description: TODO</p> 
+ * <p>Copyright (c) 2016 xjw Consultancy Services</p>
+ * <p>All Rights Reserved.</p>
+ * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
+ */
+public class RoleEntity extends BaseEntity{
+	private String roleName;
+	private Integer isDelete;
+	private String roleDesc;
+	public String getRoleName() {
+		return roleName;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
-
-	public String getCode() {
-		return code;
+	public Integer getIsDelete() {
+		return isDelete;
 	}
-
-	public void setCode(String code) {
-		this.code = code;
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
 	}
-
-	public StatusEnum getStatus() {
-		return status;
+	public String getRoleDesc() {
+		return roleDesc;
 	}
-
-	public void setStatus(StatusEnum status) {
-		this.status = status;
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
 	}
-
-	public String getComm() {
-		return comm;
-	}
-
-	public void setComm(String comm) {
-		this.comm = comm;
-	}
+	
 }
+

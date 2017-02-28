@@ -1,4 +1,7 @@
 package com.brp.entity;
+
+import java.util.List;
+
 /** 
  * <p>Project: MyBase</p> 
  * <p>Title: UserEntity.java</p> 
@@ -24,6 +27,8 @@ public class UserEntity extends BaseEntity{
 	private String email;
 	private Integer isCollapseMenu;
 	private Integer menuDefinedType;
+	List<AuthorityEntity> authList;
+	List<RoleEntity> roleList; 
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -120,6 +125,17 @@ public class UserEntity extends BaseEntity{
 	public void setMenuDefinedType(Integer menuDefinedType) {
 		this.menuDefinedType = menuDefinedType;
 	}
-
+	public List<AuthorityEntity> getAuthList() {
+		return authList;
+	}
+	public void setAuthList(List<AuthorityEntity> authList) {
+		this.authList = authList;
+	}
+	public List<RoleEntity> getRoleList() {
+		return roleList;
+	}
+	public void setRoleList(List<RoleEntity> roleList) {
+		this.roleList = roleList;
+	}
 }
 

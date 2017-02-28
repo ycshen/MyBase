@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.RoleEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="createUser" property="createUser" jdbcType="VARCHAR" />
+    <result column="updateUser" property="updateUser" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    
+    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+    <result column="roleDesc" property="roleDesc" jdbcType="VARCHAR" />
+    <result column="isDelete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  <sql id="Base_Column_List" >
+	   id,createUser,updateUser,createTime,updateTime,
+	   roleName,roleDesc,isDelete
+  </sql>
+  <insert id="insertRole" parameterType="com.brp.entity.RoleEntity"  useGeneratedKeys="true" keyProperty="id">
+    insert roleority
+   		(createUser,updateUser,createTime,updateTime,
+	   roleName,roleDesc,isDelete) 
+    values
+    	( #{createUser,jdbcType=VARCHAR},#{updateUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP},
+    	#{roleName,jdbcType=VARCHAR},#{roleDesc,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
+  </insert>
+  
+    
+    
+    <select id="getRolePage" resultMap="BaseResultMap">
+         select 
+         <include refid="Base_Column_List" />
+         from role
+
+         order by createTime desc
+    </select>
+   
+	<select id="getRoleById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from role
+         where id = #{id} and isDelete = 0
+    </select>
+    
+   
+    <update id="deleteRoleById" parameterType="java.lang.String">
+		update role set 
+		
+		isDelete = 1
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	
+
+	<update id="startRoleById" parameterType="java.lang.String">
+		update role set 
+		
+		isDelete = 0
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+   <update id="updateRole" parameterType="com.brp.entity.RoleEntity">
+		update role set 
+		<if test="createUser != null">
+			createUser=#{createUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateUser != null">
+			updateUser=#{updateUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime != null">
+			createTime=#{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="updateTime != null">
+		updateTime=#{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="roleName != null">
+		roleName=#{roleName,jdbcType=VARCHAR},
+		</if>
+		<if test="roleDesc != null">
+		roleDesc=#{roleDesc,jdbcType=VARCHAR},
+		</if>
+		<if test="isDelete != null">
+		isDelete=#{isDelete,jdbcType=INTEGER},
+		</if>
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+</mapper>
