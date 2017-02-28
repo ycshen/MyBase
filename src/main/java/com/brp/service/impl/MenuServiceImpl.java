@@ -109,5 +109,11 @@ public class MenuServiceImpl implements MenuService{
 			String menuType, String casecadeId) {
 		return menuMapper.getDefinedMenuList(definedType, menuType, casecadeId);
 	}
+
+	@Override
+	public List<MenuEntity> getLoginMenuList(String definedType,
+			String menuType, String companyId, String definedCasecaseId) {
+		return menuMapper.getLoginMenuList(definedType, menuType, companyId, definedCasecaseId);
+	}
 }
 
