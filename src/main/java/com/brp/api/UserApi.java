@@ -19,11 +19,14 @@ import com.brp.base.MailConstant;
 import com.brp.base.UserStatus;
 import com.brp.base.VipLevel;
 import com.brp.base.enums.MenuEnum;
+import com.brp.entity.AuthorityUserEntity;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.MenuDefinedEntity;
 import com.brp.entity.MenuEntity;
 import com.brp.entity.UserEntity;
+import com.brp.service.AuthorityService;
+import com.brp.service.AuthorityUserService;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
 import com.brp.service.MenuDefinedService;
@@ -60,6 +63,8 @@ public class UserApi {
 	private UserService userService;
 	@Autowired
 	private DepartmentService departmentService;
+	@Autowired
+	private AuthorityUserService authUserService;
 	@Autowired
 	private CompanyService companyService;
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -880,7 +885,12 @@ public class UserApi {
 							
 						}
 						
-						
+						AuthorityUserEntity authUser = new AuthorityUserEntity();
+						authUser.setAuthId(1);
+						authUser.setCompanyId(user.getCompanyId().intValue());
+						authUser.setIsDelete(0);
+						authUser.setUserId(user.getId().intValue());
+						authUserService.insertAuthorityUser(authUser);
 						String email = user.getEmail();
 						if(StringUtils.isNotBlank(email)){
 							this.sendRegisterEmail(user.getUserName(), email);
