@@ -12,6 +12,11 @@
     <result column="roleDesc" property="roleDesc" jdbcType="VARCHAR" />
     <result column="isDelete" property="isDelete" jdbcType="INTEGER" />
   </resultMap> 
+   <resultMap id="BaseResultVOMap" type="com.brp.util.vo.RoleVO" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+  </resultMap> 
   <sql id="Base_Column_List" >
 	   id,createUser,updateUser,createTime,updateTime,
 	   roleName,roleDesc,isDelete
@@ -89,4 +94,11 @@
 		 
 		 
 	</update>
+	
+	  <select id="getRoleVOPage" resultMap="BaseResultVOMap" parameterType="com.brp.util.query.RoleVOQuery" >
+         select r.id, r.roleName,ru1.count from role r
+			left join 
+			(select  count(ru.id) as count, ru.roleId as roleId from role_user ru WHERE companyId =#{companyId} and ru.isDelete=0  group by ru.roleId) as ru1 on r.id= ru1.roleId
+
+    </select>
 </mapper>

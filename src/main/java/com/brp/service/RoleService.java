@@ -1,7 +1,9 @@
 package com.brp.service;
 
 import com.brp.entity.RoleEntity;
+import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.query.RoleQuery;
+import com.brp.util.query.RoleVOQuery;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -19,6 +21,7 @@ public interface RoleService {
 	void deleteRoleById(String id);
 	RoleQuery getRolePage(RoleQuery roleQuery);
 	void startRoleById(String id);	
+	RoleVOQuery getRoleVOPage(RoleVOQuery roleQuery);
 	
 }
 

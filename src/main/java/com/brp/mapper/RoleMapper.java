@@ -5,7 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.brp.entity.RoleEntity;
+import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.query.RoleQuery;
+import com.brp.util.query.RoleVOQuery;
+import com.brp.util.vo.AuthorityVO;
+import com.brp.util.vo.RoleVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -22,7 +26,9 @@ public interface RoleMapper {
 	RoleEntity getRoleById(Integer id);
 	void deleteRoleById(String id);
 	void startRoleById(String id);
-	List<RoleEntity> getRolePage(RoleQuery roleQuery);
+	List<RoleEntity> getRolePage(RoleQuery roleQuery);	
+	List<RoleVO> getRoleVOPage(RoleVOQuery roleQuery);
+
 	
 }
 

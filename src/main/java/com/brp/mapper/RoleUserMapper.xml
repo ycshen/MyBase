@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.RoleUserMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.RoleUserEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="roleId" property="roleId" jdbcType="INTEGER" />
+    <result column="userId" property="userId" jdbcType="INTEGER" />
+	<result column="companyId" property="companyId" jdbcType="INTEGER" />
+    <result column="isDelete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,roleId,userId,companyId,isDelete
+  </sql>
+  <insert id="insertRoleUser" parameterType="com.brp.entity.RoleUserEntity"  useGeneratedKeys="true" keyProperty="id">
+    insert role_user
+   		(roleId,userId,companyId,isDelete) 
+    values
+    	( #{roleId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},#{isDelete,jdbcType=INTEGER})
+  </insert>
+  
+    
+    
+    <select id="getRoleUserList" resultMap="BaseResultMap" parameterType="com.brp.util.query.RoleUserQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from role_user
+         where isDelete = 0
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="roleId != null and roleId != ''" >
+		       and roleId =  #{roleId}
+		      </if>
+		      <if test="companyId != null and companyId != ''" >
+		       and companyId =  #{companyId}
+		      </if>
+		      <if test="userId != null and userId != ''" >
+		       and userId =  #{userId}
+		      </if>
+		 </trim>
+         
+    </select>
+     <update id="cancelRole">
+		update role_user set isDelete = 1 where id in(${idList}) and companyId=#{companyId} and isDelete = 0
+		 
+	</update>
+	<update id="batchCancelAuth">
+		update role_user set isDelete = 1 where userId in(${userIdArr}) and companyId=#{companyId} and isDelete = 0 and roleId=1
+		 
+	</update>
+	
+</mapper>

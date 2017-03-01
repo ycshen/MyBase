@@ -20,6 +20,7 @@ import com.brp.service.AuthorityService;
 import com.brp.service.AuthorityUserService;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
+import com.brp.service.RoleService;
 import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
@@ -27,7 +28,9 @@ import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.AuthorityVOQuery;
+import com.brp.util.query.RoleVOQuery;
 import com.brp.util.vo.AuthorityVO;
+import com.brp.util.vo.RoleVO;
 import com.brp.util.vo.UserAuthVO;
 
 /** 
@@ -50,29 +53,25 @@ public class RoleApi {
 	@Autowired
 	private AuthorityService authService;
 	@Autowired
+	private RoleService roleService;
+	@Autowired
 	private AuthorityUserService authUserService;
-	@RequestMapping(value = "/getAuthPage", method = RequestMethod.POST)
+	@RequestMapping(value = "/getRolePage", method = RequestMethod.POST)
 	@ResponseBody
-	public String getAuthPage(@RequestBody JSONObject jsonObject){
-		JsonData<List<AuthorityVO>> jsonData = new JsonData<List<AuthorityVO>>();
+	public String getRolePage(@RequestBody JSONObject jsonObject){
+		JsonData<List<RoleVO>> jsonData = new JsonData<List<RoleVO>>();
 		try{
-			String id = jsonObject.getString("id");
+			String query = jsonObject.getString("query");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
-			String pageSize = jsonObject.getString("pageSize");
-			String currentPage = jsonObject.getString("currentPage");
-			String authName = jsonObject.getString("authName");
 			
 			boolean auth = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("id", id);
+				maps.put("query", query);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
-				maps.put("pageSize", pageSize);
-				maps.put("currentPage", currentPage);
-				maps.put("authName", authName);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
 					auth = true;
@@ -85,24 +84,23 @@ public class RoleApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
-				AuthorityVOQuery authQuery = new AuthorityVOQuery();
-				authQuery.setCompanyId(id);
-				if(StringUtils.isBlank(currentPage)){
-					currentPage = "1";
+			if(auth && StringUtils.isNotBlank(query)){
+				RoleVOQuery roleQuery = JSONObject.parseObject(query, RoleVOQuery.class);
+				Integer page = roleQuery.getPage();
+				if(page == null){
+					roleQuery.setPage(1);
 				}
 				
-				authQuery.setPage(Integer.parseInt(currentPage));
-				if(StringUtils.isBlank(pageSize)){
-					pageSize = "20";
+				Integer size = roleQuery.getSize();
+				if(size == null){
+					roleQuery.setSize(10);
 				}
 				
-				authQuery.setSize(Integer.parseInt(pageSize));
-				authQuery = authService.getAuthorityVOPage(authQuery);
+				roleQuery = roleService.getRoleVOPage(roleQuery);
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
-				jsonData.setData(authQuery.getItems());
-				jsonData.setCount(authQuery.getCount());
+				jsonData.setData(roleQuery.getItems());
+				jsonData.setCount(roleQuery.getCount());
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

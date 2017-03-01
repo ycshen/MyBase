@@ -1,15 +1,26 @@
 package com.brp.service.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.brp.entity.AuthorityUserEntity;
 import com.brp.entity.RoleEntity;
+import com.brp.entity.RoleUserEntity;
+import com.brp.entity.UserEntity;
 import com.brp.mapper.RoleMapper;
+import com.brp.mapper.RoleUserMapper;
 import com.brp.mapper.UserMapper;
 import com.brp.service.RoleService;
+import com.brp.util.query.AuthorityUserQuery;
 import com.brp.util.query.RoleQuery;
+import com.brp.util.query.RoleUserQuery;
+import com.brp.util.query.RoleVOQuery;
+import com.brp.util.vo.AuthorityVO;
+import com.brp.util.vo.RoleVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -22,7 +33,8 @@ import com.brp.util.query.RoleQuery;
 @Service
 public class RoleServiceImpl implements RoleService{
 	@Autowired
-	private RoleMapper roleMapper;
+	private RoleMapper roleMapper;@Autowired
+	private RoleUserMapper roleUserMapper;
 	@Autowired
 	private UserMapper userMapper;
 	/*@Autowired
@@ -67,9 +79,9 @@ public class RoleServiceImpl implements RoleService{
 		
 	}
 
-	/*@Override
+	@Override
 	public RoleVOQuery getRoleVOPage(RoleVOQuery roleQuery) {
-		List<RoleVO> list = authMapper.getRoleVOPage(roleQuery);
+		List<RoleVO> list = roleMapper.getRoleVOPage(roleQuery);
 		String companyId = roleQuery.getCompanyId();
 		if(StringUtils.isNotBlank(companyId)){
 			
@@ -78,20 +90,20 @@ public class RoleServiceImpl implements RoleService{
 		List<RoleVO> handleList = null;
 		if(list != null && list.size() > 0){
 			handleList = new LinkedList<RoleVO>();
-			RoleUserQuery authuserQuery = null;
-			for (RoleVO auth : list) {
-				Integer count = auth.getCount();
+			RoleUserQuery roleuserQuery = null;
+			for (RoleVO role : list) {
+				Integer count = role.getCount();
 				if(count != null && count > 0){
-					String authId = auth.getId();
-					authuserQuery = new RoleUserQuery();
+					String roleId = role.getId();
+					roleuserQuery = new RoleUserQuery();
 					if(StringUtils.isNotBlank(companyId)){
-						authuserQuery.setCompanyId(Integer.parseInt(companyId));
+						roleuserQuery.setCompanyId(Integer.parseInt(companyId));
 					}
-					authuserQuery.setAuthId(Integer.parseInt(authId));
-					List<RoleUserEntity> authUserlist = authUserMapper.getRoleUserList(authuserQuery);
+					roleuserQuery.setRoleId(Integer.parseInt(roleId));
+					List<RoleUserEntity> roleUserlist = roleUserMapper.getRoleUserList(roleuserQuery);
 					String userList = "";
-					if(authUserlist != null && authUserlist.size() > 0){
-						for (RoleUserEntity auser : authUserlist) {
+					if(roleUserlist != null && roleUserlist.size() > 0){
+						for (RoleUserEntity auser : roleUserlist) {
 							Integer userId = auser.getUserId();
 							UserEntity user = userMapper.getUserById(userId);
 							if(user != null){
@@ -104,23 +116,18 @@ public class RoleServiceImpl implements RoleService{
 						userList = userList.substring(0, userList.length() - 1);
 					}
 					
-					auth.setUserList(userList);
+					role.setUserList(userList);
 				}
 				
-				handleList.add(auth);
+				handleList.add(role);
 			}
 		}
 		
 		roleQuery.setItems(handleList);
 		
 		return roleQuery;
-	}*/
-
-	/*@Override
-	public void cancelRole(String idList, String companyId) {
-		authUserMapper.cancelRole(idList, companyId);
 	}
-*/
+
 	
 }
 
