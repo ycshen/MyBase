@@ -9,6 +9,7 @@ import com.brp.entity.UserEntity;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 import com.brp.util.vo.UserAuthVO;
+import com.brp.util.vo.UserRoleVO;
 
 /**
  * <p>
@@ -54,16 +55,20 @@ public interface UserMapper {
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 
 	List<UserAuthVO> getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
-
+	List<UserRoleVO> getRoleUserByCompanyIdAndRoleId(
+			@Param("companyId") String companyId, @Param("roleId") String roleId);
 	List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(
 			@Param("companyId") String companyId, @Param("authId") String authId);
-
 	List<UserAuthVO> getUserByCompanyIdAndAuthId(
 			@Param("companyId") String companyId, @Param("authId") String authId);
 
 	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(
 			@Param("companyId") String companyId, @Param("authId") String authId);
+	List<UserRoleVO> getUserByCompanyIdAndRoleId(
+			@Param("companyId") String companyId, @Param("roleId") String roleId);
 
+	List<UserRoleVO> getNotRoleUserByCompanyIdAndRoleId(
+			@Param("companyId") String companyId, @Param("roleId") String roleId);
 	Integer isExistTelephone(String telephone);
 
 	void changeCollapse(@Param("userId") String userId,

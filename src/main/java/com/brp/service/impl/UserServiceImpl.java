@@ -11,6 +11,7 @@ import com.brp.service.UserService;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 import com.brp.util.vo.UserAuthVO;
+import com.brp.util.vo.UserRoleVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -144,6 +145,24 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void batchUpdateDefineTypeForRole(String userIdStr) {
 		userMapper.batchUpdateDefineTypeForRole(userIdStr);
+	}
+
+	@Override
+	public List<UserRoleVO> getRoleUserByCompanyIdAndRoleId(String companyId,
+			String roleId) {
+		return userMapper.getRoleUserByCompanyIdAndRoleId(companyId, roleId);
+	}
+
+	@Override
+	public List<UserRoleVO> getUserByCompanyIdAndRoleId(String companyId,
+			String roleId) {
+		return userMapper.getUserByCompanyIdAndRoleId(companyId, roleId);
+	}
+
+	@Override
+	public List<UserRoleVO> getNotRoleUserByCompanyIdAndRoleId(
+			String companyId, String roleId) {
+		return userMapper.getNotRoleUserByCompanyIdAndRoleId(companyId, roleId);
 	}
 
 	

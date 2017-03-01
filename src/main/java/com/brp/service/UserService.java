@@ -10,6 +10,7 @@ import com.brp.util.query.DepartmentQuery;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 import com.brp.util.vo.UserAuthVO;
+import com.brp.util.vo.UserRoleVO;
 
 /**
  * <p>
@@ -55,12 +56,15 @@ public interface UserService {
 
 	List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(String companyId,
 			String authId);
-
+	List<UserRoleVO> getRoleUserByCompanyIdAndRoleId(String companyId,
+			String roleId);
 	List<UserAuthVO> getUserByCompanyIdAndAuthId(String companyId, String authId);
+	List<UserRoleVO> getUserByCompanyIdAndRoleId(String companyId, String roleId);
 
 	List<UserAuthVO> getNotAuthUserByCompanyIdAndAuthId(String companyId,
 			String authId);
-
+	List<UserRoleVO> getNotRoleUserByCompanyIdAndRoleId(String companyId,
+			String roleId);
 	Integer isExistTelephone(String telephone);
 
 	void changeCollapse(String userId, String isCollapseMenu);

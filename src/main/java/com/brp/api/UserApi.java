@@ -43,6 +43,7 @@ import com.brp.util.query.MenuQuery;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 import com.brp.util.vo.UserAuthVO;
+import com.brp.util.vo.UserRoleVO;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -710,6 +711,67 @@ public class UserApi {
 					list = userService.getNotAuthUserByCompanyIdAndAuthId(companyId, authId);
 				}else if("3".equals(isAuth)){
 					list = userService.getUserByCompanyIdAndAuthId(companyId, authId);
+				}
+
+				jsonData.setData(list);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	
+	@RequestMapping(value = "/getRoleUserByCidAndRoleId", method = RequestMethod.POST)
+	@ResponseBody
+	public String getRoleUserByCidAndRoleId(@RequestBody JSONObject jsonObject){
+		JsonData<List<UserRoleVO>> jsonData = new JsonData<List<UserRoleVO>>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String isRole = jsonObject.getString("isRole");
+			String roleId = jsonObject.getString("roleId");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("companyId", companyId);
+				maps.put("roleId", roleId);
+				maps.put("isRole", isRole);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				List<UserRoleVO> list = null;
+				if("1".equals(isRole)){
+					list = userService.getRoleUserByCompanyIdAndRoleId(companyId, roleId);
+				}else if("2".equals(isRole)){
+					list = userService.getNotRoleUserByCompanyIdAndRoleId(companyId, roleId);
+				}else if("3".equals(isRole)){
+					list = userService.getUserByCompanyIdAndRoleId(companyId, roleId);
 				}
 
 				jsonData.setData(list);

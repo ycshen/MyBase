@@ -14,32 +14,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brp.entity.AuthorityEntity;
-import com.brp.entity.AuthorityUserEntity;
-import com.brp.service.AuthorityService;
-import com.brp.service.AuthorityUserService;
+import com.brp.entity.RoleEntity;
+import com.brp.entity.RoleUserEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
 import com.brp.service.RoleService;
+import com.brp.service.RoleUserService;
 import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.SHA1Utils;
 import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
-import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.query.RoleVOQuery;
-import com.brp.util.vo.AuthorityVO;
 import com.brp.util.vo.RoleVO;
-import com.brp.util.vo.UserAuthVO;
+import com.brp.util.vo.UserRoleVO;
 
 /** 
  * <p>Project: MyBase</p> 
- * <p>Title: AuthorityApi.java</p> 
+ * <p>Title: RoleApi.java</p> 
  * <p>Description: TODO</p> 
  * <p>Copyright (c) 2016 xjw Consultancy Services</p>
  * <p>All Rights Reserved.</p>
- * @author <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
+ * @roleor <a href="mailto:shenyuchuan@itiaoling.com">申鱼川</a>
  */
 @Controller
 @RequestMapping("/api/role")
@@ -51,11 +48,9 @@ public class RoleApi {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	private AuthorityService authService;
-	@Autowired
 	private RoleService roleService;
 	@Autowired
-	private AuthorityUserService authUserService;
+	private RoleUserService roleUserService;
 	@RequestMapping(value = "/getRolePage", method = RequestMethod.POST)
 	@ResponseBody
 	public String getRolePage(@RequestBody JSONObject jsonObject){
@@ -65,7 +60,7 @@ public class RoleApi {
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
-			boolean auth = false;
+			boolean role = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
@@ -74,7 +69,7 @@ public class RoleApi {
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
-					auth = true;
+					role = true;
 				}else{
 					jsonData.setCode(ApiCode.AUTH_FAIL);
 					jsonData.setMessage("验证失败");
@@ -84,7 +79,7 @@ public class RoleApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth && StringUtils.isNotBlank(query)){
+			if(role && StringUtils.isNotBlank(query)){
 				RoleVOQuery roleQuery = JSONObject.parseObject(query, RoleVOQuery.class);
 				Integer page = roleQuery.getPage();
 				if(page == null){
@@ -116,16 +111,16 @@ public class RoleApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/getAuthById", method = RequestMethod.POST)
+	@RequestMapping(value = "/getRoleById", method = RequestMethod.POST)
 	@ResponseBody
-	public String getAuthById(@RequestBody JSONObject jsonObject){
-		JsonData<AuthorityEntity> jsonData = new JsonData<AuthorityEntity>();
+	public String getRoleById(@RequestBody JSONObject jsonObject){
+		JsonData<RoleEntity> jsonData = new JsonData<RoleEntity>();
 		try{
 			String id = jsonObject.getString("id");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
-			boolean auth = false;
+			boolean role = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
@@ -134,7 +129,7 @@ public class RoleApi {
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
-					auth = true;
+					role = true;
 				}else{
 					jsonData.setCode(ApiCode.AUTH_FAIL);
 					jsonData.setMessage("验证失败");
@@ -144,11 +139,11 @@ public class RoleApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
-				AuthorityEntity authority = authService.getAuthorityById(Integer.parseInt(id));
+			if(role && StringUtils.isNotBlank(id) && TryParseUtils.tryParse(id, Long.class)){
+				RoleEntity roleority = roleService.getRoleById(Integer.parseInt(id));
 				jsonData.setCode(ApiCode.OK);
 				jsonData.setMessage("操作成功");
-				jsonData.setData(authority);
+				jsonData.setData(roleority);
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");
@@ -164,25 +159,25 @@ public class RoleApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/insertAuth", method = RequestMethod.POST)
+	@RequestMapping(value = "/insertRole", method = RequestMethod.POST)
 	@ResponseBody
-	public String insertAuth(@RequestBody JSONObject jsonObject){
+	public String insertRole(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
-			String authUserJson = jsonObject.getString("authUserJson");
+			String roleUserJson = jsonObject.getString("roleUserJson");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
-			boolean auth = false;
+			boolean role = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("authUserJson", authUserJson);
+				maps.put("roleUserJson", roleUserJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
-					auth = true;
+					role = true;
 				}else{
 					jsonData.setCode(ApiCode.AUTH_FAIL);
 					jsonData.setMessage("验证失败");
@@ -192,11 +187,11 @@ public class RoleApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth){
-				List<AuthorityUserEntity> authoritys = JSONObject.parseArray(authUserJson, AuthorityUserEntity.class);
-				if(authoritys != null && authoritys.size() > 0){
-					for (AuthorityUserEntity authUser : authoritys) {
-						authUserService.insertAuthorityUser(authUser);
+			if(role){
+				List<RoleUserEntity> roleoritys = JSONObject.parseArray(roleUserJson, RoleUserEntity.class);
+				if(roleoritys != null && roleoritys.size() > 0){
+					for (RoleUserEntity roleUser : roleoritys) {
+						roleUserService.insertRoleUser(roleUser);
 					}
 				}
 				jsonData.setCode(ApiCode.OK);
@@ -216,25 +211,25 @@ public class RoleApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/cancelAuth", method = RequestMethod.POST)
+	@RequestMapping(value = "/cancelRole", method = RequestMethod.POST)
 	@ResponseBody
-	public String cancelAuth(@RequestBody JSONObject jsonObject){
+	public String cancelRole(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
-			String authUserJson = jsonObject.getString("authUserJson");
+			String roleUserJson = jsonObject.getString("roleUserJson");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
-			boolean auth = false;
+			boolean role = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("authUserJson", authUserJson);
+				maps.put("roleUserJson", roleUserJson);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
-					auth = true;
+					role = true;
 				}else{
 					jsonData.setCode(ApiCode.AUTH_FAIL);
 					jsonData.setMessage("验证失败");
@@ -244,12 +239,12 @@ public class RoleApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth){
-				List<AuthorityUserEntity> authoritys = JSONObject.parseArray(authUserJson, AuthorityUserEntity.class);
-				if(authoritys != null && authoritys.size() > 0){
+			if(role){
+				List<RoleUserEntity> roleoritys = JSONObject.parseArray(roleUserJson, RoleUserEntity.class);
+				if(roleoritys != null && roleoritys.size() > 0){
 					String idList = "";
-					for (AuthorityUserEntity authUser : authoritys) {
-						idList += authUser.getId() + ",";
+					for (RoleUserEntity roleUser : roleoritys) {
+						idList += roleUser.getId() + ",";
 					}
 					
 					if(StringUtils.isNotBlank(idList)){
@@ -257,8 +252,8 @@ public class RoleApi {
 					}
 		
 					if(StringUtils.isNotBlank(idList)){
-						String companyId = authoritys.get(0).getCompanyId().toString();
-						authUserService.cancelAuthority(idList, companyId);
+						String companyId = roleoritys.get(0).getCompanyId().toString();
+						roleUserService.cancelRole(idList, companyId);
 					}
 				}
 				
@@ -279,31 +274,31 @@ public class RoleApi {
 		return result;
 	}
 	
-	@RequestMapping(value = "/batchAuth", method = RequestMethod.POST)
+	@RequestMapping(value = "/batchRole", method = RequestMethod.POST)
 	@ResponseBody
-	public String batchAuth(@RequestBody JSONObject jsonObject){
+	public String batchRole(@RequestBody JSONObject jsonObject){
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
 			String companyId = jsonObject.getString("companyId");
-			String authId = jsonObject.getString("authId");
-			String authUserIdArray = jsonObject.getString("authUserIdArray");
-			String notAuthUserIdArray = jsonObject.getString("notAuthUserIdArray");
+			String roleId = jsonObject.getString("roleId");
+			String roleUserIdArray = jsonObject.getString("roleUserIdArray");
+			String notRoleUserIdArray = jsonObject.getString("notRoleUserIdArray");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
 			
-			boolean auth = false;
+			boolean role = false;
 			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
 				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
 				Map<String,Object> maps = new HashMap<String, Object>();
-				maps.put("authId", authId);
+				maps.put("roleId", roleId);
 				maps.put("companyId", companyId);
-				maps.put("authUserIdArray", authUserIdArray);
-				maps.put("notAuthUserIdArray", notAuthUserIdArray);
+				maps.put("roleUserIdArray", roleUserIdArray);
+				maps.put("notRoleUserIdArray", notRoleUserIdArray);
 				maps.put("secret", mybaseSecret);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
-					auth = true;
+					role = true;
 				}else{
 					jsonData.setCode(ApiCode.AUTH_FAIL);
 					jsonData.setMessage("验证失败");
@@ -313,45 +308,45 @@ public class RoleApi {
 				jsonData.setMessage("参数异常");
 			}
 			
-			if(auth && StringUtils.isNotBlank(authId)){
-				if(StringUtils.isNotBlank(notAuthUserIdArray)){
-					String[] notAuthArr = notAuthUserIdArray.split("\\^");
+			if(role && StringUtils.isNotBlank(roleId)){
+				if(StringUtils.isNotBlank(notRoleUserIdArray)){
+					String[] notRoleArr = notRoleUserIdArray.split("\\^");
 					String userIdArr = "";
-					for (String notAuth : notAuthArr) {
-						userIdArr += notAuth + ",";
+					for (String notRole : notRoleArr) {
+						userIdArr += notRole + ",";
 					}
 					
 					if(StringUtils.isNotBlank(userIdArr)){
 						userIdArr = userIdArr.substring(0, userIdArr.length() - 1);
 					}
 					
-					authUserService.batchCancelAuth(userIdArr, companyId, authId);
+					roleUserService.batchCancelRole(userIdArr, companyId, roleId);
 				}
 				
-				if(StringUtils.isNotBlank(authUserIdArray)){
-					String[] authArr = authUserIdArray.split("\\^");
-					List<String> authUserIdList = new LinkedList<String>();
-					for (String authUser : authArr) {
-						authUserIdList.add(authUser);
+				if(StringUtils.isNotBlank(roleUserIdArray)){
+					String[] roleArr = roleUserIdArray.split("\\^");
+					List<String> roleUserIdList = new LinkedList<String>();
+					for (String roleUser : roleArr) {
+						roleUserIdList.add(roleUser);
 					}
 
-					List<UserAuthVO> list = userService.getAuthUserByCompanyIdAndAuthId(companyId, authId);
+					List<UserRoleVO> list = userService.getRoleUserByCompanyIdAndRoleId(companyId, roleId);
 					if(list != null && list.size() > 0){
-						for (UserAuthVO userAuthVO : list) {
-							String userId = userAuthVO.getId().toString();
-							if(authUserIdList.contains(userId)){
-								authUserIdList.remove(userId);
+						for (UserRoleVO userRoleVO : list) {
+							String userId = userRoleVO.getId().toString();
+							if(roleUserIdList.contains(userId)){
+								roleUserIdList.remove(userId);
 							}
 						}
 					}
 					
-					for (String userId : authUserIdList) {
-						AuthorityUserEntity authUser = new AuthorityUserEntity();
-						authUser.setAuthId(Integer.parseInt(authId));
-						authUser.setCompanyId(Integer.parseInt(companyId));
-						authUser.setIsDelete(0);
-						authUser.setUserId(Integer.parseInt(userId));
-						authUserService.insertAuthorityUser(authUser);
+					for (String userId : roleUserIdList) {
+						RoleUserEntity roleUser = new RoleUserEntity();
+						roleUser.setRoleId(Integer.parseInt(roleId));
+						roleUser.setCompanyId(Integer.parseInt(companyId));
+						roleUser.setIsDelete(0);
+						roleUser.setUserId(Integer.parseInt(userId));
+						roleUserService.insertRoleUser(roleUser);
 					}
 				}
 				
