@@ -10,6 +10,7 @@ import com.brp.mapper.UserMapper;
 import com.brp.service.UserService;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.query.UserRoleQuery;
 import com.brp.util.vo.UserAuthVO;
 import com.brp.util.vo.UserRoleVO;
 
@@ -96,6 +97,14 @@ public class UserServiceImpl implements UserService{
 		userAuthQuery.setItems(list);
 		
 		return userAuthQuery;
+	}
+	
+	@Override
+	public UserRoleQuery getUserListByRoleIdPage(UserRoleQuery userRoleQuery) {
+		List<UserRoleVO> list = userMapper.getUserListByRoleIdPage(userRoleQuery);
+		userRoleQuery.setItems(list);
+		
+		return userRoleQuery;
 	}
 
 	@Override

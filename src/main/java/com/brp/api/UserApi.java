@@ -42,6 +42,7 @@ import com.brp.util.api.model.JsonData;
 import com.brp.util.query.MenuQuery;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.query.UserRoleQuery;
 import com.brp.util.vo.UserAuthVO;
 import com.brp.util.vo.UserRoleVO;
 
@@ -853,6 +854,73 @@ public class UserApi {
 				jsonData.setMessage("操作成功");
 				jsonData.setData(userAuthQuery.getItems());
 				jsonData.setCount(userAuthQuery.getCount());
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
+	@RequestMapping(value = "/getUserListByRoleId", method = RequestMethod.POST)
+	@ResponseBody
+	public String getUserListByRoleId(@RequestBody JSONObject jsonObject){
+		JsonData<List<UserRoleVO>> jsonData = new JsonData<List<UserRoleVO>>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String roleId = jsonObject.getString("roleId");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			String pageSize = jsonObject.getString("pageSize");
+			String currentPage = jsonObject.getString("currentPage");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("roleId", roleId);
+				maps.put("companyId", companyId);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				maps.put("pageSize", pageSize);
+				maps.put("currentPage", currentPage);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				UserRoleQuery userRoleQuery = new UserRoleQuery();
+				userRoleQuery.setRoleId(roleId);
+				if(StringUtils.isBlank(currentPage)){
+					currentPage = "1";
+				}
+				
+				userRoleQuery.setPage(Integer.parseInt(currentPage));
+				if(StringUtils.isBlank(pageSize)){
+					pageSize = "5";
+				}
+				
+				userRoleQuery.setCompanyId(companyId);
+				userRoleQuery = userService.getUserListByRoleIdPage(userRoleQuery);
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(userRoleQuery.getItems());
+				jsonData.setCount(userRoleQuery.getCount());
 			}else{
 				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
 				jsonData.setMessage("参数异常");

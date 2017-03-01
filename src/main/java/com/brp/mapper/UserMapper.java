@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.brp.entity.UserEntity;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
+import com.brp.util.query.UserRoleQuery;
 import com.brp.util.vo.UserAuthVO;
 import com.brp.util.vo.UserRoleVO;
 
@@ -55,6 +56,8 @@ public interface UserMapper {
 	List<UserEntity> getUserListByCompanyIdAndDeptId(UserQuery userQuery);
 
 	List<UserAuthVO> getUserListByAuthIdPage(UserAuthQuery userAuthQuery);
+	List<UserRoleVO> getUserListByRoleIdPage(UserRoleQuery userRoleQuery);
+	
 	List<UserRoleVO> getRoleUserByCompanyIdAndRoleId(
 			@Param("companyId") String companyId, @Param("roleId") String roleId);
 	List<UserAuthVO> getAuthUserByCompanyIdAndAuthId(
