@@ -30,6 +30,7 @@ public interface AuthorityMapper {
 	void startAuthorityById(String id);
 	List<AuthorityEntity> getAuthorityPage(AuthorityQuery authorityQuery);	
 	List<AuthorityVO> getAuthorityVOPage(AuthorityVOQuery authorityQuery);
+	List<AuthorityEntity> getAuthListByUserId(String userId);
 	
 }
 

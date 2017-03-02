@@ -1,5 +1,7 @@
 package com.brp.service;
 
+import java.util.List;
+
 import com.brp.entity.RoleEntity;
 import com.brp.util.query.AuthorityVOQuery;
 import com.brp.util.query.RoleQuery;
@@ -22,6 +24,6 @@ public interface RoleService {
 	RoleQuery getRolePage(RoleQuery roleQuery);
 	void startRoleById(String id);	
 	RoleVOQuery getRoleVOPage(RoleVOQuery roleQuery);
-	
+	List<RoleEntity> getRoleListByUserId(String userId);
 }
 

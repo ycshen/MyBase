@@ -19,11 +19,14 @@ import com.brp.base.MailConstant;
 import com.brp.base.UserStatus;
 import com.brp.base.VipLevel;
 import com.brp.base.enums.MenuEnum;
+import com.brp.entity.AuthorityEntity;
 import com.brp.entity.AuthorityUserEntity;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.MenuDefinedEntity;
 import com.brp.entity.MenuEntity;
+import com.brp.entity.RoleEntity;
+import com.brp.entity.RoleUserEntity;
 import com.brp.entity.UserEntity;
 import com.brp.service.AuthorityService;
 import com.brp.service.AuthorityUserService;
@@ -31,6 +34,8 @@ import com.brp.service.CompanyService;
 import com.brp.service.DepartmentService;
 import com.brp.service.MenuDefinedService;
 import com.brp.service.MenuService;
+import com.brp.service.RoleService;
+import com.brp.service.RoleUserService;
 import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.MailSenderInfo;
@@ -68,7 +73,13 @@ public class UserApi {
 	@Autowired
 	private AuthorityUserService authUserService;
 	@Autowired
+	private RoleUserService roleUserService;
+	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private RoleService roleService;
+	@Autowired
+	private AuthorityService authService;
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(@RequestBody JSONObject jsonObject){
@@ -107,6 +118,11 @@ public class UserApi {
 					userInfo.setPassword(StringUtils.EMPTY);
 					userInfo.setCreateTime(null);
 					userInfo.setUpdateTime(null);
+					String userId = userInfo.getId().toString();
+					List<RoleEntity> roleList = roleService.getRoleListByUserId(userId);
+					userInfo.setRoleList(roleList);
+					List<AuthorityEntity> authList = authService.getAuthListByUserId(userId);
+					userInfo.setAuthList(authList);
 					jsonData.setData(userInfo);
 				}else{
 					jsonData.setCode(ApiCode.SUCCESS);
@@ -1022,6 +1038,13 @@ public class UserApi {
 						authUser.setIsDelete(0);
 						authUser.setUserId(user.getId().intValue());
 						authUserService.insertAuthorityUser(authUser);
+						
+						RoleUserEntity roleUser = new RoleUserEntity();
+						roleUser.setRoleId(1);
+						roleUser.setCompanyId(user.getCompanyId().intValue());
+						roleUser.setIsDelete(0);
+						roleUser.setUserId(user.getId().intValue());
+						roleUserService.insertRoleUser(roleUser);
 						String email = user.getEmail();
 						if(StringUtils.isNotBlank(email)){
 							this.sendRegisterEmail(user.getUserName(), email);

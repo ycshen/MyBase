@@ -24,6 +24,7 @@ public interface AuthorityService {
 	AuthorityQuery getAuthorityPage(AuthorityQuery authorityQuery);
 	void startAuthorityById(String id);	
 	AuthorityVOQuery getAuthorityVOPage(AuthorityVOQuery authorityQuery);
+	List<AuthorityEntity> getAuthListByUserId(String userId);
 	
 }
 

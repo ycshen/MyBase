@@ -37,8 +37,6 @@ public class RoleServiceImpl implements RoleService{
 	private RoleUserMapper roleUserMapper;
 	@Autowired
 	private UserMapper userMapper;
-	/*@Autowired
-	private RoleUserMapper authUserMapper;*/
 	@Override
 	public void insertRole(RoleEntity role) {
 		roleMapper.insertRole(role);
@@ -126,6 +124,11 @@ public class RoleServiceImpl implements RoleService{
 		roleQuery.setItems(handleList);
 		
 		return roleQuery;
+	}
+
+	@Override
+	public List<RoleEntity> getRoleListByUserId(String userId) {
+		return roleMapper.getRoleListByUserId(userId);
 	}
 
 	

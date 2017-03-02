@@ -101,4 +101,10 @@
 			(select  count(ru.id) as count, ru.roleId as roleId from role_user ru WHERE companyId =#{companyId} and ru.isDelete=0  group by ru.roleId) as ru1 on r.id= ru1.roleId
 
     </select>
+      <select id="getRoleListByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+          select r.id,r.roleName,r.roleDesc from role_user ru
+			LEFT JOIN role r on r.id = ru.roleId and r.isDelete =0
+			where ru.userId =#{userId}
+    </select>
+   
 </mapper>

@@ -123,6 +123,11 @@ public class AuthorityServiceImpl implements AuthorityService{
 		authUserMapper.cancelAuthority(idList, companyId);
 	}
 
+	@Override
+	public List<AuthorityEntity> getAuthListByUserId(String userId) {
+		return authMapper.getAuthListByUserId(userId);
+	}
+
 	
 }
 

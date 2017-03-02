@@ -28,7 +28,7 @@ public interface RoleMapper {
 	void startRoleById(String id);
 	List<RoleEntity> getRolePage(RoleQuery roleQuery);	
 	List<RoleVO> getRoleVOPage(RoleVOQuery roleQuery);
-
+	List<RoleEntity> getRoleListByUserId(String userId);
 	
 }
 
