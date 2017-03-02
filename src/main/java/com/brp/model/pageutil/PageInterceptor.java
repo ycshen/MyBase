@@ -117,6 +117,10 @@ public class PageInterceptor implements Interceptor {
         return invocation.proceed();
     }
 
+    /*private String appendDataAuth(){
+    	
+    }*/
+    
     /**
      * 拦截器对应的封装原始对象的方法
      */

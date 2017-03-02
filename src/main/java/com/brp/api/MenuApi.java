@@ -18,6 +18,7 @@ import com.brp.base.enums.MenuEnum;
 import com.brp.entity.CompanyEntity;
 import com.brp.entity.DepartmentEntity;
 import com.brp.entity.MenuEntity;
+import com.brp.entity.RoleEntity;
 import com.brp.service.CompanyService;
 import com.brp.service.MenuService;
 import com.brp.util.JsonUtils;
@@ -242,7 +243,6 @@ public class MenuApi {
 			
 			if(auth){
 				String menuType = MenuEnum.OUTER_SYSTEM.getMenuType().toString();
-			
 				List<MenuEntity> list = menuService.getDefinedMenuList(definedType, menuType, casecadeId);
 				MenuTreeVO menuTree = new MenuTreeVO();
 				menuTree.setId("-1");
