@@ -111,6 +111,12 @@
          from department
          where parent_department_id = #{pid} and status=0 and company_id=#{cid} and parent_department_id is not null
     </select>
+     <select id="getDepartmentIdListByPIdAndCId" resultType="java.lang.String">
+         select 
+         id
+         from department
+         where parent_department_id = #{pid} and status=0 and company_id=#{cid} and parent_department_id is not null
+    </select>
     
     <select id="getDepartmentListByPId" resultMap="BaseResultMap" parameterType="java.lang.String">
          select 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -137,6 +138,33 @@ public class DepartmentServiceImpl implements DepartmentService{
         }
         
         return returnList; 
+	}
+
+	@Override
+	public List<String> getDepartmentIdListByPidAndCid(String pid, String cid) {
+		List<String> list = new LinkedList<String>();
+		List<BTreeVO> deptVosList = new ArrayList<BTreeVO>();  
+        List<DepartmentEntity> departmentList = departmentMapper.getDepartmentTreeByPIdAndCId(pid, cid); 
+        if(departmentList != null && departmentList.size() > 0){  
+            for(DepartmentEntity deptVo : departmentList){  
+            	BTreeVO treeNode = new BTreeVO();
+            	treeNode.setId(deptVo.getId().toString());  
+            	String id = deptVo.getId().toString();
+            	if(deptVo.getIsHasSub() != null && deptVo.getIsHasSub() == 1){
+                	treeNode.setChildren(getDepartmentTreeByPidAndCid(id, cid));
+            	}
+            	
+            	deptVosList.add(treeNode);  
+            }  
+        }
+        
+        if(deptVosList.size() > 0){
+        	for (BTreeVO deptVo : deptVosList) {
+        		list.add(deptVo.getId());
+			}
+        }
+        
+        return list;
 	}
 
 }

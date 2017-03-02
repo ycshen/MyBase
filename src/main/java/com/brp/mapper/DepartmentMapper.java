@@ -29,5 +29,6 @@ public interface DepartmentMapper {
 	List<DepartmentEntity> getDepartmentListByPId(String pid);
 	List<DepartmentEntity> getNoSubDeptListByCId(String cid);
 	void deleteDepartmentById(String id);
+	List<String> getDepartmentIdListByPIdAndCId(@Param("pid") String pid, @Param("cid") String cid);
 }
 

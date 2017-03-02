@@ -153,6 +153,69 @@ public class DepartmentApi {
 		return result;
 	}
 	
+	@RequestMapping(value = "/getSubDepIdList", method = RequestMethod.POST)
+	@ResponseBody
+	public String getSubDepIdList(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String companyId = jsonObject.getString("companyId");
+			String departmentId = jsonObject.getString("departmentId");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+			
+			boolean auth = false;
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("companyId", companyId);
+				maps.put("departmentId", departmentId);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					auth = true;
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+			
+			if(auth){
+				List<String> idList = departmentService.getDepartmentIdListByPidAndCid(departmentId, companyId);
+				String idStr = departmentId;
+				if(idList != null && idList.size() > 0){
+					for (String id : idList) {
+						idStr += id + ",";
+					}
+					
+					if(idStr.contains(",")){
+						idStr = idStr.substring(0, idStr.length() - 1);
+					}
+				}
+				
+				
+				
+				jsonData.setCode(ApiCode.OK);
+				jsonData.setMessage("操作成功");
+				jsonData.setData(idStr);
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+		
+		String result = JsonUtils.json2Str(jsonData);
+		
+		return result;
+	}
+	
 	@RequestMapping(value = "/getDepById", method = RequestMethod.POST)
 	@ResponseBody
 	public String getDepById(@RequestBody JSONObject jsonObject){
