@@ -43,9 +43,11 @@
 		update role_user set isDelete = 1 where id in(${idList}) and companyId=#{companyId} and isDelete = 0
 		 
 	</update>
-	<update id="batchCancelAuth">
+	<update id="batchCancelRole">
 		update role_user set isDelete = 1 where userId in(${userIdArr}) and companyId=#{companyId} and isDelete = 0 and roleId=1
 		 
 	</update>
+	
+	
 	
 </mapper>
