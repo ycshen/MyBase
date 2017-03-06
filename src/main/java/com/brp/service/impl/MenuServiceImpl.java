@@ -82,9 +82,9 @@ public class MenuServiceImpl implements MenuService{
 	}
 
 	@Override
-	public List<MenuTreeVO> getMenuTreeByPid(String pid, String definedType, String casecadeId) {
+	public List<MenuTreeVO> getMenuTreeByPid(String companyId, String pid, String definedType, String casecadeId) {
 		List<MenuTreeVO> menuTreeList = new ArrayList<MenuTreeVO>();  
-        List<MenuEntity> menuList = menuMapper.getMenuListByPid(pid, definedType, casecadeId); 
+        List<MenuEntity> menuList = menuMapper.getMenuListByPid(pid, definedType, casecadeId, companyId); 
         if(menuList != null && menuList.size() > 0){  
             for(MenuEntity menu : menuList){  
             	MenuTreeVO treeNode = new MenuTreeVO();
@@ -95,7 +95,7 @@ public class MenuServiceImpl implements MenuService{
             	treeNode.setId(menu.getId().toString());  
             	treeNode.setName(menu.getMenuName());
             	String id = menu.getId().toString();
-            	treeNode.setChildren(getMenuTreeByPid(id, definedType, casecadeId));
+            	treeNode.setChildren(getMenuTreeByPid(id, definedType, casecadeId, companyId));
             	
             	menuTreeList.add(treeNode);  
             }  

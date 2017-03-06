@@ -47,7 +47,7 @@ public interface MenuService {
 
 	List<MenuEntity> getMenuList(MenuQuery menuQuery);
 
-	List<MenuTreeVO> getMenuTreeByPid(String pid, String definedType,
+	List<MenuTreeVO> getMenuTreeByPid(String companyId, String pid, String definedType,
 			String casecadeId);
 
 	List<MenuEntity> getDefinedMenuList(String definedType, String menuType,

@@ -42,7 +42,6 @@
          where 1=1
          <trim prefix=" " suffix="" suffixOverrides="" >
 		     <if test="menuName != null and menuName != ''" >
-		       and menu_name =  #{menuName}
 		      </if>
 		      <if test="menuType != '' and menuType != null" >
 		       and menu_type = #{menuType}
@@ -124,6 +123,7 @@
 	   m.menu_name,m.menu_type,m.menu_type_name,m.menu_type_tag,m.menu_url,
 	   m.parent_menu_id,m.beyond_of_system,m.beyond_of_system_id,mdf.isDelete as is_delete from menu m 
 		left join menu_defined mdf on mdf.menuId=m.id and mdf.definedType=#{definedType}  and mdf.definedCasecaseId=#{casecadeId}
+		and mdf.companyId=#{companyId}
 		where m.is_delete=0 and m.parent_menu_id=#{pId}
          order by create_time desc
     </select>

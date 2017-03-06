@@ -53,7 +53,8 @@ public interface MenuMapper {
 
 	List<MenuEntity> getMenuListByPid(@Param("pId") String pId,
 			@Param("definedType") String definedType,
-			@Param("casecadeId") String casecadeId);
+			@Param("casecadeId") String casecadeId,
+			@Param("companyId") String companyId);
 
 	void deleteMenuById(String id);
 

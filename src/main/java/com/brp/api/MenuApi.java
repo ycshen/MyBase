@@ -217,6 +217,7 @@ public class MenuApi {
 		JsonData<String> jsonData = new JsonData<String>();
 		try{
 			String definedType = jsonObject.getString("definedType");
+			String companyId = jsonObject.getString("companyId");
 			String casecadeId = jsonObject.getString("casecadeId");
 			String secret = jsonObject.getString("secret");
 			String cId = jsonObject.getString("cId");
@@ -228,6 +229,7 @@ public class MenuApi {
 				maps.put("definedType", definedType);
 				maps.put("casecadeId", casecadeId);
 				maps.put("secret", mybaseSecret);
+				maps.put("companyId", companyId);
 				maps.put("cId", cId);
 				String md5 = SHA1Utils.SHA1(maps);
 				if(md5.equals(secret)){
@@ -262,7 +264,7 @@ public class MenuApi {
 						menuTreeVO.setId(id);
 						menuTreeVO.setName(menuName);
 						menuTreeVO.setPid("-1");
-						menuTreeVO.setChildren(menuService.getMenuTreeByPid(id, definedType, casecadeId));
+						menuTreeVO.setChildren(menuService.getMenuTreeByPid(companyId, id, definedType, casecadeId));
 						children.add(menuTreeVO);
 					}
 				}
