@@ -95,7 +95,7 @@ public class MenuServiceImpl implements MenuService{
             	treeNode.setId(menu.getId().toString());  
             	treeNode.setName(menu.getMenuName());
             	String id = menu.getId().toString();
-            	treeNode.setChildren(getMenuTreeByPid(id, definedType, casecadeId, companyId));
+            	treeNode.setChildren(getMenuTreeByPid(companyId, id, definedType, casecadeId));
             	
             	menuTreeList.add(treeNode);  
             }  
