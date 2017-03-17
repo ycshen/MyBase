@@ -7,6 +7,9 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}"></c:set>
 <meta charset="UTF-8">
 <title>企业信息管理</title>
+<link rel="apple-touch-icon" href="<c:url value="/img/aps.ico"></c:url>">
+<link rel="icon" href="<c:url value="/img/aps.ico"></c:url>">
+<!--[if IE]><link rel="shortcut icon" href="<c:url value="/img/aps.ico"></c:url>"><![endif]-->
 <link href="${ctx}/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/common.css" rel="stylesheet">
 <script type="text/javascript">

@@ -8,7 +8,9 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<link rel="apple-touch-icon" href="<c:url value="/img/aps.ico"></c:url>">
+<link rel="icon" href="<c:url value="/img/aps.ico"></c:url>">
+<!--[if IE]><link rel="shortcut icon" href="<c:url value="/img/aps.ico"></c:url>"><![endif]-->
 <link href="${ctx}/js/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="${ctx}/css/common.css" rel="stylesheet">
 <link href="${ctx}/js/pages/login/style.css" rel="stylesheet">
