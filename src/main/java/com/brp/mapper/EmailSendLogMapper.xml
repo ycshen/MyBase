@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.EmailSendLogMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.EmailSendLogEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="to" property="to" jdbcType="VARCHAR" />
+    <result column="emailType" property="emailType" jdbcType="VARCHAR" />
+    <result column="isSuccess" property="isSuccess" jdbcType="INTEGER" />
+    <result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="companyId" property="companyId" jdbcType="VARCHAR" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,to,emailType,isSuccess,sendTime,
+	   companyId
+  </sql>
+  <insert id="insertEmailSendLog" parameterType="com.brp.entity.EmailSendLogEntity">
+    insert email_send_log
+   		( id,to,emailType,isSuccess,sendTime,
+	   companyId)
+    values
+    	( #{id,jdbcType=VARCHAR},#{to,jdbcType=VARCHAR}, #{emailType,jdbcType=VARCHAR},#{isSuccess,jdbcType=INTEGER},
+    	#{sendTime,jdbcType=TIMESTAMP},#{companyId,jdbcType=VARCHAR})
+  </insert>
+  
+
+    <select id="getEmailSendLogPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.EmailSendLogQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from email_send_log
+         where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="companyId != null and companyId != ''" >
+		       and company_id =  #{companyId}
+		      </if>
+		      <if test="email_send_logType != '' and email_send_logType != null" >
+		       and email_send_log_type = #{email_send_logType}
+		      </if>
+		      <if test="postionName != '' and postionName != null" >
+		       and email_send_log_name like CONCAT('%',#{postionName},'%')  
+		      </if>
+		 </trim>
+         order by create_time desc
+    </select>
+    
+	<select id="getEmailSendLogById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+         select 
+         <include refid="Base_Column_List" />
+         from email_send_log
+         where id = #{id} and is_delete = 0
+    </select>
+</mapper>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.brp.service.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,15 +29,6 @@ import com.brp.entity.MenuEntity;
 import com.brp.entity.RoleEntity;
 import com.brp.entity.RoleUserEntity;
 import com.brp.entity.UserEntity;
-import com.brp.service.AuthorityService;
-import com.brp.service.AuthorityUserService;
-import com.brp.service.CompanyService;
-import com.brp.service.DepartmentService;
-import com.brp.service.MenuDefinedService;
-import com.brp.service.MenuService;
-import com.brp.service.RoleService;
-import com.brp.service.RoleUserService;
-import com.brp.service.UserService;
 import com.brp.util.JsonUtils;
 import com.brp.util.MailSenderInfo;
 import com.brp.util.SHA1Utils;
@@ -1070,7 +1062,7 @@ public class UserApi {
 		
 		return result;
 	}
-	
+
 	/**
 	 * 发送注册邮件
 	 * @param registerAccount 注册账号
