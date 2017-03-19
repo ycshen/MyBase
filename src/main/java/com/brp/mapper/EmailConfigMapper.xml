@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.EmailConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.EmailConfigEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="fromAddress" property="fromAddress" jdbcType="VARCHAR" />
+    <result column="mailServerHost" property="mailServerHost" jdbcType="VARCHAR" />
+    <result column="mailServerPort" property="mailServerPort" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="TIMESTAMP" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="validate" property="validate" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,fromAddress,mailServerHost,mailServerPort,password,
+	   userName,validate
+  </sql>
+  <insert id="insertEmailConfig" parameterType="com.brp.entity.EmailConfigEntity">
+    insert email_config
+   		( id,fromAddress,mailServerHost,mailServerPort,password,
+	   userName,validate)
+    values
+    	( #{id,jdbcType=VARCHAR},#{fromAddress,jdbcType=VARCHAR}, #{mailServerHost,jdbcType=VARCHAR},#{mailServerPort,jdbcType=VARCHAR},
+    	#{password,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{validate,jdbcType=INTEGER})
+  </insert>
+  
+
+   
+    
+	<select id="getEmailConfigById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from email_config where id=#{id}
+         limit 1;
+    </select>
+    
+    <select id="getEmailConfigPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.EmailConfigQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from email_config
+    </select>
+    <update id="updateEmailConfig" parameterType="com.brp.entity.EmailConfigEntity">
+		update email_config set 
+		<if test="fromAddress != null">
+			fromAddress=#{fromAddress,jdbcType=VARCHAR},
+		</if>
+		<if test="mailServerHost != null">
+			mailServerHost=#{mailServerHost,jdbcType=VARCHAR}, 
+		</if>
+		<if test="mailServerPort != null">
+			mailServerPort=#{mailServerPort,jdbcType=VARCHAR},
+		</if>
+		<if test="password != null">
+		password=#{password,jdbcType=VARCHAR},
+		</if>
+		<if test="userName != null">
+		userName=#{userName,jdbcType=VARCHAR},
+		</if>
+		<if test="validate != null">
+      	validate=#{validate,jdbcType=INTEGER},
+		</if>
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+</mapper>

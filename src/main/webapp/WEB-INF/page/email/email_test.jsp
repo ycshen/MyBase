@@ -84,7 +84,7 @@
 										</td>
 										<td style="border:0px;">
 											<input name="userName" id="txtUserName"
-												   value="${emailConfig.userName}" maxlength="30"
+												   value="${emailConfig.userName}" maxlength="11"
 												   class="form-control" type="text" placeholder="请输入用户名"
 												   style="width: 300px;">
 										</td>

@@ -1,48 +1,10 @@
-function addCompany(){
-	var url = ctx + "/inner/company/edit";
-	layer.open({
-		type: 2,
-		title: '添加公司信息',
-		shadeClose: false,
-		shade: 0.8,
-		area: ['550px', '400px'],
-		content: url
-	});
-}
 
 
-		
-function addSubCompany(id){
-	var url = ctx + "/inner/company/addSub?id=" + id;
-	layer.open({
-		type: 2,
-		title: '添加子公司信息',
-		shadeClose: false,
-		shade: 0.8,
-		area: ['550px', '400px'],
-		content: url
-	});
-}
-function addSuccess(){
-	window.location.href = ctx + "/inner/company/list";
+
+function returnEmailConfig(){
+	window.location.href = ctx + "/inner/emailConfig/list";
 }
 
-function queryCompany(page){
-	var url = ctx + "/inner/company/list?page=" + page;
-	var level = $("#levelSelect").find("option:selected").val();
-	if(isNotBlank(level)){
-		url += "&level=" + level;
-	}
-	
-	
-	
-	var companyName = $("#txtCompanyName").val();
-	if(isNotBlank(companyName)){
-		url += "&companyName=" + companyName;
-	}
-	
-	window.location.href = url;
-}
 function isNotBlank(args){
 	var result = false;
 	if(args != "" && args != null && args != undefined){
@@ -50,16 +12,55 @@ function isNotBlank(args){
 	}
 	
 	return result;
-}
+}       
 
-function addDepartment(id){
-	var url = ctx + "/inner/department/add?id=" + id;
-	layer.open({
-		type: 2,
-		title: '添加部门信息',
-		shadeClose: false,
-		shade: 0.8,
-		area: ['550px', '400px'],
-		content: url
-	});
+
+function editEmailConfig(){
+	/*var txtkey = $("#txtkey").val();
+	if(isBlank(txtkey)){
+		layer.alert("键不能为空");
+		return;
+	}
+	
+	var txtvalue = $("#txtvalue").val();
+	if(isBlank(txtvalue)){
+		layer.alert("值不能为空");
+		return;
+	}
+	
+	var txtcode = $("#txtcode").val();
+	if(isBlank(txtcode)){
+		layer.alert("键值编码不能为空");
+		return;
+	}
+	
+	var txtremark = $("#txtremark").val();
+	if(isBlank(txtremark)){
+		layer.alert("备注不能为空");
+		return;
+	}
+	*/
+	var url = ctx + "/inner/emailConfig/saveOrUpdate";
+	var data = $('#emailConfigForm').serialize();
+	$.ajax({
+        cache: true,
+        type: "POST",
+        url: url,
+        data: data,
+        async: false,
+        success: function(data) {
+          if(data == 1){
+        	  layer.alert('新增成功', function(index){
+        		 window.location.href = ctx + "/inner/emailConfig/list"
+      		});
+          }else if(data == 2){
+        	  layer.alert('更新成功', function(index){
+         		 window.location.href = ctx + "/inner/emailConfig/list" 
+      		});
+          }else{
+        	  layer.alert("操作失败！"); 
+          }
+        }
+    });
+	
 }

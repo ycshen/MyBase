@@ -19,7 +19,7 @@ public class EmailConfigEntity {
 	private String mailServerPort;
 	private String password;
 	private String userName;
-	private String validate;
+	private Integer validate;
 
 	public String getMailServerPort() {
 		return mailServerPort;
@@ -69,11 +69,11 @@ public class EmailConfigEntity {
 		this.userName = userName;
 	}
 
-	public String getValidate() {
+	public Integer getValidate() {
 		return validate;
 	}
 
-	public void setValidate(String validate) {
+	public void setValidate(Integer validate) {
 		this.validate = validate;
 	}
 }

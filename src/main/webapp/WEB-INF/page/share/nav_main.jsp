@@ -87,7 +87,7 @@
 					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>角色管理</a></li>
 			<li <c:if test="${param.nav=='list_email'}"> class="current"</c:if>><a
 					data-toggle="tooltip"
-					href="<c:url value="/inner/emailConfig/edit"/>"
+					href="<c:url value="/inner/emailConfig/list"/>"
 					data-placement="auto right" title="code"><span
 					class="glyphicon glyphicon-modal-window" aria-hidden="true"></span>邮件配置</a></li>
 			
