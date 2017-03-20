@@ -127,7 +127,6 @@
 			</div>
 		</div>
 	</div>
-	21312
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
 <script type="text/javascript" src="${ctx}/js/pages/email/email_config.js"></script>
