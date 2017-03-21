@@ -20,6 +20,7 @@ public class EmailConfigEntity {
 	private String password;
 	private String userName;
 	private Integer validate;
+	private Integer status;
 
 	public String getMailServerPort() {
 		return mailServerPort;
@@ -75,6 +76,14 @@ public class EmailConfigEntity {
 
 	public void setValidate(Integer validate) {
 		this.validate = validate;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }
 

@@ -69,4 +69,31 @@ public class EmailConfigController {
 		
 		return mav;
 	}
+
+	@RequestMapping(value = "/switchStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public Integer switchStatus(String id, HttpServletRequest request){
+		Integer result = -1;
+		try{
+			if(StringUtils.isNotBlank(id)){
+				EmailConfigEntity emailConfig = emailConfigService.getEmailConfigById(id);
+				Integer status = 0;
+				if(emailConfig != null && emailConfig.getStatus() != null && emailConfig.getStatus() == 1){
+					status = 0;
+				}else{
+					status = 1;
+				}
+
+				emailConfigService.switchStatus(id, status);
+
+				result = status;
+			}
+		}catch(Exception e){
+			//暂时不记录监控
+			e.printStackTrace();
+			result = -1;
+		}
+
+		return result;
+	}
 }

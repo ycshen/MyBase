@@ -59,12 +59,19 @@
 									<tr>
 										<td style="display: none;">${emailConfig.id}</td>
 										<td>
-										<a  href="#" onclick="modifyEmailConfig('${emailConfig.id}')">修改</a>&nbsp;&nbsp;
-										<a  href="#" onclick="deleteConfig('${emailConfig.id}')">禁用</a>
-										<a  href="#" onclick="deleteConfig('${emailConfig.id}')">启用</a>
+										<a  href="#" onclick="modifyEmailConfig('${emailConfig.id}')">修改</a>
+										<a  href="#" onclick="switchStatus('${emailConfig.id}','${emailConfig.status}')">切换状态</a>
 										<a  href="#" onclick="deleteConfig('${emailConfig.id}')">发送测试邮箱</a>
 										</td>
-										<td>
+										<td id="status${emailConfig.id}">
+											<c:choose>
+												<c:when test="${emailConfig.status == 1 }">
+													<span class="btn btn-success">启用</span>
+												</c:when>
+												<c:otherwise>
+													<span class="btn btn-warning">禁用</span>
+												</c:otherwise>
+											</c:choose>
 										</td>
 										<td>${emailConfig.fromAddress }</td>
 										<td>${emailConfig.mailServerHost}</td>

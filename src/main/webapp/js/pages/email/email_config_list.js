@@ -32,15 +32,21 @@ function viewEmailConfig(id){
 	});
 }
 
-function deleteEmailConfig(id){
-	layer.confirm("确定删除该配置信息？", function(){
-		var url = ctx + "/inner/emailConfig/delete?id=" + id;
+function switchStatus(id, status){
+	layer.confirm("确定要切换邮件配置的状态？", function(){
+		var url = ctx + "/inner/emailConfig/switchStatus?id=" + id;
 		$.ajax({
 	        type: "get",
 	        url: url,
-	        success: function() {
-	        	layer.alert('删除成功', function(index){
-	      		  window.location.reload();
+	        success: function(data) {
+	        	layer.alert('切换成功', function(index){
+					var html = "<span class=\"btn btn-success\">启用</span>";
+					if(data == 0){
+						html = "<span class=\"btn btn-warning\">禁用</span>";
+					}
+					$("#status" + id).html(html);
+					layer.closeAll();
+
 	    		});
 	        }
 	    });

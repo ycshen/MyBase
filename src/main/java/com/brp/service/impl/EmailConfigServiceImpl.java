@@ -45,5 +45,10 @@ public class EmailConfigServiceImpl implements EmailConfigService{
 		return emailConfigQuery;
 	}
 
+	@Override
+	public void switchStatus(String id, Integer status) {
+		emailConfigMapper.switchStatus(id, status);
+	}
+
 }
 

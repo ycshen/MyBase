@@ -9,19 +9,20 @@
     <result column="password" property="password" jdbcType="TIMESTAMP" />
     <result column="userName" property="userName" jdbcType="VARCHAR" />
     <result column="validate" property="validate" jdbcType="INTEGER" />
+	<result column="status" property="status" jdbcType="INTEGER" />
   </resultMap> 
   
   <sql id="Base_Column_List" >
 	   id,fromAddress,mailServerHost,mailServerPort,password,
-	   userName,validate
+	   userName,validate,status
   </sql>
   <insert id="insertEmailConfig" parameterType="com.brp.entity.EmailConfigEntity">
     insert email_config
    		( id,fromAddress,mailServerHost,mailServerPort,password,
-	   userName,validate)
+	   userName,validate,status)
     values
     	( #{id,jdbcType=VARCHAR},#{fromAddress,jdbcType=VARCHAR}, #{mailServerHost,jdbcType=VARCHAR},#{mailServerPort,jdbcType=VARCHAR},
-    	#{password,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{validate,jdbcType=INTEGER})
+    	#{password,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{validate,jdbcType=INTEGER},#{status,jdbcType=INTEGER})
   </insert>
   
 
@@ -39,6 +40,9 @@
          <include refid="Base_Column_List" />
          from email_config
     </select>
+	<update id="switchStatus">
+		update email_config set status = #{status} where id = #{id}
+	</update>
     <update id="updateEmailConfig" parameterType="com.brp.entity.EmailConfigEntity">
 		update email_config set 
 		<if test="fromAddress != null">

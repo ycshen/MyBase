@@ -13,4 +13,5 @@ public interface EmailConfigService {
 	void updateEmailConfig(EmailConfigEntity emailConfig);
 	EmailConfigEntity getEmailConfigById(String id);
 	EmailConfigQuery getEmailConfigPage(EmailConfigQuery emailConfigQuery);
+	void switchStatus(String id, Integer status);
 }
