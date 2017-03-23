@@ -51,7 +51,7 @@
 									</td>
 									
 									<td style="border:0px">
-									<button class="btn " onclick="queryConfig('${dailyAccountQuery.page}')">查询</button>
+									<button class="btn " onclick="queryDailyAccount('${dailyAccountQuery.page}')">查询</button>
 
 									</td>
 								</tr>

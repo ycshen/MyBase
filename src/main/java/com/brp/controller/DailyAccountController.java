@@ -83,9 +83,7 @@ public class DailyAccountController extends BaseController{
 	@ResponseBody
 	public void delete(String id, HttpServletRequest request){
 		if(StringUtils.isNotBlank(id)){
-			DailyAccountEntity dailyAccount = dailyAccountService.getDailyAccountById(id);
-			dailyAccount.setIsDelete(1);
-			dailyAccountService.updateDailyAccount(dailyAccount);
+			dailyAccountService.deleteDailyAccountById(id);
 		}
 	}
 }
