@@ -985,7 +985,10 @@ public class UserApi {
 						company.setLevel(VipLevel.VIP);
 						company.setStatus(0);
 						companyService.insertCompany(company);
-						user.setCompanyId(company.getId());
+						Long companyId = company.getId();
+						user.setCompanyId(companyId);
+						//首次注册用户 部门id默认为公司id的负数，以便区分
+						user.setDepartmentId(0 - company.getId().intValue());
 						user.setCreateUser("企家婆注册");
 						user.setStatus(UserStatus.NORMAL_INT);
 						user.setCreateTime(new Date());
