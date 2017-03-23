@@ -85,7 +85,6 @@
 									<tr>
 										<td style="display: none;">${dailyAccount.id}</td>
 										<td>
-										<a  href="#" onclick="modifyDailyAccount('${dailyAccount.id}')">修改</a>&nbsp;&nbsp;
 										<a  href="#" onclick="deleteDailyAccount('${dailyAccount.id}')">删除</a></td>
 										<td>${dailyAccount.account }</td>
 										<td>${dailyAccount.password}</td>

@@ -35,9 +35,9 @@ function addSameConfig(id){
 	});
 }
 
-function deletePosition(id){
-	layer.confirm("确定删除该职位信息？", function(){
-		var url = ctx + "/inner/position/delete?id=" + id;
+function deleteDailyAccount(id){
+	layer.confirm("确定删除该日常账号信息？", function(){
+		var url = ctx + "/inner/dailyAccount/delete?id=" + id;
 		$.ajax({
 	        type: "get",
 	        url: url,
