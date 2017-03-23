@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brp.mapper.DailyAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.brp.entity.DailyAccountEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="companyId" property="companyId" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    
+    <result column="addTime" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="system" property="system" jdbcType="VARCHAR" />
+    <result column="systemUrl" property="systemUrl" jdbcType="VARCHAR" />
+	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="isDelete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap> 
+  
+  <sql id="Base_Column_List" >
+	   id,userId,companyId,account,password,
+	   addTime,system,systemUrl, remark,isDelete
+  </sql>
+  <insert id="insertDailyAccount" parameterType="com.brp.entity.DailyAccountEntity">
+    insert daily_account
+   		(id,userId,companyId,account,password,
+	   addTime,system,systemUrl, remark,isDelete)
+    values
+    	( #{id,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR}, #{companyId,jdbcType=TIMESTAMP},#{account,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},
+    	#{addTime,jdbcType=TIMESTAMP},#{system,jdbcType=VARCHAR},#{systemUrl,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},#{isDelete,jdbcType=INTEGER})
+  </insert>
+  
+    
+    <select id="getDailyAccountList" resultMap="BaseResultMap" parameterType="com.brp.util.query.DailyAccountQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from daily_account where isDelete=0
+         order by addTime desc
+    </select>
+    <select id="getDailyAccountPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.DailyAccountQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from daily_account
+         where 1=1 and isDelete=0
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="account != null and account != ''" >
+		       and account =  #{account}
+		      </if>
+
+		 </trim>
+         order by addTime desc
+    </select>
+    
+	<select id="getDailyAccountById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from position
+         where id = #{id} and isDelete = 0
+    </select>
+    <select id="getDailyAccountByIdWithoutIsdelete" resultMap="BaseResultMap" parameterType="java.lang.String" >
+         select 
+         <include refid="Base_Column_List" />
+         from daily_account
+         where id = #{id}
+    </select>
+   <select id="getDailyAccountByQuery" resultMap="BaseResultMap" parameterType="com.brp.util.query.DailyAccountQuery" >
+         select 
+         <include refid="Base_Column_List" />
+         from daily_account
+        where 1=1
+         <trim prefix=" " suffix="" suffixOverrides="" >
+		     <if test="companyId != null and companyId != ''" >
+		       and company_id =  #{companyId}
+		      </if>
+
+		 </trim>
+		 and isDelete = 0 limit 1
+    </select>
+    <update id="deleteDailyAccountById" parameterType="java.lang.String">
+		update daily_account set
+		
+		isDelete = 1
+		 where id=#{id} limit 1;
+		 
+		 
+	</update>
+	
+   <update id="updateDailyAccount" parameterType="com.brp.entity.MenuEntity">
+		update daily_account set
+		<if test="userId != null">
+			userId=#{userId,jdbcType=VARCHAR},
+		</if>
+		<if test="companyId != null">
+			companyId=#{companyId,jdbcType=VARCHAR},
+		</if>
+		<if test="account != null">
+			account=#{account,jdbcType=VARCHAR},
+		</if>
+		<if test="password != null">
+			password=#{password,jdbcType=VARCHAR},
+		</if>
+		<if test="system != null">
+			system=#{system,jdbcType=VARCHAR},
+		</if>
+		<if test="systemUrl != null">
+			systemUrl=#{systemUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null">
+			remark=#{remark,jdbcType=VARCHAR},
+		</if>
+
+		id=#{id}
+		 where id=#{id} limit 1;
+		 
+	</update>
+</mapper>
