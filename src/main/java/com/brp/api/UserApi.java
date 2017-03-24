@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.brp.service.*;
+import com.brp.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,11 +30,6 @@ import com.brp.entity.MenuEntity;
 import com.brp.entity.RoleEntity;
 import com.brp.entity.RoleUserEntity;
 import com.brp.entity.UserEntity;
-import com.brp.util.JsonUtils;
-import com.brp.util.MailSenderInfo;
-import com.brp.util.SHA1Utils;
-import com.brp.util.SimpleMailSender;
-import com.brp.util.TryParseUtils;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.MenuQuery;
@@ -1072,14 +1068,13 @@ public class UserApi {
 	 * @return
 	 */
 	private boolean sendRegisterEmail(String registerAccount, String email){
-		SimpleMailSender sms = new SimpleMailSender();
-		String content = MailConstant.REGISTER_CONTENT.replaceAll("QJP_ACCOUNT", registerAccount);
-		mailSenderInfo.setContent(content);
-		mailSenderInfo.setSubject(MailConstant.REGISTER_SUBJECT);
-		mailSenderInfo.setToAddress(email);
-		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
-		
-		return isSend;
+		try {
+			MailUtils.sendRegisterEmail(registerAccount, email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return true;
 	}
 	
 	/**

@@ -46,6 +46,7 @@
 								<tr>
 									<th>操作</th>
 									<th>状态</th>
+									<th>编号</th>
 									<th>发送邮箱</th>
 									<th>邮件服务器地址</th>
 									<th>邮件服务器端口</th>
@@ -73,6 +74,7 @@
 												</c:otherwise>
 											</c:choose>
 										</td>
+										<td>${emailConfig.code }</td>
 										<td>${emailConfig.fromAddress }</td>
 										<td>${emailConfig.mailServerHost}</td>
 										<td>${emailConfig.mailServerPort}</td>

@@ -1,12 +1,11 @@
 package com.brp.mapper;
 
-import java.util.List;
-
+import com.brp.entity.EmailConfigEntity;
+import com.brp.util.query.EmailConfigQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.brp.entity.EmailConfigEntity;
-import com.brp.util.query.EmailConfigQuery;
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -23,5 +22,6 @@ public interface EmailConfigMapper {
 	EmailConfigEntity getEmailConfigById(String id);
 	List<EmailConfigEntity> getEmailConfigPage(EmailConfigQuery emailConfigQuery);
 	void switchStatus(@Param("id") String id, @Param("status") Integer status);
+	EmailConfigEntity getEmailConfigByCode(String code);
 }
 

@@ -1,9 +1,5 @@
 package com.brp.entity;
 
-import com.brp.base.MailConstant;
-
-import java.util.Date;
-
 /**
  * <p>Project: MYBASE</p> 
  * <p>Title: EmailConfigEntity.java</p>
@@ -21,6 +17,7 @@ public class EmailConfigEntity {
 	private String userName;
 	private Integer validate;
 	private Integer status;
+	private String code;
 
 	public String getMailServerPort() {
 		return mailServerPort;
@@ -84,6 +81,14 @@ public class EmailConfigEntity {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
 

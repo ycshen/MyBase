@@ -1,5 +1,6 @@
 package com.brp.util;
 
+import com.brp.entity.EmailConfigEntity;
 import com.brp.entity.EmailTemplateEntity;
 import com.brp.mapper.EmailConfigMapper;
 import com.brp.mapper.EmailTemplateMapper;
@@ -14,13 +15,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class MailUtils {
     private static String TEMPLATE_REGISTER = "REGISTER";
+    private static String CONFIG_REGISTER = "REGISTER";
     private static EmailTemplateMapper templateMapper;
     private static EmailConfigMapper configMapper;
     @Autowired(required = true)
     public void setTemplateMapper(EmailTemplateMapper templateMapper){
         MailUtils.templateMapper = templateMapper;
     }
-
+    @Autowired(required = true)
     public void setConfigMapper(EmailConfigMapper configMapper){
         MailUtils.configMapper = configMapper;
     }
@@ -42,17 +44,26 @@ public class MailUtils {
             throw  new RuntimeException("邮件模板已被停用");
         }
 
+        EmailConfigEntity config = configMapper.getEmailConfigByCode(CONFIG_REGISTER);
+        if(config == null){
+            throw  new RuntimeException("邮件配置不存在");
+        }
+
+        if(config.getStatus() == 0){
+            throw  new RuntimeException("邮件配置已被停用");
+        }
+
         String templateContent = emailTemplate.getTemplateContent();
         templateContent = templateContent.replaceAll("T_O_U_S_E_R", toUser);
         MailSenderInfo mailInfo = new MailSenderInfo();
         mailInfo.setContent(templateContent);
-        mailInfo.setFromAddress("449614531@qq.com");
-        mailInfo.setMailServerHost("smtp.qq.com");
-        mailInfo.setMailServerPort("587");
-        mailInfo.setPassword("jvbiulzewfamcahf");
+        mailInfo.setFromAddress(config.getFromAddress());
+        mailInfo.setMailServerHost(config.getMailServerHost());
+        mailInfo.setMailServerPort(config.getMailServerPort());
+        mailInfo.setPassword(config.getPassword());
         mailInfo.setSubject(emailTemplate.getSubject());
         mailInfo.setToAddress(toEmail);
-        mailInfo.setUserName("449614531@qq.com");
+        mailInfo.setUserName(config.getUserName());
         mailInfo.setValidate(true);
 
         SimpleMailSender.sendHtmlMail(mailInfo);

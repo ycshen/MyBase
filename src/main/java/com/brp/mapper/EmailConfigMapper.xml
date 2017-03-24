@@ -10,19 +10,20 @@
     <result column="userName" property="userName" jdbcType="VARCHAR" />
     <result column="validate" property="validate" jdbcType="INTEGER" />
 	<result column="status" property="status" jdbcType="INTEGER" />
+	  <result column="code" property="code" jdbcType="VARCHAR" />
   </resultMap> 
   
   <sql id="Base_Column_List" >
 	   id,fromAddress,mailServerHost,mailServerPort,password,
-	   userName,validate,status
+	   userName,validate,status,code
   </sql>
   <insert id="insertEmailConfig" parameterType="com.brp.entity.EmailConfigEntity">
     insert email_config
    		( id,fromAddress,mailServerHost,mailServerPort,password,
-	   userName,validate,status)
+	   userName,validate,status,code)
     values
     	( #{id,jdbcType=VARCHAR},#{fromAddress,jdbcType=VARCHAR}, #{mailServerHost,jdbcType=VARCHAR},#{mailServerPort,jdbcType=VARCHAR},
-    	#{password,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{validate,jdbcType=INTEGER},#{status,jdbcType=INTEGER})
+    	#{password,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{validate,jdbcType=INTEGER},#{status,jdbcType=INTEGER},#{code,jdbcType=VARCHAR})
   </insert>
   
 
@@ -34,7 +35,12 @@
          from email_config where id=#{id}
          limit 1;
     </select>
-    
+	<select id="getEmailConfigByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="Base_Column_List" />
+		from email_config where code=#{code}
+		limit 1;
+	</select>
     <select id="getEmailConfigPage" resultMap="BaseResultMap" parameterType="com.brp.util.query.EmailConfigQuery" >
          select 
          <include refid="Base_Column_List" />

@@ -58,6 +58,19 @@
 									</tr>
 									<tr>
 										<td style="border:0px;text-align:right;">
+											<label ><span style="color:red;">*</span>配置编号：</label>
+										</td>
+										<td style="border:0px;">
+											<input name="code" id="txtCode"
+												   value="${emailConfig.code}" maxlength="20"
+												   class="form-control" type="text" placeholder="请输入配置编号"
+												   style="width: 300px;"
+												   <c:if test="${emailConfig.id != null && emailConfig.id  != ''}">disabled="disabled"</c:if>
+											>
+										</td>
+									</tr>
+									<tr>
+										<td style="border:0px;text-align:right;">
 											<label ><span style="color:red;">*</span>邮件服务器地址：</label>
 										</td>
 										<td style="border:0px;">
