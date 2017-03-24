@@ -1,35 +1,13 @@
 package com.brp.api;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import com.brp.service.*;
-import com.brp.util.*;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSONObject;
 import com.brp.base.MailConstant;
 import com.brp.base.UserStatus;
 import com.brp.base.VipLevel;
 import com.brp.base.enums.MenuEnum;
-import com.brp.entity.AuthorityEntity;
-import com.brp.entity.AuthorityUserEntity;
-import com.brp.entity.CompanyEntity;
-import com.brp.entity.DepartmentEntity;
-import com.brp.entity.MenuDefinedEntity;
-import com.brp.entity.MenuEntity;
-import com.brp.entity.RoleEntity;
-import com.brp.entity.RoleUserEntity;
-import com.brp.entity.UserEntity;
+import com.brp.entity.*;
+import com.brp.service.*;
+import com.brp.util.*;
 import com.brp.util.api.model.ApiCode;
 import com.brp.util.api.model.JsonData;
 import com.brp.util.query.MenuQuery;
@@ -38,6 +16,15 @@ import com.brp.util.query.UserQuery;
 import com.brp.util.query.UserRoleQuery;
 import com.brp.util.vo.UserAuthVO;
 import com.brp.util.vo.UserRoleVO;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.*;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -1076,33 +1063,30 @@ public class UserApi {
 
 		return true;
 	}
-	
+
 	/**
 	 * 发送分配员工邮件
-	 * @param registerAccount 注册账号
-	 * @return
+	 * @param user
+	 * @param initPass
 	 */
-	private boolean sendAssignEmail(UserEntity user, String initPass){
-		SimpleMailSender sms = new SimpleMailSender();
-		String content = MailConstant.ASSIGN_CONTENT.replaceAll("QJP_ACCOUNT", user.getUserName());
-		content = content.replaceAll("QJP_COMPANYNAME", user.getCompanyName());
-		content = content.replaceAll("QJP_TELEPHONE", user.getTelphone());
-		content = content.replaceAll("QJP_EMAIL", user.getEmail());
-		content = content.replaceAll("QJP_PASS", initPass);
-		content = content.replaceAll("QJP_DEPARTMENT", user.getDepartmentName());
-		
-		mailSenderInfo.setContent(content);
-		String subject = MailConstant.ASSIGN_SUBJECT.replaceAll("QJP_COMPANYNAME", user.getCompanyName());
-		mailSenderInfo.setSubject(subject);
-		mailSenderInfo.setToAddress(user.getEmail());
-		boolean isSend = sms.sendHtmlMail(mailSenderInfo);
-		
-		return isSend;
+	private void sendAssignEmail(UserEntity user, String initPass){
+		try {
+			MailUtils.sendAssignEmail(user.getEmail(),
+					user.getUserName(),
+					initPass,
+					user.getTelphone(),
+					user.getCompanyName(),
+					user.getDepartmentName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
-	 * 发送分配员工邮件
-	 * @param registerAccount 注册账号
+	 *
+	 * @param account
+	 * @param initPass
+	 * @param email
 	 * @return
 	 */
 	private boolean sendResetPassEmail(String account, String initPass, String email){
