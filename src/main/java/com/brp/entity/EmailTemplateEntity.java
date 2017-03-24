@@ -1,7 +1,5 @@
 package com.brp.entity;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
-
 /**
  * @Author yuchuanshen
  * @Date Created by 2017/3/23
@@ -13,6 +11,7 @@ public class EmailTemplateEntity extends BaseEntity{
     private String templateContent; //模板内容
     private Integer status; //状态 0-正常 1-停用
     private String remark; //备注
+    private String subject; //主题
 
     public String getTemplateCode() {
         return templateCode;
@@ -52,5 +51,13 @@ public class EmailTemplateEntity extends BaseEntity{
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

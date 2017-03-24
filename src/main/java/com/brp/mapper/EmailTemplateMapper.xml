@@ -12,19 +12,20 @@
 	<result column="templateContent" property="templateContent" jdbcType="VARCHAR" />
 	  <result column="status" property="status" jdbcType="INTEGER" />
 	  <result column="remark" property="remark" jdbcType="VARCHAR" />
+	  <result column="subject" property="subject" jdbcType="VARCHAR" />
   </resultMap> 
   
   <sql id="Base_Column_List" >
-	   createUser,createTime,updateUser,updateTime,templateCode,
-	   templateName,templateContent,status,remark
+	   id,createUser,createTime,updateUser,updateTime,templateCode,
+	   templateName,templateContent,status,remark,subject
   </sql>
   <insert id="insertEmailTemplate" parameterType="com.brp.entity.EmailTemplateEntity" keyProperty="id" useGeneratedKeys="true">
     insert email_template
-   		( id,fromAddress,mailServerHost,mailServerPort,password,
-	   userName,validate,status)
+   		( createUser,createTime,updateUser,updateTime,templateCode,
+	   templateName,templateContent,status,remark,subject)
     values
     	( #{createUser,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR},#{updateTime,jdbcType=TIMESTAMP},#{templateCode,jdbcType=VARCHAR},
-    	#{templateName,jdbcType=VARCHAR},#{templateContent,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{remark,jdbcType=VARCHAR})
+    	#{templateName,jdbcType=VARCHAR},#{templateContent,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{remark,jdbcType=VARCHAR},#{subject,jdbcType=VARCHAR})
   </insert>
   
 
@@ -36,7 +37,12 @@
          from email_template where id=#{id}
          limit 1;
     </select>
-    
+	<select id="getEmailTemplateByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="Base_Column_List" />
+		from email_template where templateCode=#{code}
+		limit 1;
+	</select>
     <select id="getEmailTemplatePage" resultMap="BaseResultMap" parameterType="com.brp.util.query.email.EmailTemplateQuery" >
          select 
          <include refid="Base_Column_List" />
@@ -59,14 +65,17 @@
 		<if test="templateName != null">
 			templateName=#{templateName,jdbcType=VARCHAR},
 		</if>
-		<if test="userName != null">
-		userName=#{userName,jdbcType=VARCHAR},
+		<if test="createUser != null">
+			createUser=#{createUser,jdbcType=VARCHAR},
 		</if>
 		<if test="templateContent != null">
 			templateContent=#{templateContent,jdbcType=VARCHAR},
 		</if>
 		<if test="remark != null">
 			remark=#{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="subject != null">
+			subject=#{subject,jdbcType=VARCHAR},
 		</if>
 		id=#{id}
 		 where id=#{id} limit 1;

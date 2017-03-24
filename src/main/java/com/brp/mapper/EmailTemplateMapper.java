@@ -22,5 +22,6 @@ public interface EmailTemplateMapper {
 	EmailTemplateEntity getEmailTemplateById(String id);
 	List<EmailTemplateEntity> getEmailTemplatePage(EmailTemplateQuery emailTemplateQuery);
 	void switchStatus(@Param("id") String id, @Param("status") Integer status);
+	EmailTemplateEntity getEmailTemplateByCode(String code);
 }
 
