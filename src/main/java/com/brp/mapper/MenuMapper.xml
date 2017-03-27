@@ -87,7 +87,10 @@
        select  m.id,m.create_user,m.update_user,m.create_time,m.update_time,
 	   m.menu_name,m.menu_type,m.menu_type_name,m.menu_type_tag,m.menu_url,
 	   m.parent_menu_id,m.beyond_of_system,m.beyond_of_system_id,mdf.isDelete as is_delete from menu m 
-		left join menu_defined mdf on mdf.menuId=m.id and mdf.definedType=#{definedType} and mdf.definedCasecaseId=#{casecadeId}
+		left join menu_defined mdf on mdf.menuId=m.id
+		and mdf.definedType=#{definedType}
+		and mdf.definedCasecaseId=#{casecadeId}
+		and mdf.companyId=#{companyId}
 		where m.is_delete=0 and m.menu_type=#{menuType} 
          order by create_time desc
          

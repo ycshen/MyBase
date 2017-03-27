@@ -1,19 +1,15 @@
 package com.brp.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.brp.entity.DepartmentEntity;
 import com.brp.entity.MenuEntity;
 import com.brp.mapper.MenuMapper;
 import com.brp.service.MenuService;
 import com.brp.util.query.MenuQuery;
-import com.brp.util.vo.BTreeVO;
 import com.brp.util.vo.MenuTreeVO;
-import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -106,8 +102,8 @@ public class MenuServiceImpl implements MenuService{
 
 	@Override
 	public List<MenuEntity> getDefinedMenuList(String definedType,
-			String menuType, String casecadeId) {
-		return menuMapper.getDefinedMenuList(definedType, menuType, casecadeId);
+			String menuType, String casecadeId, String companyId) {
+		return menuMapper.getDefinedMenuList(definedType, menuType, casecadeId, companyId);
 	}
 
 	@Override

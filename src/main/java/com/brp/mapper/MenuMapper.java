@@ -43,7 +43,8 @@ public interface MenuMapper {
 	List<MenuEntity> getDefinedMenuList(
 			@Param("definedType") String definedType,
 			@Param("menuType") String menuType,
-			@Param("casecadeId") String casecadeId);
+			@Param("casecadeId") String casecadeId,
+			@Param("companyId") String companyId);
 
 	void updateMenu(MenuEntity menu);
 

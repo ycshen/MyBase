@@ -1,13 +1,10 @@
 package com.brp.service;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.brp.entity.MenuEntity;
 import com.brp.util.query.MenuQuery;
-import com.brp.util.vo.BTreeVO;
 import com.brp.util.vo.MenuTreeVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -51,7 +48,7 @@ public interface MenuService {
 			String casecadeId);
 
 	List<MenuEntity> getDefinedMenuList(String definedType, String menuType,
-			String casecadeId);
+			String casecadeId, String companyId);
 
 	List<MenuEntity> getLoginMenuList(String definedType, String menuType,
 			String companyId, String definedCasecaseId);
