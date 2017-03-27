@@ -70,6 +70,12 @@ function isNotBlank(args){
 
 function testEmail(code){
 	var email = $("#txtEmail").val();
+	var emailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+	if(!emailReg.test(email)){
+		layer.alert('请输入正确的邮件格式');
+		return false;
+	}
+
 	if(isNotBlank(email)){
 		var url = ctx + "/inner/emailTemplate/testEmail?code=" + code + "&email=" + email;
 		$.ajax({
