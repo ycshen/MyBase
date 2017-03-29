@@ -1,17 +1,13 @@
 package com.brp.service;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
-import com.brp.entity.DepartmentEntity;
 import com.brp.entity.UserEntity;
-import com.brp.util.query.DepartmentQuery;
 import com.brp.util.query.UserAuthQuery;
 import com.brp.util.query.UserQuery;
 import com.brp.util.query.UserRoleQuery;
 import com.brp.util.vo.UserAuthVO;
 import com.brp.util.vo.UserRoleVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -76,4 +72,5 @@ public interface UserService {
 			String deptIdStr);
 	List<String> getUserIdListByAuthIdForRole(String authId);
 	void batchUpdateDefineTypeForRole(String userIdStr);
+	Integer getUserCountByCompanyId(String companyId);
 }

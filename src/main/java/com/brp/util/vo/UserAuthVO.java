@@ -27,6 +27,16 @@ public class UserAuthVO extends BaseEntity{
 	private String email;
 	private Integer authUserId;
 	private Integer menuDefinedType;
+	private String education;
+	private String school;
+	private String provinceId;
+	private String provinceName;
+	private String cityId;
+	private String cityName;
+	private String areaId;
+	private String areaName;
+	private String skills;
+	private String signature;
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -122,6 +132,86 @@ public class UserAuthVO extends BaseEntity{
 	}
 	public void setMenuDefinedType(Integer menuDefinedType) {
 		this.menuDefinedType = menuDefinedType;
+	}
+
+	public String getEducation() {
+		return education;
+	}
+
+	public void setEducation(String education) {
+		this.education = education;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getProvinceId() {
+		return provinceId;
+	}
+
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
+	}
+
+	public String getProvinceName() {
+		return provinceName;
+	}
+
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+
+	public String getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	public String getAreaName() {
+		return areaName;
+	}
+
+	public void setAreaName(String areaName) {
+		this.areaName = areaName;
+	}
+
+	public String getSkills() {
+		return skills;
+	}
+
+	public void setSkills(String skills) {
+		this.skills = skills;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 }
 

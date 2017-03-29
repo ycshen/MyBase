@@ -1,10 +1,5 @@
 package com.brp.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.brp.entity.UserEntity;
 import com.brp.mapper.UserMapper;
 import com.brp.service.UserService;
@@ -13,6 +8,10 @@ import com.brp.util.query.UserQuery;
 import com.brp.util.query.UserRoleQuery;
 import com.brp.util.vo.UserAuthVO;
 import com.brp.util.vo.UserRoleVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -154,6 +153,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void batchUpdateDefineTypeForRole(String userIdStr) {
 		userMapper.batchUpdateDefineTypeForRole(userIdStr);
+	}
+
+	@Override
+	public Integer getUserCountByCompanyId(String companyId) {
+		return userMapper.getUserCountByCompanyId(companyId);
 	}
 
 	@Override

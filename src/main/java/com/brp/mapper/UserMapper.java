@@ -78,7 +78,7 @@ public interface UserMapper {
 			@Param("isCollapseMenu") String isCollapseMenu);
 
 	List<UserEntity> getUserListByCompanyId(String companyId);
-
+	Integer getUserCountByCompanyId(String companyId);
 	void batchUpdateUserDefineType(@Param("defineType") String defineType,
 			@Param("companyId") String companyId,
 			@Param("deptIdStr") String deptIdStr);
