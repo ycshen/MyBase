@@ -1,20 +1,5 @@
 package com.brp.controller;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.brp.base.Config;
 import com.brp.base.enums.MenuEnum;
 import com.brp.entity.ConfigEntity;
@@ -26,6 +11,19 @@ import com.brp.util.UserUtils;
 import com.brp.util.query.MenuQuery;
 import com.brp.util.vo.BTreeVO;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -278,6 +276,19 @@ public class MenuController extends BaseController{
 		}
 		
 		return isExist;
+	}
+
+	@RequestMapping(value = "/nextList", method = RequestMethod.GET)
+	public ModelAndView nextList(Integer id, HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("/menu/nextlevel_menu_list");
+		MenuEntity menu = menuService.getMenuById(id);
+		List<MenuEntity> menuList = null;
+		if(menu != null){
+			Integer menuType = menu.getMenuType();
+
+			/*menuService.getMenuList()*/
+		}
+		return mav;
 	}
 }
 

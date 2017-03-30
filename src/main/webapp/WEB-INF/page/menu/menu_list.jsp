@@ -49,19 +49,19 @@
 								<tr style="border:0px">
 									<td style="border:0px">
 									<div class="form-group">
-										<label for="hidDistrict">菜单名称
+										<label for="txtmenuName">菜单名称
 										<input type="text" placeholder="请输入菜单名称"  id="txtmenuName" class="form-control" value="${menuQuery.menuName }"/>
 									</div>
 									</td>
 									<td style="border:0px">
 										<div class="form-group">
-											<label for="hidDistrict">菜单url
+											<label for="txtmenuUrl">菜单url
 											<input type="text" id="txtmenuUrl" placeholder="请输入菜单url" class="form-control" value="${menuQuery.menuUrl}"/>
 										</div>
 									</td>
 									<td style="border:0px">
 										<div class="form-group">
-											<label for="hidDistrict">菜单类型
+											<label for="menuTypeSelect">菜单类型
 											<select class="form-control" id="menuTypeSelect" style="width: 200px;" name="menuType">
 												<option value="">请选择菜单类型</option>
 												<c:if test="${configList != null && configList.size() > 0 }">
@@ -136,7 +136,7 @@
 											  	</c:if>										  	
 											</select>
 										</td>
-										<td>${menu.menuName }</td>
+										<td><a onclick="subMenuOper(${menu.id});" href="#">${menu.menuName }</a></td>
 										<td>${menu.menuUrl }</td>
 										<td>${menu.menuTypeName}</td>
 										<td>${menu.menuTypeTag}</td>
@@ -165,16 +165,16 @@
 		</div>
 	</div>
 <div style="display:none;text-align:center;" id="divMenuType">
-	<label for="test">事件类型：</label>
+	<label for="test1">事件类型：</label>
 	<!-- <input class="" type="radio" value="3"  name="menuType" id="test1">
 	<label for="test">菜单</label> -->
 	<input class="" type="radio" value="1"  name="menuType" id="test1">
 	<label for="test1">按钮</label>
-	<input class="" type="radio" value="2"  name="menuType" id="test1">
+	<input class="" type="radio" value="2"  name="menuType" id="test2">
 	<label for="test1">A标签</label>
-	<input class="" type="radio" value="4"  name="menuType" id="test1">
+	<input class="" type="radio" value="4"  name="menuType" id="test3">
 	<label for="test1">单击事件</label>
-	<input class="" type="radio" value="5"  name="menuType" id="test1">
+	<input class="" type="radio" value="5"  name="menuType" id="test4">
 	<label for="test1">双击事件</label>
 	<br/><br/>
 	<input type="button"  class="btn btn-default" value="确定类型" onclick="confirmType();"/>

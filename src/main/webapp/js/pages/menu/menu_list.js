@@ -177,3 +177,19 @@ $(function(){
 
 	
 });
+
+/**
+ * 获取下级菜单列表
+ * @param id
+ */
+function subMenuOper(id){
+	var url = ctx + "/inner/menu/nextList?id=" + id;
+	layer.open({
+		type: 2,
+		title: '查看子菜单详细信息',
+		shadeClose: false,
+		shade: 0.8,
+		area: ['700px', '500px'],
+		content: url
+	});
+}
