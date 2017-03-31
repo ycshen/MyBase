@@ -1,7 +1,6 @@
 package com.brp.util.query;
 
 import com.brp.entity.DailyAccountEntity;
-import com.brp.entity.PositionEntity;
 import com.brp.model.pageutil.Page;
 
 /** 
@@ -14,6 +13,8 @@ import com.brp.model.pageutil.Page;
  */
 public class DailyAccountQuery extends Page<DailyAccountEntity>{
 	private String account;
+	private String userId;
+	private String companyId;
 
 	public String getAccount() {
 		return account;
@@ -21,6 +22,22 @@ public class DailyAccountQuery extends Page<DailyAccountEntity>{
 
 	public void setAccount(String account) {
 		this.account = account;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
 	}
 }
 

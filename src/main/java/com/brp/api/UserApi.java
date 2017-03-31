@@ -1104,7 +1104,7 @@ public class UserApi {
 	 */
 	private boolean sendRegisterEmail(String registerAccount, String email){
 		try {
-			MailUtils.sendRegisterEmail(registerAccount, email);
+			MailUtils.sendRegisterEmail(email, registerAccount);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
