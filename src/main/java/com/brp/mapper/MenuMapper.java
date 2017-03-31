@@ -64,4 +64,8 @@ public interface MenuMapper {
 
 	MenuEntity getMenuByNameAndSystemId(@Param("menuName") String menuName,
 			@Param("systemId") String systemId);
+	List<MenuEntity> getNextMenuList(@Param("parentId")Integer parentId, @Param("menuType")Integer menuType);
+	void subtractOneSortById(Integer id);
+	void plusOneSortById(Integer id);
+	Integer getMaxSort(@Param("parentId")Integer parentId, @Param("menuType")Integer menuType);
 }

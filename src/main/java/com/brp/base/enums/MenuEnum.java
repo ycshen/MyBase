@@ -1,5 +1,6 @@
 package com.brp.base.enums;
-/** 
+
+/**
  * <p>Project: MyBase</p> 
  * <p>Title: MenuEnum.java</p> 
  * <p>Description: TODO</p> 
@@ -54,7 +55,5 @@ public enum MenuEnum {
 
 		return null;
 	}
-	
-	
 }
 

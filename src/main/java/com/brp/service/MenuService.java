@@ -52,4 +52,8 @@ public interface MenuService {
 
 	List<MenuEntity> getLoginMenuList(String definedType, String menuType,
 			String companyId, String definedCasecaseId);
+	List<MenuEntity> getNextMenuList(Integer parentId, Integer menuType);
+	void subtractOneSortById(Integer id);
+	void plusOneSortById(Integer id);
+	Integer getMaxSort(Integer parentId, Integer menuType);
 }

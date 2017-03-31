@@ -15,6 +15,7 @@
 <script type="text/javascript" src="${ctx}/js/jquery.js"></script>
 <script type="text/javascript" src="${ctx}/js/laydate/laydate.js"></script>
 <script type="text/javascript" src="${ctx}/js/layer/layer.js"></script>
+	<script type="text/javascript" src="${ctx}/js/pages/menu/nextlevel_menu_list.js"></script>
 <script type="text/javascript">
 	var ctx = "${pageContext.request.contextPath}";
 </script>
@@ -35,6 +36,7 @@
 							<thead>
 								<tr>
 									<th>排序</th>
+									<th>排序值</th>
 									<th>菜单名称</th>
 									<th>路径</th>
 									<th>菜单类型</th>
@@ -42,17 +44,30 @@
 								</tr>
 							</thead>
 							<tbody >
+							<c:if test="${list != null && list.size() > 0}">
+								<c:forEach items="${list}" var="menu" varStatus="status">
 									<tr>
-										<td style="display: none;">${menu.id}</td>
+
+										<td style="display: none;" id="td${status.index}">${menu.id}</td>
 										<td>
-											<a  href=""><i class="glyphicon glyphicon-arrow-down"></i></a>
-											<a  href=""><i class="glyphicon glyphicon-arrow-up"></i></a>
+											<c:if test="${status.index != list.size() -1}">
+												<a  href="#" onclick="subtract('${menu.id}','${status.index}','${list.size() -1}')"><i class="glyphicon glyphicon-arrow-down"></i></a>
+											</c:if>
+
+											<c:if test="${status.index != 0}">
+												<a  href="#" onclick="plus('${menu.id}','${status.index}')"><i class="glyphicon glyphicon-arrow-up"></i></a>
+											</c:if>
 										</td>
-										<td>aaa</td>
-										<td>bbbb</td>
-										<td>aaa</td>
-										<td>aaa</td>
+										<td>${menu.sort}</td>
+										<td>${menu.menuName}</td>
+										<td>${menu.menuUrl}</td>
+										<td>${menu.menuTypeName}</td>
+										<td>${menu.menuTypeTag}</td>
 									</tr>
+								</c:forEach>
+
+							</c:if>
+
 							</tbody>
 						</table>
 					</div>

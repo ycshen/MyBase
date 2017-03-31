@@ -136,7 +136,18 @@
 											  	</c:if>										  	
 											</select>
 										</td>
-										<td><a onclick="subMenuOper(${menu.id});" href="#">${menu.menuName }</a></td>
+										<td>
+											<c:choose>
+												<c:when test="${menu.menuType == 0 || menu.menuType == 3 || menu.menuType == 6}">
+													<a title="排序子菜单" onclick="subMenuOper('${menu.id}', '${menu.menuType}');" href="#">${menu.menuName }</a>
+												</c:when>
+												<c:otherwise>
+													${menu.menuName }
+												</c:otherwise>
+
+											</c:choose>
+
+										</td>
 										<td>${menu.menuUrl }</td>
 										<td>${menu.menuTypeName}</td>
 										<td>${menu.menuTypeTag}</td>

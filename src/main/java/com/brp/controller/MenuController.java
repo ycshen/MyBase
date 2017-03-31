@@ -58,7 +58,10 @@ public class MenuController extends BaseController{
 			menu.setIsDelete(0);
 			String parentMenuId = menu.getParentMenuId();
 			if(StringUtils.isNotBlank(parentMenuId)){
-				MenuEntity parentMenu = menuService.getMenuById(Integer.parseInt(parentMenuId));
+				Integer parentId = Integer.parseInt(parentMenuId);
+				MenuEntity parentMenu = menuService.getMenuById(parentId);
+				Integer maxSort = menuService.getMaxSort(parentId, menu.getMenuType());
+				menu.setSort(maxSort + 1);
 				menu.setBeyondOfSystem(parentMenu.getBeyondOfSystem());
 				String beyondOfSystemId = parentMenu.getBeyondOfSystemId();
 				if(StringUtils.isNotBlank(beyondOfSystemId)){
@@ -279,16 +282,31 @@ public class MenuController extends BaseController{
 	}
 
 	@RequestMapping(value = "/nextList", method = RequestMethod.GET)
-	public ModelAndView nextList(Integer id, HttpServletRequest request){
+	public ModelAndView nextList(Integer id, Integer menuType, HttpServletRequest request){
 		ModelAndView mav = new ModelAndView("/menu/nextlevel_menu_list");
-		MenuEntity menu = menuService.getMenuById(id);
-		List<MenuEntity> menuList = null;
-		if(menu != null){
-			Integer menuType = menu.getMenuType();
-
-			/*menuService.getMenuList()*/
+		//menuType 0-外部系统（下级：一级菜单3） 3-菜单（二级菜单7） 6-内部系统（一级菜单3）
+		List<MenuEntity> list = null;
+		if(menuType == 0 || menuType == 6){
+			list = menuService.getNextMenuList(id, MenuEnum.URL.getMenuType());
+		}else if(menuType == 3){
+			list = menuService.getNextMenuList(id, MenuEnum.SECOND_URL.getMenuType());
 		}
+
+		mav.addObject("list", list);
+
 		return mav;
+	}
+
+	@RequestMapping(value = "/sortMenu")
+	@ResponseBody
+	public void sortMenu(Integer plusId, Integer subtractId){
+		if(plusId != null && subtractId != null){
+			MenuEntity subtractMenu = menuService.getMenuById(subtractId);
+			if(subtractMenu.getSort() != null &&  subtractMenu.getSort()!= 0){
+				menuService.subtractOneSortById(subtractId);
+			}
+			menuService.plusOneSortById(plusId);
+		}
 	}
 }
 

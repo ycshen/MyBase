@@ -111,5 +111,25 @@ public class MenuServiceImpl implements MenuService{
 			String menuType, String companyId, String definedCasecaseId) {
 		return menuMapper.getLoginMenuList(definedType, menuType, companyId, definedCasecaseId);
 	}
+
+	@Override
+	public List<MenuEntity> getNextMenuList(Integer parentId, Integer menuType) {
+		return menuMapper.getNextMenuList(parentId, menuType);
+	}
+
+	@Override
+	public void subtractOneSortById(Integer id) {
+		menuMapper.subtractOneSortById(id);
+	}
+
+	@Override
+	public void plusOneSortById(Integer id) {
+		menuMapper.plusOneSortById(id);
+	}
+
+	@Override
+	public Integer getMaxSort(Integer parentId, Integer menuType) {
+		return menuMapper.getMaxSort(parentId, menuType);
+	}
 }
 

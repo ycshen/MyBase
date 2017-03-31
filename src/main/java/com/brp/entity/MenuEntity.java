@@ -17,6 +17,16 @@ public class MenuEntity extends BaseEntity{
 	private String beyondOfSystem; //所属系统
 	private String beyondOfSystemId; //所属系统
 	private Integer isDelete;
+	private Integer sort;
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
 	public String getMenuName() {
 		return menuName;
 	}
