@@ -1,16 +1,10 @@
 package com.brp.util;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.brp.base.Constant;
 import com.brp.entity.UserEntity;
-import com.brp.model.BRPUserInfo;
-import com.brp.model.LoginUser;
-import com.brp.util.api.PMSApiUtils;
-import com.brp.util.cookie.LoggedCookie;
-import com.google.gson.Gson;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /** 
  * <p>Project: BRP</p> 
@@ -44,6 +38,19 @@ public class UserUtils {
 		
 		return loginUser;
 	}
+
+	/**
+	 * 获取登录用户
+	 * @return
+	 */
+	public static UserEntity getLoginUser(){
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		UserEntity loginUser = (UserEntity) request.getSession().getAttribute("loginUser");
+
+		return loginUser;
+	}
+
+
 	
 }
 

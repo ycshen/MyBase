@@ -1,5 +1,6 @@
 package com.brp.util.api.model;
-/** 
+
+/**
  * <p>Project: MyBase</p> 
  * <p>Title: JsonData.java</p> 
  * <p>Description: TODO</p> 
