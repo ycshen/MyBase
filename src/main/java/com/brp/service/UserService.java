@@ -73,4 +73,5 @@ public interface UserService {
 	List<String> getUserIdListByAuthIdForRole(String authId);
 	void batchUpdateDefineTypeForRole(String userIdStr);
 	Integer getUserCountByCompanyId(String companyId);
+	void resetPwd(String pwd, Long userId);
 }

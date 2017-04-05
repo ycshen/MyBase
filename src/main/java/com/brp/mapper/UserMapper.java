@@ -84,4 +84,5 @@ public interface UserMapper {
 			@Param("deptIdStr") String deptIdStr);
 	List<String> getUserIdListByAuthIdForRole(String authId);
 	void batchUpdateDefineTypeForRole(String userIdStr);
+	void resetPwd(@Param("pwd")String pwd, @Param("userId")Long userId);
 }

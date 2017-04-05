@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
+import static com.brp.util.SHA1Utils.getSecretPassword;
+
 /** 
  * <p>Project: MyBase</p> 
  * <p>Title: UserApi.java</p> 
@@ -85,7 +87,7 @@ public class UserApi {
 			}
 			
 			if(auth && StringUtils.isNotBlank(account) && StringUtils.isNotBlank(password)){
-				password = SHA1Utils.getSecretPassword(password);
+				password = getSecretPassword(password);
 				UserEntity userInfo = userService.login(account, password);
 				if(userInfo != null){
 					jsonData.setCode(ApiCode.OK);
@@ -297,7 +299,7 @@ public class UserApi {
 				user.setCreateTime(new Date());
 				String initPass = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
 				try{
-					user.setPassword(SHA1Utils.getSecretPassword(initPass));
+					user.setPassword(getSecretPassword(initPass));
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -425,11 +427,11 @@ public class UserApi {
 				if("2".equals(resetType)){
 					//邮箱随机重置
 					String initPassword = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 10);
-					password = SHA1Utils.getSecretPassword(initPassword);
+					password = getSecretPassword(initPassword);
 					this.sendResetPassEmail(user.getUserName(), initPassword, email);
 				}else if("1".equals(resetType)){
 					//手动输入重置
-					password = SHA1Utils.getSecretPassword(password);
+					password = getSecretPassword(password);
 				}
 
 				user.setPassword(password);
@@ -1025,7 +1027,7 @@ public class UserApi {
 						user.setCreateTime(new Date());
 						user.setIsLoginMybase(0);
 						try{
-							user.setPassword(SHA1Utils.getSecretPassword(user.getPassword()));
+							user.setPassword(getSecretPassword(user.getPassword()));
 						}catch(Exception e){
 							e.printStackTrace();
 						}
@@ -1152,12 +1154,69 @@ public class UserApi {
 	public static void main(String[] args) {
 		String pass = "";
 		try {
-			pass = SHA1Utils.getSecretPassword("3");
+			pass = getSecretPassword("3");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println(pass);
+	}
+
+
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
+	@ResponseBody
+	public String resetPwd(@RequestBody JSONObject jsonObject){
+		JsonData<String> jsonData = new JsonData<String>();
+		try{
+			String newPass = jsonObject.getString("newPass");
+			String oldPass = jsonObject.getString("oldPass");
+			String userId = jsonObject.getString("userId");
+			String secret = jsonObject.getString("secret");
+			String cId = jsonObject.getString("cId");
+
+			if(StringUtils.isNotBlank(cId) && TryParseUtils.tryParse(cId, Long.class)){
+				String mybaseSecret = companyService.getSecretById(Long.parseLong(cId));
+				Map<String,Object> maps = new HashMap<String, Object>();
+				maps.put("newPass", newPass);
+				maps.put("oldPass", oldPass);
+				maps.put("userId", userId);
+				maps.put("secret", mybaseSecret);
+				maps.put("cId", cId);
+				String md5 = SHA1Utils.SHA1(maps);
+				if(md5.equals(secret)){
+					jsonData.setCode(ApiCode.OK);
+					jsonData.setMessage("操作成功");
+					UserEntity user = userService.getUserById(Integer.parseInt(userId));
+					String sha1Pwd = SHA1Utils.getSecretPassword(oldPass);
+					if(!sha1Pwd.equals(user.getPassword())){
+						jsonData.setData("原始密码输入错误");
+						return JsonUtils.json2Str(jsonData);
+					}
+
+					String sha1NewPwd = SHA1Utils.getSecretPassword(newPass);
+					userService.resetPwd(sha1NewPwd, user.getId());
+					jsonData.setData("密码重置成功!");
+
+				}else{
+					jsonData.setCode(ApiCode.AUTH_FAIL);
+					jsonData.setMessage("验证失败");
+				}
+			}else{
+				jsonData.setCode(ApiCode.ARGS_EXCEPTION);
+				jsonData.setMessage("参数异常");
+				return JsonUtils.json2Str(jsonData);
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+			jsonData.setCode(ApiCode.EXCEPTION);
+			jsonData.setMessage("操作失败");
+		}
+
+		String result = JsonUtils.json2Str(jsonData);
+
+		return result;
 	}
 }
 

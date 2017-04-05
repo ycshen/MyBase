@@ -178,7 +178,9 @@ public class UserServiceImpl implements UserService{
 		return userMapper.getNotRoleUserByCompanyIdAndRoleId(companyId, roleId);
 	}
 
-	
-	
+	@Override
+	public void resetPwd(String pwd, Long userId) {
+		userMapper.resetPwd(pwd, userId);
+	}
 }
 
