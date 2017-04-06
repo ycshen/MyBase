@@ -476,6 +476,6 @@
 			)
     </update>
 	<update id="resetPwd">
-		update `user` set `password`=#{pwd} where id =#{userId} and ilimit 1;
+		update `user` set `password`=#{pwd} where id =#{userId} limit 1;
 	</update>
 </mapper>

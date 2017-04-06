@@ -1212,6 +1212,7 @@ public class UserApi {
 			e.printStackTrace();
 			jsonData.setCode(ApiCode.EXCEPTION);
 			jsonData.setMessage("操作失败");
+			jsonData.setData("系统异常!");
 		}
 
 		String result = JsonUtils.json2Str(jsonData);
