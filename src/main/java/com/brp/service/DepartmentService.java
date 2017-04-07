@@ -1,10 +1,10 @@
 package com.brp.service;
 
-import java.util.List;
-
 import com.brp.entity.DepartmentEntity;
 import com.brp.util.query.DepartmentQuery;
 import com.brp.util.vo.BTreeVO;
+
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -29,5 +29,6 @@ public interface DepartmentService {
 	List<DepartmentEntity> getDepartmentListByPId(String pid);
 	List<DepartmentEntity> getNoSubDeptListByCId(String cid);
 	List<DepartmentEntity> getDepartmentListByPidAndCid(String pid, String cid);
+	List<DepartmentEntity> getAllDeptListByCompanyId(String companyId);
 }
 

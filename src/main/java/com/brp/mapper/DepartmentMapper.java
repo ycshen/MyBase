@@ -1,12 +1,11 @@
 package com.brp.mapper;
 
-import java.util.List;
-
+import com.brp.entity.DepartmentEntity;
+import com.brp.util.query.DepartmentQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.brp.entity.DepartmentEntity;
-import com.brp.util.query.DepartmentQuery;
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -25,6 +24,7 @@ public interface DepartmentMapper {
 	DepartmentEntity getDepartmentByNameAndcompanyId(@Param("departmentName")String departmentName,@Param("companyId") String companyId);
 	DepartmentEntity getDepartmentByNameAndPId(@Param("departmentName")String departmentName,@Param("pId") String pId);
 	List<DepartmentEntity> getListByCompanyId(String companyId);
+	List<DepartmentEntity> getAllDeptListByCompanyId(String companyId);
 	List<DepartmentEntity> getDepartmentTreeByPIdAndCId(@Param("pid") String pid, @Param("cid") String cid);
 	List<DepartmentEntity> getDepartmentListByPId(String pid);
 	List<DepartmentEntity> getNoSubDeptListByCId(String cid);

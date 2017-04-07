@@ -1,20 +1,16 @@
 package com.brp.service.impl;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.util.CollectionUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-
 import com.brp.entity.DepartmentEntity;
 import com.brp.mapper.DepartmentMapper;
 import com.brp.service.DepartmentService;
 import com.brp.util.query.DepartmentQuery;
 import com.brp.util.vo.BTreeVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /** 
  * <p>Project: MyBase</p> 
@@ -167,5 +163,9 @@ public class DepartmentServiceImpl implements DepartmentService{
         return list;
 	}
 
+	@Override
+	public List<DepartmentEntity> getAllDeptListByCompanyId(String companyId) {
+		return departmentMapper.getAllDeptListByCompanyId(companyId);
+	}
 }
 
