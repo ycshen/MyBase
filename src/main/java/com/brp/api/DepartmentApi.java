@@ -97,7 +97,6 @@ public class DepartmentApi {
 	}
 
 
-
 	@RequestMapping(value = "/getAllDepByCompanyId", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAllDepByCompanyId(@RequestBody JSONObject jsonObject){
