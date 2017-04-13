@@ -227,13 +227,11 @@ public class DepartmentApi {
 				List<String> idList = departmentService.getDepartmentIdListByPidAndCid(departmentId, companyId);
 				String idStr = departmentId;
 				if(idList != null && idList.size() > 0){
-					for (String id : idList) {
-						idStr += id + ",";
-					}
-					
-					if(idStr.contains(",")){
+					for (String id : idList)
+						idStr += "," + id;
+					/*if(idStr.contains(",")){
 						idStr = idStr.substring(0, idStr.length() - 1);
-					}
+					}*/
 				}
 				
 				
