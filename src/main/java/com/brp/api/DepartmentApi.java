@@ -97,7 +97,6 @@ public class DepartmentApi {
 	}
 
 
-
 	@RequestMapping(value = "/getAllDepByCompanyId", method = RequestMethod.POST)
 	@ResponseBody
 	public String getAllDepByCompanyId(@RequestBody JSONObject jsonObject){
@@ -228,13 +227,11 @@ public class DepartmentApi {
 				List<String> idList = departmentService.getDepartmentIdListByPidAndCid(departmentId, companyId);
 				String idStr = departmentId;
 				if(idList != null && idList.size() > 0){
-					for (String id : idList) {
-						idStr += id + ",";
-					}
-					
-					if(idStr.contains(",")){
+					for (String id : idList)
+						idStr += "," + id;
+					/*if(idStr.contains(",")){
 						idStr = idStr.substring(0, idStr.length() - 1);
-					}
+					}*/
 				}
 				
 				

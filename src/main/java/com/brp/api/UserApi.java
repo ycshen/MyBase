@@ -170,10 +170,10 @@ public class UserApi {
 					List<DepartmentEntity> deptList = departmentService.getDepartmentListByPidAndCid(departmentId, companyId);
 					if(deptList != null && deptList.size() > 0){
 						for (DepartmentEntity department : deptList) {
-							departmentId += department.getId() + ",";
+
+							departmentId += "," + department.getId();
 						}
-						
-						departmentId =departmentId.substring(0, departmentId.length() - 1);
+
 						userQuery.setDepartmentId(departmentId);
 					}else{
 						userQuery.setDepartmentId(departmentId);
