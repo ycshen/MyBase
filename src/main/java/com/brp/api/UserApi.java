@@ -169,13 +169,12 @@ public class UserApi {
 				if(StringUtils.isNotBlank(departmentId)){
 					List<DepartmentEntity> deptList = departmentService.getDepartmentListByPidAndCid(departmentId, companyId);
 					if(deptList != null && deptList.size() > 0){
-						String deptStr = "";
 						for (DepartmentEntity department : deptList) {
-							deptStr += department.getId() + ",";
+							departmentId += department.getId() + ",";
 						}
 						
-						deptStr = deptStr.substring(0, deptStr.length() - 1);
-						userQuery.setDepartmentId(deptStr);
+						departmentId =departmentId.substring(0, departmentId.length() - 1);
+						userQuery.setDepartmentId(departmentId);
 					}else{
 						userQuery.setDepartmentId(departmentId);
 					}
